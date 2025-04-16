@@ -12,10 +12,11 @@ type product = {
   transmission: string;
   fuel_usage_city: string;
   fuel_usage_outcity: string;
-  img_url: string;
+  image_url: string;
   index: number;
   addons: string[];
   mileage: string;
+  traits: string[];
 };
 
 type initialStateTypes = {

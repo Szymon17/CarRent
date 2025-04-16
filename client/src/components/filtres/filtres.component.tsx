@@ -18,7 +18,7 @@ const Filtres = () => {
   const dispatch = useAppDispatch();
 
   const maxValueForInput = 1000;
-  const maxAmountDifference = 50;
+  const maxAmountDifference = 100;
 
   const [searchParams] = useSearchParams();
   const [minValue, setMinValue] = useState(0);
@@ -113,17 +113,28 @@ const Filtres = () => {
   return (
     <aside className="filtres">
       <section className="filtres__header">
-        <h1 className="filtres__header-title">{t("Filters")}</h1>
         <button onClick={clearFilters} className="filtres__header-clearFiltres">
           {t("Clear filters")}
         </button>
       </section>
       <section className="filtres__price filtres__section">
-        <h2 className="filtres__section__title">{t("Price")}</h2>
         <div className="filtres__price__box filtres__section__body">
-          <span className="filtres__price__box-minValue">{minValue}ZŁ</span>
-          <span className="filtres__price__box-maxValue">{maxValue}ZŁ</span>
-          <div style={progressBarStyles} className="filtres__price__box-progress"></div>
+          <span className="filtres__price__box-minValue" style={{ left: progressBarStyles.left }}>
+            <div className="filtres__price__box-cnt">
+              <span className="filtres__price__box-amount">{minValue}</span>
+              <span className="filtres__price__box-unit">ZŁ</span>
+            </div>
+          </span>
+          <span className="filtres__price__box-maxValue" style={{ right: progressBarStyles.right }}>
+            <div className="filtres__price__box-cnt">
+              <span className="filtres__price__box-amount">{maxValue}</span>
+              <span className="filtres__price__box-unit">ZŁ</span>
+            </div>
+          </span>
+          <div
+            style={{ left: `calc(${progressBarStyles.left} - 8px)`, right: `calc(${progressBarStyles.right} + 8px` }}
+            className="filtres__price__box-progress"
+          ></div>
           <div className="filtres__price__box-tumb"></div>
           <input
             type="range"
@@ -144,32 +155,43 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__data filtres__section">
-        <h2 className="filtres__section__title">{t("Data")}</h2>
         <div className="filtres__section__body">
           <div className="filtres__data__locations">
-            <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
-            <SelectLocations value={place_of_return} changeState={set_place_of_return} />
+            <div className="filtres__data__locations__box">
+              <span className="filtres__section__title">{t("Pick up location")}</span>
+              <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
+            </div>
+            <div className="filtres__data__locations__box">
+              <span className="filtres__section__title">{t("Return location")}</span>
+              <SelectLocations value={place_of_return} changeState={set_place_of_return} />
+            </div>
           </div>
         </div>
         <div className="filtres__data__dates">
-          <FormInput
-            onChange={e => set_date_of_receipt(new Date(e.target.value))}
-            value={dateToLocalString(date_of_receipt)}
-            type="date"
-            min={countDateFromToday(1)}
-            max={countDateFromToday(0, 3)}
-          />
-          <FormInput
-            onChange={e => set_date_of_return(new Date(e.target.value))}
-            value={dateToLocalString(date_of_return)}
-            type="date"
-            min={countDateFromToday(2)}
-            max={countDateFromToday(10, 3)}
-          />
+          <div className="filtres__data__dates__box">
+            <span className="filtres__section__title">{t("Pick up date")}</span>
+            <FormInput
+              onChange={e => set_date_of_receipt(new Date(e.target.value))}
+              value={dateToLocalString(date_of_receipt)}
+              type="date"
+              min={countDateFromToday(1)}
+              max={countDateFromToday(0, 3)}
+            />
+          </div>
+          <div className="filtres__data__dates__box">
+            <span className="filtres__section__title">{t("Return date")}</span>
+            <FormInput
+              onChange={e => set_date_of_return(new Date(e.target.value))}
+              value={dateToLocalString(date_of_return)}
+              type="date"
+              min={countDateFromToday(2)}
+              max={countDateFromToday(10, 3)}
+            />
+          </div>
         </div>
       </section>
       <section className="filtres__numberOfSits filtres__section">
-        <h2 className="filtres__section__title">{t("Number of sits")}</h2>
+        <span className="filtres__section__title">{t("Number of sits")}</span>
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
@@ -184,7 +206,7 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__FuelType filtres__section">
-        <h2 className="filtres__section__title">{t("Fuel type")}</h2>
+        <span className="filtres__section__title">{t("Fuel type")}</span>
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
@@ -203,7 +225,7 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__driveType filtres__section">
-        <h2 className="filtres__section__title">{t("Drive type")}</h2>
+        <span className="filtres__section__title">{t("Drive type")}</span>
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">

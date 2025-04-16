@@ -1,16 +1,20 @@
 @use "../../sass/varibles" as vars
+@use '../../sass/break_points' as bp
     
 .button
     position: relative
-    width: 170px
+    padding: 0 30px
     height: 35px
     border: none
     outline: none
     font-weight: 600
     cursor: pointer
-    border-radius: 5px
+    border-radius: 3px
     transition: all 0.3s
     overflow: hidden
+
+    @media (max-width: bp.$medium)
+        font-size: 1em        
 
     &::before
         transition: all 0.3s
@@ -22,21 +26,17 @@
     &__green
         background-color: #319029
         color: #ffffff
-        text-shadow: 3px 3px 5px #00000050
 
         &:hover
             background-color: #309129
-            box-shadow: inset 2px 1px 5px 0 #266e21
             text-shadow: 3px 3px 5px #000000
 
     &__black
         background-color: black
         color: white
-        text-shadow:0.5px 0.5px 2px black, -0.5px -0.5px 2px black
 
         &:hover
-            box-shadow: 0 0 3px 1px #2b2b2b
-            background-color: #2b2b2b
+            background-color: #3a3a3a
 
     &__reverse
         background-color: #ebebeb

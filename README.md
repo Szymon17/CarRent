@@ -14,8 +14,12 @@ Password: 123456 <br>
   -Clone this repository.  
   -Instal dependencies.  
   -Create .env file in server folder and set variables 
-        -PORT: Port where your server will start  
-        -DB_NAME: Your mongodb database name. 
-        -DB_PASSWORD: Your mongodb database password. 
+        HOST
+        USER
+        DB_PORT
+        DB_PASSWORD
+        DB_NAME
+        PORT
+        SECRET_KEY
   -Enjoy application. 
 </pre>

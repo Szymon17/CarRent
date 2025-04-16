@@ -36,7 +36,8 @@ const Product = () => {
       {productInStorage ? (
         <div className="product container">
           <header className="product__header">
-            <img className="product__header__img" src={productInStorage.img_url} alt="car image" />
+            {/* <img className="product__header__img" src={productInStorage.img_url} alt="car image" /> */}
+            <img className="product__header__img" src={"/Eksport/Golf.png"} alt="car image" />
             <div className="product__header__description">
               <h2 className="product__header__description__title">{`${productInStorage.brand} ${productInStorage.model} `}</h2>
               <span className="product__header__description__price">{`${productInStorage.daily_price}Zł/${t("Day")}`}</span>

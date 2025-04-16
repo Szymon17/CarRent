@@ -1,11 +1,9 @@
 @use  "./sass/varibles" as vars
 @use  "./sass/break_points" as bp
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap')
 
 body 
   margin: 0
-  font-family: "Work Sans", sans-serif
-  font-optical-sizing: auto
+  font-family: system-ui
   font-weight: 500
   font-style: normal
   background-color: vars.$background-color
@@ -30,9 +28,6 @@ input::-webkit-calendar-picker-indicator
 
   @media (max-width:bp.$large) 
     width: 90%
-
-  @media (max-width:bp.$medium) 
-    width: 100%
 
 ::-webkit-scrollbar 
   width: 8px

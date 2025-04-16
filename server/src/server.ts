@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(api);
 
-app.listen(8000, async () => {
+app.listen(process.env.PORT, async () => {
   try {
     await client.connect();
     console.log(`starting server at port ${process.env.PORT}...`);

@@ -98,6 +98,8 @@
     "Black": "Czarny",
     "Green": "Zielony",
     "Orange": "Pomarańczowy",
-    "Yellow": "Zółty"
+    "Yellow": "Zółty",
+    "Date from": "Data od",
+    "Date to": "Data do"
   }
 }

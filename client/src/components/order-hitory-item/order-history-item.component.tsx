@@ -36,7 +36,7 @@ const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
   return (
     <div ref={itemRef} className="orderHistoryItem">
       <div className="orderHistoryItem__header">
-        <img className="orderHistoryItem__img" src={car.img_url} alt="car-img" />
+        <img className="orderHistoryItem__img" src={car.image_url} alt="car-img" />
         <div className="orderHistoryItem__description">
           <h2 className="orderHistoryItem__title">{`${car.brand} ${car.model}`}</h2>
           <div className="orderHistoryItem__basicData">

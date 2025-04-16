@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 const ProductDetails: FC<{ product: product }> = ({ product }) => {
   const { t } = useTranslation();
-  console.log(product);
+
   return (
     <div className="productDetails">
       <div className="productDetails__lists">
