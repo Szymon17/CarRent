@@ -43,9 +43,7 @@ const Navigation = () => {
             <FontAwesomeIcon className="navigation__homeIcon" icon={faCarRear} />
           </Link>
         </div>
-        <div className="navigation__searhField">
-          <input type="text" className="navigation__searhInput" />
-        </div>
+        <div className="navigation__searhField">{/* <input type="text" className="navigation__searhInput" /> */}</div>
         <ul className="navigation__links">
           <li className="navigation__link">
             <img

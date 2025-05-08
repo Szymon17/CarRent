@@ -3,148 +3,141 @@
 @use "../../sass/varibles" as var
     
 .filtres
-    @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: flex-start, $direction:column , )
+    @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: flex-start, $direction:column)
+    padding: 0 10px
     padding-bottom: 50px
     position: relative
-    border-radius: 5px
     width: 100%
-    overflow-x: hidden
-    overflow-y: auto
-    height: 100vh - var.$navHeight
+
+    @media (min-width: bp.$large)
+        padding: 0
 
     @media (min-width: bp.$extra-large)
         height: unset
         overflow: hidden
 
-
-    & .filtres__section
+    &__section
         width: 100%
         margin-bottom: 5px 
-        padding: 10px 20px
+        padding: 10px 0
+        border-bottom: 1px solid #b4b4b4
 
+        &:nth-last-child(2)
+            border: none
 
         &__title
             font-size: 1em
 
         &__body
-            margin-top: 20px
+            margin-top: 10px
+            padding-left: 5px
             width: 100%
 
         &__list
             &__item
+                @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: center)
                 margin-bottom: 8px
                 width: 100%
 
                 & span
                     display: inline-block
-                    line-height: 20px                 
+                    font-size: 0.9em            
 
                 & input[type="checkbox"]
                     margin-right: 10px
-                    width: 20px
-                    height: 20px
+                    width: 16px
+                    height: 16px
                     float: left
-        
-            
 
-    &__header
-        @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting: center)
-        padding: 10px 20px
-        width: 100%
+    &__price
+        padding: 0 20px
+        border: none 
 
-        &-title
-            width: 60%
-
-        &-clearFiltres
-            color: #00abd6
-            font-size: 0.7em
-            outline: none
-            border: none
-            cursor: pointer
-
-    &__price__box
-        position: relative
-        height: 70px
-        text-align: center
-
-        &-amount, &-unit
-            display: block
-
-        &-cnt
-            position: absolute
-            transform: rotate(45deg)
-            left: 0
-            top: 0
-            padding: 2px
-            width: 100%
-            height: 100%
-            font-size: 0.7em
+        &__box
+            position: relative
+            height: 70px
             text-align: center
-            display: flex
-            justify-content: center
-            flex-direction: column
 
-        &-minValue,  &-maxValue
-            position: absolute
-            width: 40px
-            height: 40px
-            top: -10px
-            border: 1px solid black
-            padding: 5px
-            border-radius: 50% 50% 50% 0
-            background-color: black
-            color: white
-       
-        &-minValue
-            left: 0
-            transform: translateX(-50%) rotateZ(-45deg)
+            &-amount, &-unit
+                display: block
 
-        &-maxValue
-            right: 0
-            transform: translateX(50%) rotateZ(-45deg)
+            &-cnt
+                position: absolute
+                transform: rotate(45deg)
+                left: 0
+                top: 0
+                padding: 2px
+                width: 100%
+                height: 100%
+                font-size: 0.7em
+                text-align: center
+                display: flex
+                justify-content: center
+                flex-direction: column
 
-        &-progress
-            height: 3px
-            position: absolute
-            bottom: 5px
-            left: 0
-            right: 0
-            background-color: #000000
-            z-index: 1
-            transform: translateY(-2px)
+            &-minValue,  &-maxValue
+                position: absolute
+                width: 40px
+                height: 40px
+                top: -10px
+                border: 1px solid black
+                padding: 5px
+                border-radius: 50% 50% 50% 0
+                background-color: black
+                color: white
+        
+            &-minValue
+                left: 0
+                transform: translateX(-50%) rotateZ(-45deg)
 
-        &-tumb
-            width: 100%
-            height: 3px
-            position: absolute
-            bottom: 5px
-            background-color: #b4b4b4
-            border-radius: 3px
-            z-index: 0
-            transform: translateY(-2px)
-            
+            &-maxValue
+                right: 0
+                transform: translateX(50%) rotateZ(-45deg)
 
-        & input
-            width: calc(100% + 16px)
-            position: absolute
-            bottom: 0
-            left: -8px
-            background: none
-            pointer-events: none
-            -webkit-appearance: none
-            z-index: 1
-
-            &::-webkit-slider-thumb
-                height: 16px
-                width: 16px
-                pointer-events: auto
-                border-radius: 50%
-                -webkit-appearance: none
+            &-progress
+                height: 3px
+                position: absolute
+                bottom: 5px
+                left: 0
+                right: 0
                 background-color: #000000
                 z-index: 1
-                cursor: pointer
+                transform: translateY(-2px)
+
+            &-tumb
+                width: 100%
+                height: 3px
+                position: absolute
+                bottom: 5px
+                background-color: #b4b4b4
+                border-radius: 3px
+                z-index: 0
+                transform: translateY(-2px)
+                
+
+            & input
+                width: calc(100% + 16px)
+                position: absolute
+                bottom: 0
+                left: -8px
+                background: none
+                pointer-events: none
+                -webkit-appearance: none
+                z-index: 1
+
+                &::-webkit-slider-thumb
+                    height: 16px
+                    width: 16px
+                    pointer-events: auto
+                    border-radius: 50%
+                    -webkit-appearance: none
+                    background-color: #000000
+                    z-index: 1
+                    cursor: pointer
 
     &__data
+        border: none
+
         &__locations__box
             @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting:center)
             gap: 10px
@@ -196,6 +189,21 @@
                     & > span
                         font-size: 0.7em !important
 
+    &__buttons
+        @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting:center)
+        gap: 20px
+        width: 100%
+
+        & > button:nth-last-child(1)
+            flex-grow: 1
+        
+    &__clearFiltres
+        border: 1px solid black
+        background-color: white
+        height: 35px
+        padding: 5px 10px
+        font-size: 0.7em
+        border-radius: 2px
+        outline: none
+        cursor: pointer
             
-
-

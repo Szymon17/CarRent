@@ -4,11 +4,11 @@
 
 .navigation
     height: vars.$navHeight
-    background-color: vars.$nav-color
     padding: 0 30px
     position: relative
     z-index: 1
     box-shadow: 0 2px 5px -3px rgba(0,0,0,0.5) 
+    background-color: vars.$secondary-color
     @include mixins.flexDisplay($primarySetting: flex-start , $secondarySetting: center)
 
     &__icon-box
@@ -40,20 +40,21 @@
             width: 100%
 
     &__links
-        flex-grow: 1
         display: flex
+        gap: 30px
         align-items: center
-        
-   
-    &__link
-        flex-grow: 1
 
+        @media (max-width: bp.$small) 
+            gap: 10px
+        
+    &__link
         &-container
-            padding: 5px
             width: fit-content
             position: relative
             top: 0
-            left: 25%
+
+            & a
+                color: vars.$secondary-color_text
 
             &:hover > .navigation__link-underline
                 width: 100%
@@ -65,12 +66,11 @@
         &-underline
             width: 0px
             height: 2px
-            background-color: black
+            background-color: vars.$secondary-color_text
             position: absolute
             left: 0
             bottom: -5px
             transition: width 0.7s
-
 
 
         &__switch-language-icon
@@ -83,8 +83,9 @@
             transition: all 0.7s
        
             @media (max-width:bp.$medium) 
-                width: 20px
-                height: 20px
+                margin-top: 5px
+                width: 25px
+                height: 25px
 
         &__switch-language-icon.active
             filter: none

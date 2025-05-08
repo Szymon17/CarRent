@@ -59,11 +59,10 @@ const Offers = () => {
     <div className="offers container">
       <div className="offers__filters-switch">
         <h2 className="offers__filters-switch-title">Filtry</h2>
-        <div>
+        <div className="offers__filters-switch-cnt">
           <button onClick={toggleFiltersVisability} className="offers__filters-switch-button">
             {!filtersAreOpen ? <FontAwesomeIcon icon={faBars} /> : <FontAwesomeIcon icon={faClose} />}
           </button>
-          <span className="offers__filters-switch-text">{!filtersAreOpen ? "Pokaż" : "Ukryj"} wszsytkie filtry</span>
         </div>
       </div>
       <div ref={filtersRef} className="offers__filters-box">

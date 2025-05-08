@@ -6,8 +6,7 @@
     @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start )
     padding-left: 20px
     background-color: vars.$container-color
-    height: calc( 100vh - vars.$navHeight)
-    overflow: hidden
+    min-height: calc(100vh - vars.$navHeight)
 
     @media (max-width:bp.$extra-large)
         width: 95%
@@ -16,6 +15,7 @@
         flex-direction: column
         width: 100%
         padding: 0px
+        justify-content: flex-start
 
     &__filters-box
         width: 30%
@@ -32,18 +32,14 @@
         width: 100%
         height: 100%
 
+        &.hidden
+            display: none
+
     &__products
         margin: 0 auto
         max-width: 1000px
-        height: calc( 100vh - vars.$navHeight)
-        overflow: auto
-
-        @media (max-width:bp.$large)
-            height: calc( 100vh - vars.$navHeight - 30px)
 
         &-cnt
-            overflow: hidden
-            min-height: 110%
             padding: 20px 10px 0px 40px
 
             @media (max-width:bp.$huge)
@@ -51,32 +47,32 @@
 
             @media (max-width:bp.$large)
                 padding: 20px 10px
-
-        &.hidden
-            display: none
+            
 
     &__filters-switch
         @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:center)
-        padding: 0 15px
         width: 100%
-        height: 30px
         display: none
-        box-shadow: 0 2px 10px -1px #0000005e
+        box-shadow: 0 1px 5px -1px #0000005e
+        background-color: vars.$background-color
 
         @media (max-width:bp.$large)
             display: flex
 
         &-title
             font-size: 1em
+            padding-left: 20px
 
         &-button
-            width: 30px
-            height: 30px
+            width: 50px
+            height: 50px
             margin-right: 5px
             border: none
+            background-color: #333
+            color: white
 
-        &-text
-            font-size: 0.7em
-    
+            & svg
+                font-size: 1.2em
+
     & .spinner, & .custom-error
         @include mixins.absoluteCenter($height:center)

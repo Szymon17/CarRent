@@ -112,11 +112,6 @@ const Filtres = () => {
 
   return (
     <aside className="filtres">
-      <section className="filtres__header">
-        <button onClick={clearFilters} className="filtres__header-clearFiltres">
-          {t("Clear filters")}
-        </button>
-      </section>
       <section className="filtres__price filtres__section">
         <div className="filtres__price__box filtres__section__body">
           <span className="filtres__price__box-minValue" style={{ left: progressBarStyles.left }}>
@@ -243,7 +238,12 @@ const Filtres = () => {
           </ul>
         </div>
       </section>
-      <Button onClick={filterHendler}>{t("Filter")}</Button>
+      <div className="filtres__buttons">
+        <button onClick={clearFilters} className="filtres__clearFiltres">
+          {t("Clear filters")}
+        </button>
+        <Button onClick={filterHendler}>{t("Filter")}</Button>
+      </div>
     </aside>
   );
 };
