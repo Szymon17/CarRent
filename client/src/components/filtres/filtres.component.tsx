@@ -205,8 +205,8 @@ const Filtres = () => {
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
-              <input value={"Gasoline"} checked={fuelType === "Gasoline"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
-              <span>{t("Gasoline")}</span>
+              <input value={"Petrol"} checked={fuelType === "Petrol"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
+              <span>{t("Petrol")}</span>
             </li>
             <li className="filtres__section__list__item">
               <input value={"Diesel"} checked={fuelType === "Diesel"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />

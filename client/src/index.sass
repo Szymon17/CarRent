@@ -6,6 +6,7 @@ body
   margin: 0
   font-family: system-ui
   font-weight: 500
+  overflow-x: hidden
   font-style: normal
   background-color: vars.$background-color
   -webkit-font-smoothing: antialiased
@@ -17,8 +18,14 @@ button
 code 
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace
 
+.bold
+  font-weight: 600
+
 input::-webkit-calendar-picker-indicator
   cursor: pointer
+
+.text-small
+  font-size: 0.7em
 
 .container
   margin: 0 auto
@@ -30,14 +37,9 @@ input::-webkit-calendar-picker-indicator
   @media (max-width:bp.$large) 
     width: 90%
 
-::-webkit-scrollbar 
-  background-color: transparent
+  @media (max-width:bp.$medium) 
+    width: 100%
 
-::-webkit-scrollbar-track
-  background-color: transparent
-
-::-webkit-scrollbar-thumb
-  background-color: #25252583
 
 
   

@@ -17,6 +17,7 @@ type product = {
   addons: string[];
   mileage: string;
   traits: string[];
+  localisation: string;
 };
 
 type initialStateTypes = {

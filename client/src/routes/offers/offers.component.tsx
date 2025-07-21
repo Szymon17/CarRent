@@ -6,11 +6,11 @@ import { selectLastIndex, selectProductFetchState, selectProducts, selectProduct
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
+import { changeShouldFetchState } from "../../store/products/products.reducer";
 import Filtres from "../../components/filtres/filtres.component";
 import ProductCard from "../../components/product-card/product-card.component";
 import Spinner from "../../components/spinner/spinner.component";
 import CustomError from "../../components/custom-error/custom-error.component";
-import { changeShouldFetchState } from "../../store/products/products.reducer";
 
 const regexp = /\?[\S]+/;
 
@@ -69,6 +69,14 @@ const Offers = () => {
         <Filtres />
       </div>
       <main ref={productsRef} className="offers__main">
+        <div className="offers__settings">
+          <div className="checkboxes">
+            <div className="offers__checkbox-box">
+              <input type="checkbox" />
+              <span className="offers__checkbox-box-text">{t("Driver aged 25+")}</span>
+            </div>
+          </div>
+        </div>
         {products.length > 0 && productStatus !== "loading" ? (
           <div onScroll={handleScroll} className="offers__products">
             <div className="offers__products-cnt">

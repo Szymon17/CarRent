@@ -1,0 +1,42 @@
+@use "../../sass/varibles" as vars
+@use "../../sass/break_points" as bp
+    
+.footer
+    background: vars.$primary-color
+    padding-bottom: 70px
+
+    &__logo
+        width: 100px
+        margin-left: 25px
+
+        @media (min-width: 450px) 
+            margin: 0
+
+    &__container
+        padding: 20px 40px
+        display: flex
+        justify-content: space-between
+        align-items: center
+        flex-direction: column
+
+        @media (min-width: 450px) 
+            flex-direction: row
+            align-items: flex-start
+
+    &__links.small
+        padding-top: 50px
+
+        @media (min-width: 450px) 
+            padding-top: 100px
+
+    &__link
+        color: white
+        font-size: 0.9rem
+        text-align: center
+        display: block
+
+        &:hover
+            color: white
+
+        @media (min-width: 450px)
+            text-align: left

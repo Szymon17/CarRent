@@ -4,66 +4,208 @@
 
 .product
     min-height: calc( 100vh - vars.$navHeight )
-    padding: 30px 150px
+    padding: 30px 100px
     background-color: vars.$container-color
 
-    @media ( max-width:bp.$extra-large)
+    @media (max-width:bp.$extra-large)
         padding: 30px 20px
 
-    @media ( max-width:bp.$large)
+    @media (max-width:bp.$large)
         padding: 30px 20px
 
     &__header
         margin-top: 20px
         position: relative
-        height: 22vh
+        display: flex
+        width: 100%
+        justify-content: space-between
+        align-items: center
 
-        @media ( max-width:bp.$large)
-            height: fit-content
-            overflow-y: auto
-            overflow-x: hidden
+        @media (max-width:bp.$large)
+            flex-direction: column
             font-size: 0.7em
            
         &__img
-            position: absolute
-            top: 50%
-            left: 0
-            transform: translateY(-50%)
-            width: 30%
+            max-width: 350px
 
-
-            @media ( max-width:bp.$extra-large)
-                width: 40%
-
-            @media ( max-width:bp.$large)
-                position: static
-                transform: translateX(-50%)
-                margin-left: 50%
-
-            @media ( max-width:bp.$small)
+            @media (max-width:bp.$small)
                 width: 80%
-            
-            
 
         &__description
-            @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting: center, $direction: column)
-            width: 60%
+            flex-grow: 1
             height: 100%
             float: right
+            gap: 30px
+            width: 100%
 
-            @media ( max-width:bp.$large)
-                width: 100%
-                gap: 10px
+            @media (min-width: bp.$large)
+                max-width: 600px
 
             &__title
-                font-size: 2em
+                width: 100%
+                font-size: 1.5em
+                position: relative
+                padding-bottom: 50px
+
+                &::after
+                    position: absolute
+                    content: ''
+                    width: 100%
+                    height: 2px
+                    background-color: vars.$primary-color
+                    left: 0
+                    bottom: 30px
 
             &__price
-                font-size: 1.5em
+                font-size: 2em
+                margin-bottom: 20px
+                display: block
+
+                &-unit
+                    font-size: 0.7em
+                    font-weight: 400
+
+            &__avilability
+                display: block
+                font-size: 1.2em
+                color: vars.$success-color
+                margin-bottom: 10px
+
+                &::before
+                    content: ''
+                    display: inline-block
+                    margin-right: 5px
+                    width: 0.8em
+                    height: 0.8em
+                    background-color: vars.$success-color
+                    border-radius: 50%
+
+            &__localisation
+                display: block
+                font-weight: normal
+                position: absolute
+                margin-left: 10px
+                left: 20px
+                display: flex
+                align-items: center
+                height: 30px
+
+                & .text > span
+                    display: block            
+
+                &::before
+                    content: ""
+                    display: block
+                    width: 12px
+                    height: 12px
+                    background: gray
+                    border-radius: 50%
+                    transform: translateX(-14px)
+
+                &::after
+                    position: absolute
+                    left: 2px
+                    content: ""
+                    display: block
+                    width: 8px
+                    height: 8px
+                    background: white
+                    border-radius: 50%
+                    transform: translateX(-14px)
+
+                &:nth-child(1)
+                    top: 0px
+
+                &:nth-child(2)
+                    bottom: 10%
+                    
+                & > svg
+                    margin-right: 7px
+
+            &__traits
+                font-weight: normal
+                font-size: 1em
+
+                &__trait
+                    display: block
+                    margin-top: 10px
+
+                    & > svg
+                        margin-right: 5px
+
+            & button
+                &:nth-child(1)
+                    flex-grow: 1
+
+        &__buttons
+            margin-top: 50px
+            display: flex
+            align-items: center
+            gap: 20px
+
+            & .button, & .number__button-cnt
+                height: 40px    
+
+    &__box.right
+        width: 100%
+        position: relative
+        border: 1px solid #dddddd
+        border-radius: 5px
+        height: 180px
+
+        @media (min-width: bp.$small) 
+            width: 250px
+
+        &::before
+            content: ""
+            position: absolute
+            left: 20px
+            bottom: 40px
+            height: calc(70% - 70px)
+            width: 2px
+            background: silver
+
+        & .container
+            margin-top: 50px
+            height: 70%
+            width: 100%
+            position: absolute
+            bottom: 0px
+
+        & h3
+            margin-left: 10px
+            margin-top: 10px
+            text-align: center
+
+            @media (min-width: bp.$small) 
+                text-align: left
+
+    &__boxex_cnt
+        display: flex
+        justify-content: space-between
+        flex-direction: column
+        gap: 20px
+
+        @media (min-width: bp.$small) 
+            flex-direction: row
+
+    &__nav
+        width: 100%
+        display: flex
+        gap: 15px
+        border-bottom: 1px solid silver
+
+        &__box
+            cursor: pointer
+            padding-bottom: 10px
+            border-bottom: 1px solid transparent
+            transition: all 0.3s 
+
+            &:hover
+                border-bottom: 1px solid black
 
     &__section
         margin-top: 100px
-        padding: 0 40px    
 
         &-title
             margin-bottom: 30px    

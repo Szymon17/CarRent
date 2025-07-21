@@ -11,8 +11,9 @@ import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
 import PLflag from "../../assets/pl-flag.png";
 import ENflag from "../../assets/en-flag.png";
-import AccountDropdown from "../../components/account-dropdown/account-dropdown.component";
 import { getAppEvent } from "../../store/app/app.selectors";
+import AccountDropdown from "../../components/account-dropdown/account-dropdown.component";
+import Footer from "../../components/footer/footer.component";
 
 const Navigation = () => {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ const Navigation = () => {
       <nav className="navigation">
         <div className="navigation__icon-box">
           <Link to="/">
-            <FontAwesomeIcon className="navigation__homeIcon" icon={faCarRear} />
+            <img src="./Logo.png" className="navigation__logo" alt="" />
           </Link>
         </div>
         <div className="navigation__searhField">{/* <input type="text" className="navigation__searhInput" /> */}</div>
@@ -97,6 +98,7 @@ const Navigation = () => {
         {userDropdownState && user && <AccountDropdown setState={setUserDropdownState} />}
       </nav>
       <Outlet />
+      <Footer />
     </>
   );
 };

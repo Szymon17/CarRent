@@ -1,16 +1,18 @@
 {
   "translation": {
+    "Main page": "Strona główna",
     "Number of sits": "Liczba miejsc",
     "Fuel type": "Rodzaj paliwa",
     "Drive type": "Napęd",
     "Gasoline": "Benzyna",
+    "Petrol": "Benzyna",
     "Electric": "Elektryczny",
     "Rear axle": "Tylnia oś",
     "Front axle": "Przednia oś",
     "Manual": "Manualna",
     "Automatic": "Automatyczna",
     "Check": "Sprawdź",
-    "Day": "Doba",
+    "Day": "Dzień",
     "Order": "Zamów",
     "Details": "Szczegóły",
     "Brand": "Marka",
@@ -35,6 +37,7 @@
     "Addons": "Dodatki",
     "Home baner": "Wypożyczalnia aut - Bezpiecznie, zaoszczędź nawet 50%",
     "Available localizations": "Dostępne lokalizacje",
+    "Localisation": "Lokalizacja",
     "Often checked brands": "Polecane marki w Warszawie",
     "Often checked car types": "Najczęściej sprawdzane rodzaje samochodów w lokalizacji Warszawa",
     "Clear filters": "Wyczyść filtry",
@@ -100,6 +103,9 @@
     "Orange": "Pomarańczowy",
     "Yellow": "Zółty",
     "Date from": "Data od",
-    "Date to": "Data do"
+    "Date to": "Data do",
+    "Driver aged 25+": "Kierowca powyżej 25 roku życia",
+    "there is nothing to display": "Nie ma nic do wyświetlenia",
+    "Pick-up and drop-off": "Odbiór i zwrot"
   }
 }

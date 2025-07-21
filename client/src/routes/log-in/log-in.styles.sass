@@ -3,6 +3,8 @@
 
 
 .log-in
+    min-height: 90vh
+    
     &__container
         @include mixins.absoluteCenter($height: center)
         width: vars.$singInWidth
@@ -15,5 +17,10 @@
         text-align: center
         color: #c2c2c2
         font-weight: 600
+        display: flex
+        justify-content: center
+        flex-direction: column
+
+
 
         

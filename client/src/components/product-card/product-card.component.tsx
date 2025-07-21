@@ -19,8 +19,6 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
     navigate("/product?index=" + product.index);
   };
 
-  console.log(product);
-
   return (
     <div className="product-card">
       <img className="product-card__img" src={product.image_url} />
@@ -49,7 +47,7 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
             <div className="product-card__description__box__traits">
               {product.traits &&
                 product.traits.map(trait => (
-                  <div className="product-card__trait">
+                  <div key={trait} className="product-card__trait">
                     <FontAwesomeIcon icon={faCheck} className="product-card__trait__icon" />
                     <span className="product-card__trait-text">{t(trait)}</span>
                   </div>
