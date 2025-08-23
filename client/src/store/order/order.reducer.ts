@@ -9,6 +9,8 @@ const initialState: orderInitialState = {
   place_of_return: "Warszawa",
   canclel: false,
   productIndex: null,
+  dayQuantity: 1,
+  paymentMethod: null,
 };
 
 const orderSlice = createSlice({
@@ -17,12 +19,19 @@ const orderSlice = createSlice({
   reducers: {
     saveOrderData: (state, action: PayloadAction<orderData>) => {
       const { payload } = action;
-      const { date_of_receipt, date_of_return, place_of_receipt, place_of_return } = payload;
+      const { date_of_receipt, date_of_return, place_of_receipt, place_of_return, dayQuantity } = payload;
 
       state.date_of_receipt = date_of_receipt;
       state.date_of_return = date_of_return;
       state.place_of_receipt = place_of_receipt;
       state.place_of_return = place_of_return;
+      state.dayQuantity = dayQuantity;
+    },
+
+    saveOrderDays: (state, action: PayloadAction<number>) => {
+      const { payload } = action;
+
+      state.dayQuantity = payload;
     },
 
     saveOrderIndex: (state, action: PayloadAction<number>) => {
@@ -30,9 +39,14 @@ const orderSlice = createSlice({
 
       state.productIndex = payload;
     },
+    saveOrderPayment: (state, action: PayloadAction<number | null>) => {
+      const { payload } = action;
+
+      state.paymentMethod = payload;
+    },
   },
 });
 
-export const { saveOrderData, saveOrderIndex } = orderSlice.actions;
+export const { saveOrderData, saveOrderIndex, saveOrderDays, saveOrderPayment } = orderSlice.actions;
 
 export default orderSlice.reducer;

@@ -20,6 +20,7 @@ import Profile from "./components/profile/profile.component";
 import OrderHistory from "./components/order-history/order-history.component";
 import About from "./routes/about/about.component";
 import { registerAppEvent } from "./store/app/app.reducer";
+import { getPayments } from "./store/payments/payments.actions";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -28,7 +29,8 @@ function App() {
   const expireTime = useAppSelector(selectExpireTime);
 
   useEffect(() => {
-    if (locations.length === 0) dispatch(getLocations());
+    dispatch(getLocations());
+    dispatch(getPayments());
   }, []);
 
   useEffect(() => {

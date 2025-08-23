@@ -34,7 +34,15 @@ const Navigation = () => {
   }, [language]);
 
   const saveData = () =>
-    dispatch(saveOrderData({ place_of_receipt: "Wrocław", place_of_return: "Wrocław", date_of_receipt: tomorrow, date_of_return: dayAfterTomorrow }));
+    dispatch(
+      saveOrderData({
+        place_of_receipt: "Wrocław",
+        place_of_return: "Wrocław",
+        date_of_receipt: tomorrow,
+        date_of_return: dayAfterTomorrow,
+        dayQuantity: 1,
+      })
+    );
 
   return (
     <>

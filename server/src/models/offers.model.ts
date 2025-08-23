@@ -81,8 +81,8 @@ async function saveOrder(order: order) {
   if (matchCar) return;
   else {
     const query = `
-    INSERT INTO orders (car_id, user_id, date_of_receipt, date_of_return, place_of_receipt, place_of_return, cancel)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO orders (car_id, user_id, date_of_receipt, date_of_return, place_of_receipt, place_of_return, cancel, payment_method_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *;
   `;
 
@@ -94,6 +94,7 @@ async function saveOrder(order: order) {
       order.place_of_receipt,
       order.place_of_return,
       order.cancel,
+      order.payment_method_id,
     ];
     const result = await client.query<order>(query, values);
 

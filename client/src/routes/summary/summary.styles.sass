@@ -3,36 +3,67 @@
 @use '../../sass/break_points' as bp
     
 .summary 
+    padding: 20px
     height: calc( 100vh - vars.$navHeight )
     padding-top: 30px
-    background-color: vars.$container-color   
+    background-color: vars.$container-color
+    display: flex
+    align-items: flex-start
+    gap: 30px
+
+    &__order-data
+        margin-top: 20px
+        display: flex
+        justify-content: center
+        border: 1px solid silver
+        border-radius: 5px
+        padding: 20px
+
+        & > div
+            flex-grow: 1
+            flex-basis: 40%
+            font-size: 0.9em   
+
+    &__title
+        font-size: 1.5em
+
+        &.--section_title
+            margin-top: 50px
 
     &__left
-        padding: 30px 5%
-        width: 60%
+        width: 70%
         height: 100%
         display: inline-block
-        border: 2px solid black
-        float: left
 
         @media ( max-width: bp.$medium )
             width: 100%
 
-        &__order-data
-            margin-top: 50px
-            width: 100%
+        & .product-card
+            & button
+                display: none
 
-            &__location, &__date
-                width: 50%
-                text-align: center
-                padding: 10px 10px
-                display: inline-block
-                
-            &__location:nth-last-child(1), &__date:nth-last-child(1)
-                float: right
+            & .product-card__description__icons
+                gap: 0 5px
+
+            @media (max-width: bp.$huge)
+                font-size: 0.7em
+
+            & .product-card__img
+                @media (max-width: bp.$huge)
+                    max-height: 80px
+
+        &__order-data
+            display: flex
+            flex-direction: column
+
+            &.--right
+                align-items: flex-end
+
+            &__right-container
+                width: fit-content
 
         &__data__section
-            margin-top: 50px
+            margin-top: 10px
 
             &__box
                 @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting:center)
@@ -44,7 +75,11 @@
                 font-weight: 500
                 font-size: 1em
 
-    &__select-box
+            &__title
+                font-size: 1.3em
+                margin-bottom: 20px
+
+
         position: relative
 
         &__label
@@ -58,13 +93,15 @@
                 left: 20px
                 transform: translateY(-100%)
 
-
     &__right
-        position: relative
-        padding-left: 20px
-        padding-top: 40px
-        width: 40%
-        float: right
+        position: sticky
+        top: 20px
+        right: 0
+        background: #f3f3f3
+        padding: 20px
+        width: 30%
+        border-radius: 3px
+        margin-top: 50px
 
         @media ( max-width: bp.$medium )
             width: 100%
@@ -75,8 +112,16 @@
             grid-template-columns: 70% 30%
             gap: 20px 0
 
+            &__title
+                font-size: 1.1em
+
+            &__ammount
+                text-align: right
+                align-content: center
+                font-size: 1.2em
+
+
         & button 
-            position: absolute
-            bottom: 0
-            left: 50%
-            transform: translate(-50%, 200%)
+            margin-top: 20px
+            width: 100%
+

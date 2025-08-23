@@ -73,7 +73,7 @@ const Filtres = () => {
   const fetchProducts = (link: string) => {
     navigate(link);
     dispatch(getProducts(link));
-    dispatch(saveOrderData({ date_of_receipt, date_of_return, place_of_receipt, place_of_return }));
+    dispatch(saveOrderData({ date_of_receipt, date_of_return, place_of_receipt, place_of_return, dayQuantity: 1 }));
     dispatch(changeShouldFetchState(true));
   };
 

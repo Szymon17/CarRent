@@ -29,7 +29,7 @@ const OrderWindow = () => {
     if (!place_of_receipt || !place_of_return) toast.error(t("No location alert"));
     else if (dateError) toast.error(t(dateError));
     else {
-      dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return }));
+      dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return, dayQuantity: 1 }));
       navigate(
         `offers?pul=${place_of_receipt}&rl=${place_of_return}&rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`
       );

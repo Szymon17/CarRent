@@ -8,18 +8,19 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { replaceProducts } from "../../store/products/products.reducer";
+import { selectOrder } from "../../store/order/order.selector";
+import { saveOrderDays } from "../../store/order/order.reducer";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import Button from "../../components/button/button.component";
 import NumberButton from "../../components/button/numberButton.component";
 import ProductDetails from "../../components/product-details/product-details.component";
-import { selectOrder } from "../../store/order/order.selector";
 
 const Product = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-
-  const [daysInput, setDays] = useState(0);
 
   const [index] = useState(Number(searchParams.get("index")));
   const productInStorage = useAppSelector(selectProductByIndex(index));
@@ -46,7 +47,10 @@ const Product = () => {
               <h2 className="product__header__description__title">{`${productInStorage.brand} ${productInStorage.model} `}</h2>
               <div className="product__boxex_cnt">
                 <div className="product__box">
-                  <span className="product__header__description__price">
+                  <span className="product__header__description__price">{`${(productInStorage.daily_price * orderInStoreage.dayQuantity).toFixed(
+                    2
+                  )}PLN`}</span>
+                  <span className="product__header__description__dailyPrice">
                     {`${productInStorage.daily_price}PLN`} / <span className="product__header__description__price-unit">{t("Day")}</span>
                   </span>
                   <span className="product__header__description__avilability">{t("Dostępny")}</span>
@@ -80,15 +84,20 @@ const Product = () => {
               </div>
               <div className="product__header__buttons">
                 <Button onClick={() => navigate("/summary")}>{t("Order")}</Button>
-                <NumberButton state={{ get: daysInput, set: setDays }} onClick={() => null}>
-                  {daysInput > 1 ? t("Days") : t("Day")}
+                <NumberButton
+                  min={1}
+                  max={30}
+                  state={{ get: orderInStoreage.dayQuantity, set: saveOrderDays as ActionCreatorWithPayload<number> }}
+                  onClick={() => null}
+                >
+                  {orderInStoreage.dayQuantity > 1 ? t("Days") : t("Day")}
                 </NumberButton>
               </div>
             </div>
           </header>
           <section className="product__nav product__section">
-            <span className="product__nav__box">{t("Szczegóły")}</span>
-            <span className="product__nav__box">{t("Dodatki")}</span>
+            {/* <span className="product__nav__box">{t("Szczegóły")}</span>
+            <span className="product__nav__box">{t("Dodatki")}</span> */}
           </section>
           <section className="product__details product__section">
             <h2 className="product__section-title">{t("Details")}</h2>

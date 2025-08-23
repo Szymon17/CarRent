@@ -1,5 +1,5 @@
 import client from "../services/pg.js";
-import { userSnapshot, update, user, userData, userOrder } from "../types/basicTypes.js";
+import { userSnapshot, update, userData, userOrder } from "../types/basicTypes.js";
 import { validate } from "../utils/validate.js";
 import { getOffersById, getOrders } from "./offers.model.js";
 import bcrypt = require("bcrypt");

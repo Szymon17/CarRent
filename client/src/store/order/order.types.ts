@@ -4,11 +4,13 @@ type orderData = {
   place_of_receipt: string;
   place_of_return: string;
   canclel?: boolean;
+  dayQuantity: number;
 };
 
 type orderInitialState = orderData & {
   productIndex: number | null;
   canclel: boolean;
+  paymentMethod: number | null;
 };
 
 export { orderData, orderInitialState };

@@ -71,7 +71,7 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 }
 
 async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIndex: number }> & UserRequest, res: Response) {
-  if (req.user && req.body.productIndex && validateOrderData(req.body.userData)) {
+  if (req.user && req.body.productIndex && req.body.payment_id && validateOrderData(req.body.userData)) {
     const product = await getOfferByIndex(req.body.productIndex);
 
     const chargedAccount = true;
@@ -79,7 +79,7 @@ async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIn
     if (product && chargedAccount) {
       const user_id = req.user.user_id;
       const car_id = product.id as string;
-      const order = { ...req.body.userData, user_id, car_id, cancel: false };
+      const order = { ...req.body.userData, user_id, car_id, cancel: false, payment_method_id: req.body.payment_id };
 
       const orderResult = await saveOrder(order);
 

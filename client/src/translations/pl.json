@@ -26,7 +26,7 @@
     "Name": "Imię",
     "Surname": "Nazwisko",
     "Phone number": "Numer Telefonu",
-    "Value of purchase": "Cena zamówienia",
+    "Value of purchase": "Wartość zamówienia",
     "Additional costs": "Dodatkowe koszta",
     "Rental days": "Dni wynajmu",
     "Days": "Dni",
@@ -106,6 +106,8 @@
     "Date to": "Data do",
     "Driver aged 25+": "Kierowca powyżej 25 roku życia",
     "there is nothing to display": "Nie ma nic do wyświetlenia",
-    "Pick-up and drop-off": "Odbiór i zwrot"
+    "Pick-up and drop-off": "Odbiór i zwrot",
+    "Product": "Produkt",
+    "Product Card": "Karta produktu"
   }
 }

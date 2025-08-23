@@ -72,6 +72,7 @@ type order = orderData & {
   car_id: string;
   user_id: string;
   cancel: boolean;
+  payment_method_id: number;
 };
 
 type dataToGetoffers = {

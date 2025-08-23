@@ -1,4 +1,5 @@
 import { orderData, orderInitialState } from "../store/order/order.types";
+import { paymentState } from "../store/payments/payments.types";
 import { product } from "../store/products/products.types";
 import { userCall, userData, userOrder, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
@@ -128,12 +129,27 @@ const getLocationsFetch = async () => {
   }
 };
 
+const getPaymentMethodsFetch = async () => {
+  try {
+    const res = await fetch(`${serverUrl}/payment_methods`);
+    const data: fetchType<paymentState[]> = await res.json();
+
+    console.log(data);
+
+    if (data.status === "ok") return data.payload;
+    else console.log("Get request to server failed");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const saveOrderFetch = async (data: orderInitialState) => {
   const userData: orderData = {
     date_of_receipt: data.date_of_receipt,
     date_of_return: data.date_of_return,
     place_of_receipt: data.place_of_receipt,
     place_of_return: data.place_of_return,
+    dayQuantity: data.dayQuantity,
   };
   const productIndex = data.productIndex;
 
@@ -144,7 +160,7 @@ const saveOrderFetch = async (data: orderInitialState) => {
       },
       method: "POST",
       credentials: "include",
-      body: JSON.stringify({ userData, productIndex }),
+      body: JSON.stringify({ userData, productIndex, payment_id: data.paymentMethod }),
     });
     const status: fetchType<null> = await res.json();
 
@@ -177,4 +193,5 @@ export {
   getLocationsFetch,
   saveOrderFetch,
   getUserOrders,
+  getPaymentMethodsFetch,
 };
