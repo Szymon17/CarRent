@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { getAvilableCars, getOfferByIndex, saveOrder } from "../../models/offers.model.js";
+import { getAvilableCars, getOfferByIndex, getOfferByName, saveOrder } from "../../models/offers.model.js";
 import { CustomRequest, RequestWithQuery, UserRequest, aditionalfilters, orderData, queryBasicData } from "../../types/basicTypes.js";
 import { updateUserOrders } from "../../models/account.model.js";
 
@@ -92,14 +92,15 @@ async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIn
   } else res.status(404).json({ status: "error", message: "bad data request" });
 }
 
-async function httpGetProductByIndex(req: RequestWithQuery<{ index: number }>, res: Response) {
-  const index = Number(req.query.index) || -1;
+async function httpGetProductByName(req: RequestWithQuery<{ index: number }>, res: Response) {
+  const productName = decodeURIComponent((req.params as any).productName);
 
-  if (index !== -1) {
-    const product = await getOfferByIndex(index);
+  if (productName) {
+    const product = await getOfferByName(productName);
+
     if (product) return res.status(200).json({ status: "ok", message: "Responsed product", payload: product });
     else return res.status(404).json({ status: "error", message: "Your product index is invalid" });
   } else return res.status(404).json({ status: "error", message: "There is nothing to return" });
 }
 
-export { httpGetOffers, httpPostOrder, httpGetProductByIndex };
+export { httpGetOffers, httpPostOrder, httpGetProductByName };

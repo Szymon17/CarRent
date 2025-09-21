@@ -61,15 +61,15 @@ const Profile = () => {
   };
 
   return (
-    <form onSubmit={updateUser} method="put" className="profile container">
+    <form onSubmit={updateUser} method="put" className="profile">
       <div className="profile__inputs">
         <FormInput value={email} onChange={e => setEmail(e.target.value)} label="Email" />
-        <FormInput value={name} onChange={e => setName(e.target.value)} label={t("name")} />
-        <FormInput value={surname} onChange={e => setSurname(e.target.value)} label={t("surname")} />
-        <FormInput value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} label={t("phone number")} />
+        <FormInput value={name} onChange={e => setName(e.target.value)} label={t("Name")} />
+        <FormInput value={surname} onChange={e => setSurname(e.target.value)} label={t("Surname")} />
+        <FormInput value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} label={t("Phone number")} />
       </div>
       {nextUpdateTime < timeToUpdate ? (
-        <Button type="submit">{t("save")}</Button>
+        <Button type="submit">{t("Save")}</Button>
       ) : (
         <Button buttonType={BUTTON_CLASSES.disable} onClick={e => e.preventDefault()}>
           {`${calculateDelayTime()}`}

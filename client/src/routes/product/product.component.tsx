@@ -1,9 +1,9 @@
 import "./product.styles.sass";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectProductByIndex } from "../../store/products/products.selectors";
-import { getProductByIndexFetch } from "../../utils/fetchFunctions";
+import { selectProductByName } from "../../store/products/products.selectors";
+import { getProductByNameFetch } from "../../utils/fetchFunctions";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -20,16 +20,18 @@ const Product = () => {
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
 
-  const [index] = useState(Number(searchParams.get("index")));
-  const productInStorage = useAppSelector(selectProductByIndex(index));
+  const { name } = useParams();
+  const decodedName = decodeURIComponent(name ?? "");
+
+  const productInStorage = useAppSelector(selectProductByName(decodedName));
   const orderInStoreage = useAppSelector(selectOrder);
 
   useEffect(() => {
     const fetchProduct = async () => {
-      if (index) {
-        const res = await getProductByIndexFetch(index);
+      if (decodedName) {
+        const res = await getProductByNameFetch(decodedName);
+        console.log(res, "res to");
         if (res) dispatch(replaceProducts([res]));
       }
     };

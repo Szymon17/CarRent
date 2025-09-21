@@ -41,14 +41,14 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
   }
 
   const query = `
-  SELECT * FROM cars WHERE 
-  ${orders.length > 0 ? `id NOT IN (${orders.join(",")}) AND` : ""}
-  index < $1
-  AND daily_price BETWEEN $2 AND $3
-  AND localisation = $4
-  ${filterConditions.length > 0 ? `AND ${filterConditions.join(" AND ")}` : ""}
-  ORDER BY "index" DESC
-  LIMIT $5
+    SELECT * FROM cars WHERE 
+    ${orders.length > 0 ? `id NOT IN (${orders.join(",")}) AND` : ""}
+    index < $1
+    AND daily_price BETWEEN $2 AND $3
+    AND localisation = $4
+    ${filterConditions.length > 0 ? `AND ${filterConditions.join(" AND ")}` : ""}
+    ORDER BY "index" DESC
+    LIMIT $5
   `;
 
   try {
@@ -63,6 +63,19 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
 async function getOfferByIndex(index: number) {
   try {
     const res = await client.query(`SELECT * FROM cars WHERE id = $1`, [index]);
+    return res.rows[0];
+  } catch (error) {
+    console.error("Błąd podczas wykonywania zapytania:", error);
+    throw error;
+  }
+}
+
+async function getOfferByName(fullName: string) {
+  const [brand, model] = fullName.split(" ");
+  console.log(model, brand, fullName.split(" "));
+  try {
+    const res = await client.query(`SELECT * FROM cars WHERE brand = $1 AND model = $2`, [brand, model]);
+
     return res.rows[0];
   } catch (error) {
     console.error("Błąd podczas wykonywania zapytania:", error);
@@ -117,4 +130,4 @@ async function getOrders(ordersId: string[]) {
   }
 }
 
-export { getAvilableCars, getOfferByIndex, saveOrder, getOrders, getOffersById };
+export { getAvilableCars, getOfferByIndex, saveOrder, getOrders, getOffersById, getOfferByName };

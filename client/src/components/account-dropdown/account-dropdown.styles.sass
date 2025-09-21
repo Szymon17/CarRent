@@ -2,23 +2,24 @@
 @use '../../sass/mixins' as mixins
 
 .account-dropdown
-    padding: 10px 20px
+    padding: 10px 0px
     width: clamp(200px, 20%, 300px)
     height: 250px
     position: absolute
     top: calc( vars.$navHeight  ) 
     right: 10px
-    border: 1px solid black
     user-select: none
-    z-index: 1
-    background-color: #282828
+    background-color: vars.$primary-color
     color: white
-    border-radius: 10px
+    border-radius: 5px
+    border-top-right-radius: 0
+    border-top-left-radius: 0
     z-index: 2
 
     &__name
         width: 100%
         height: 20%
+        font-size: 1.4em
         text-align: center
 
     &__linksCnt
@@ -27,7 +28,7 @@
         padding: 20px 10px
 
     &__link
-        margin-bottom: 20px
+        margin-bottom: 10px
         transition: all 0.3s
 
         & > a

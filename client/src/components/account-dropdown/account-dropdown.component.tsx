@@ -26,7 +26,7 @@ const AccountDropdow: FC<AccountDropdownState> = ({ setState }) => {
 
   return (
     <div className="account-dropdown" onClick={e => e.stopPropagation()}>
-      <h1 className="account-dropdown__name">{user?.name}</h1>
+      <h3 className="account-dropdown__name">{user?.name}</h3>
       <ul className="account-dropdown__linksCnt">
         <li className="account-dropdown__link">
           <Link onClick={() => setState(false)} to="/account">

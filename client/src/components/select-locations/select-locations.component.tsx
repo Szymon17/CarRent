@@ -57,13 +57,15 @@ const SelectLocations: FC<selectLocationsTypes> = ({ value, changeState }) => {
         {value}
       </div>
       <FontAwesomeIcon className="selectLocations__icon" icon={faCaretDown} />
-      <ul className="selectLocations__selectBox">
-        {locations.map((location, key) => (
-          <li key={key} onClick={() => selectLocationHandler(location)} className="selectLocations__option">
-            {location}
-          </li>
-        ))}
-      </ul>
+      <div className="selectLocations__selectBox">
+        <ul className="selectLocations__selectBox__container">
+          {locations.map((location, key) => (
+            <li key={key} onClick={() => selectLocationHandler(location)} className="selectLocations__option">
+              {location}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

@@ -9,8 +9,9 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
 import SelectLocations from "../select-locations/select-locations.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_CLASSES } from "../button/button.component";
 import FormInput from "../formInput/formInput.component";
+import Checkbox from "../checkbox/checkbox.component";
 
 const Filtres = () => {
   const { t } = useTranslation();
@@ -65,9 +66,9 @@ const Filtres = () => {
     }
   };
 
-  const checkboxHandler = (e: ChangeEvent<HTMLInputElement>, setPrpertyHandler: Function) => {
-    if (e.target.checked) setPrpertyHandler(e.target.value);
-    else setPrpertyHandler(null);
+  const checkboxHandler = (checked: boolean, label: string, setPropertHandler: Function) => {
+    if (checked) setPropertHandler(label);
+    else setPropertHandler(null);
   };
 
   const fetchProducts = (link: string) => {
@@ -190,12 +191,10 @@ const Filtres = () => {
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
-              <input value={2} checked={numberOfSits === "2"} onChange={e => checkboxHandler(e, setNumberOfSits)} type="checkbox" />
-              <span>2</span>
+              <Checkbox checked={numberOfSits === "2"} label="2" click={(checked, label) => checkboxHandler(checked, label, setNumberOfSits)} />
             </li>
             <li className="filtres__section__list__item">
-              <input value={5} checked={numberOfSits === "5"} onChange={e => checkboxHandler(e, setNumberOfSits)} type="checkbox" />
-              <span>5</span>
+              <Checkbox checked={numberOfSits === "5"} label="5" click={(checked, label) => checkboxHandler(checked, label, setNumberOfSits)} />
             </li>
           </ul>
         </div>
@@ -205,16 +204,13 @@ const Filtres = () => {
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
-              <input value={"Petrol"} checked={fuelType === "Petrol"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
-              <span>{t("Petrol")}</span>
+              <Checkbox checked={fuelType === "Petrol"} label="Petrol" click={(checked, label) => checkboxHandler(checked, label, setFuelType)} />
             </li>
             <li className="filtres__section__list__item">
-              <input value={"Diesel"} checked={fuelType === "Diesel"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
-              <span>Diesel</span>
+              <Checkbox checked={fuelType === "Diesel"} label="Diesel" click={(checked, label) => checkboxHandler(checked, label, setFuelType)} />
             </li>
             <li className="filtres__section__list__item">
-              <input value={"Electric"} checked={fuelType === "Electric"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
-              <span>{t("Electric")}</span>
+              <Checkbox checked={fuelType === "Electric"} label="Electric" click={(checked, label) => checkboxHandler(checked, label, setFuelType)} />
             </li>
           </ul>
         </div>
@@ -224,16 +220,21 @@ const Filtres = () => {
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
-              <input value={"4x4"} checked={driveType === "4x4"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
-              <span>4x4</span>
+              <Checkbox checked={driveType === "4x4"} label="4x4" click={(checked, label) => checkboxHandler(checked, label, setDriveType)} />
             </li>
             <li className="filtres__section__list__item">
-              <input value={"Rear axle"} checked={driveType === "Rear axle"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
-              <span>{t("Rear axle")}</span>
+              <Checkbox
+                checked={driveType === "Rear axle"}
+                label="Rear axle"
+                click={(checked, label) => checkboxHandler(checked, label, setDriveType)}
+              />
             </li>
             <li className="filtres__section__list__item">
-              <input value={"Front axle"} checked={driveType === "Front axle"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
-              <span>{t("Front axle")}</span>
+              <Checkbox
+                checked={driveType === "Front axle"}
+                label="Front axle"
+                click={(checked, label) => checkboxHandler(checked, label, setDriveType)}
+              />
             </li>
           </ul>
         </div>
@@ -242,7 +243,9 @@ const Filtres = () => {
         <button onClick={clearFilters} className="filtres__clearFiltres">
           {t("Clear filters")}
         </button>
-        <Button onClick={filterHendler}>{t("Filter")}</Button>
+        <Button buttonType={BUTTON_CLASSES.green} onClick={filterHendler}>
+          {t("Filter")}
+        </Button>
       </div>
     </aside>
   );

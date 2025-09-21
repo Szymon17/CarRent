@@ -1,5 +1,5 @@
 import "./order-history.styles.sass";
-import { UIEvent, useRef, useState } from "react";
+import { UIEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectFetchOrdersState, selectOrdersCount, selectUserOrders } from "../../store/user/user.selectors";
 import { addUserOrders } from "../../store/user/user.actions";
@@ -16,6 +16,10 @@ const OrderHistory = () => {
 
   const historyRef = useRef<HTMLDivElement | null>(null);
   const [fetchDelay, setFetchDelay] = useState(false);
+
+  useEffect(() => {
+    //stworzyć trasę która będzie fetchować userOrders i wyjebać to z persista, bo tylko wprowadza zamieszanie
+  }, []);
 
   const scrollHandler = (e: UIEvent<HTMLElement>) => {
     const el = e.currentTarget;

@@ -105,9 +105,9 @@ const getProductsFetch = async (params: string): Promise<product[] | void> => {
   }
 };
 
-const getProductByIndexFetch = async (index: number | string): Promise<product | void> => {
+const getProductByNameFetch = async (name: string): Promise<product | void> => {
   try {
-    const res = await fetch(`${serverUrl}/offers/product?index=${index}`);
+    const res = await fetch(`${serverUrl}/offers/product/${name}`);
     const status: fetchType<product> = await res.json();
 
     if (status.status === "ok") return status.payload;
@@ -189,7 +189,7 @@ export {
   updateUserFetch,
   deleteUserFetch,
   getProductsFetch,
-  getProductByIndexFetch,
+  getProductByNameFetch,
   getLocationsFetch,
   saveOrderFetch,
   getUserOrders,

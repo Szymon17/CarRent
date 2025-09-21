@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { saveOrderIndex } from "../../store/order/order.reducer";
 import { useAppDispatch } from "../../store/hooks";
 import { product } from "../../store/products/products.types";
-import Button from "../button/button.component";
+import Button, { BUTTON_CLASSES } from "../button/button.component";
 
 const ProductCard: FC<{ product: product }> = ({ product }) => {
   const dispatch = useAppDispatch();
@@ -16,7 +16,7 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
 
   const goToProduct = () => {
     dispatch(saveOrderIndex(product.index));
-    navigate("/product?index=" + product.index);
+    navigate("/product/" + product.brand + " " + product.model);
   };
 
   return (
@@ -59,7 +59,9 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
               <span>{product.daily_price}ZŁ</span>
               <span className="product-card__description__dailyPrice-text"> / {t("Day")}</span>
             </span>
-            <Button onClick={goToProduct}>{t("Check")}</Button>
+            <Button buttonType={BUTTON_CLASSES.green} onClick={goToProduct}>
+              {t("Check")}
+            </Button>
           </div>
         </div>
       </div>
