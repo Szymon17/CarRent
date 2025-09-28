@@ -4,13 +4,10 @@
 
 .product
     min-height: calc( 100vh - vars.$navHeight )
-    padding: 30px 50px
+    padding: 10px
     background-color: vars.$container-color
 
-    @media (max-width:bp.$extra-large)
-        padding: 30px 20px
-
-    @media (max-width:bp.$large)
+    @media (min-width:bp.$medium)
         padding: 30px 20px
 
     &__header
@@ -21,21 +18,29 @@
         grid-template-columns: 1fr 2fr
         gap: 50px
         border: 1px solid vars.$border-color
+        border-radius: 3px
         padding: 30px
 
         @media (max-width:bp.$large)
             grid-template-columns: 1fr
             font-size: 0.7em
+            padding: 10px
+            
            
         &__img
             margin-top: 10px
             max-width: 400px
-            padding: 0 10px
+            padding: 10px
             border: 1px solid vars.$border-color
             background-color: vars.$silver_background
+            border-radius: 3px
 
+            &__cnt
+                text-align: center
+                
             @media (max-width:bp.$small)
-                width: 80%
+                width: 100%
+                max-width: 1000px
 
         &__description
             flex-grow: 1
@@ -50,18 +55,10 @@
                 position: relative
                 margin-bottom: 30px
 
-                &::after
-                    position: absolute
-                    content: ''
-                    width: 100%
-                    height: 2px
-                    background-color: vars.$primary-color
-                    left: 0
-                    bottom: -10px
-
             &__title
                 width: 100%
-                font-size: 1.5em
+                font-size: 1.8em
+                font-weight: 500
                 position: relative
 
             &__prices
@@ -158,15 +155,16 @@
                 padding: 0 50px  
                 font-weight: 500
                 flex-grow: 1
+                border-radius: 5px
 
                 @media (min-width: bp.$medium)
                     flex-grow: 0 
-
 
     &__configuration
         margin-bottom: 20px
         padding: 10px
         border: 1px solid vars.$border-color
+        border-radius: 3px 
         font-size: 1.2em
 
         @media (min-width: bp.$medium)
@@ -218,6 +216,7 @@
         padding: 10px
         background: vars.$silver-background
         border: 1px solid vars.$border-color
+        border-radius: 3px
 
         &__element
             margin-bottom: 8px
@@ -232,84 +231,49 @@
                 margin-top: 20px
                 padding-top: 10px
 
-
-    &__box.right
-        width: 100%
-        position: relative
-        border: 1px solid #dddddd
-        border-radius: 5px
-        height: 180px
-
-        @media (min-width: bp.$small) 
-            width: 250px
-
-        &::before
-            content: ""
-            position: absolute
-            left: 20px
-            bottom: 40px
-            height: calc(70% - 70px)
-            width: 2px
-            background: silver
-
-        & .container
-            margin-top: 50px
-            height: 70%
-            width: 100%
-            position: absolute
-            bottom: 0px
-
-        & h3
-            margin-left: 10px
-            margin-top: 10px
-            text-align: center
-
-            @media (min-width: bp.$small) 
-                text-align: left
-
-    &__boxex_cnt
-        display: flex
-        justify-content: space-between
-        flex-direction: column
-        gap: 20px
-
-        @media (min-width: bp.$small) 
-            flex-direction: row
-
-    &__nav
-        width: 100%
-        display: flex
-        gap: 15px
-        border-bottom: 1px solid silver
-
-        &__box
-            cursor: pointer
-            padding-bottom: 10px
-            border-bottom: 1px solid transparent
-            transition: all 0.3s 
-
-            &:hover
-                border-bottom: 1px solid black
-
     &__section
         margin-top: 100px
 
         &-title
-            margin-bottom: 30px    
+            margin-bottom: 20px
+            font-size: 1.2em
+            font-weight: 500
+            border-bottom: 1px solid vars.$border-color
+            padding: 10px 20px
 
-    &__addons__list
-        display: grid
-        grid-template-columns: repeat(3, auto) 
-        justify-content: space-between
-        gap: 20px 0
+        &__content
+            padding: 10px 20px
 
-        @media ( max-width: bp.$medium )
-            grid-template-columns: repeat(2, auto) 
+        &__item
+            border: 1px solid vars.$border-color
+            border-radius: 3px
 
-        @media ( max-width: bp.$small )
-            grid-template-columns: repeat(1, auto) 
+    &__main
+        display: flex
+        gap: 30px
+        flex-direction: column
+
+        @media (min-width:bp.$medium)
+            flex-direction: row
             
+        &__left
+            flex-basis: 60%
 
+        &__right
+            flex-basis: 40%
+            
+    &__addons
+        &__list
+            &__item
+                display: flex
+                gap: 10px
+                text-align: left
+                margin-bottom: 10px
+
+                & > svg
+                    width: 25px
+                    color: vars.$success-color
+                    font-size: 1.3em
                 
                 
             

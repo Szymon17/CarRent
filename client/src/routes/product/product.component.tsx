@@ -1,20 +1,23 @@
 import "./product.styles.sass";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectProductByName } from "../../store/products/products.selectors";
 import { getProductByNameFetch } from "../../utils/fetchFunctions";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCalendarAlt, faLocationArrow, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 import { replaceProducts } from "../../store/products/products.reducer";
 import { selectOrder } from "../../store/order/order.selector";
 import { saveOrderDays } from "../../store/order/order.reducer";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-import Button from "../../components/button/button.component";
+import Button, { BUTTON_CLASSES } from "../../components/button/button.component";
 import NumberButton from "../../components/button/numberButton.component";
 import ProductDetails from "../../components/product-details/product-details.component";
+import { faBluetooth } from "@fortawesome/free-brands-svg-icons";
+
+const addons_icons = new Map<string, IconDefinition>([["gps", faLocationArrow], ["bluetooth", faBluetooth] as [string, IconDefinition]]);
 
 const Product = () => {
   const navigate = useNavigate();
@@ -89,7 +92,7 @@ const Product = () => {
                     <div className="product__configuration__block__element">
                       <div className="text">
                         <p className="text-small">{new Date(orderInStoreage.date_of_receipt).toLocaleString("pl-PL") ?? ""}</p>
-                        <span>{productInStorage.localisation}</span>
+                        <span>{orderInStoreage.place_of_receipt}</span>
                       </div>
                     </div>
                   </div>
@@ -97,7 +100,7 @@ const Product = () => {
                     <span className="product__configuration__block__title">{t("Return location")}</span>
                     <div className="text">
                       <p className="text-small">{new Date(orderInStoreage.date_of_return).toLocaleString("pl-PL") ?? ""}</p>
-                      <span>{productInStorage.localisation}</span>
+                      <span>{orderInStoreage.place_of_return}</span>
                     </div>
                   </div>
                 </div>
@@ -118,29 +121,39 @@ const Product = () => {
                 </div>
               </div>
               <div className="product__header__buttons">
-                <Button onClick={() => navigate("/summary")}>{t("Reserve Vehicle")}</Button>
+                <Button buttonType={BUTTON_CLASSES.green} onClick={() => navigate("/summary")}>
+                  {t("Reserve Vehicle")}
+                </Button>
               </div>
             </div>
           </header>
-          <section className="product__nav product__section">
-            {/* <span className="product__nav__box">{t("Szczegóły")}</span>
-            <span className="product__nav__box">{t("Dodatki")}</span> */}
-          </section>
-          <section className="product__details product__section">
-            <h2 className="product__section-title">{t("Details")}</h2>
-            <ProductDetails product={productInStorage} />
-          </section>
-          <section className="product__addons product__section">
-            <h2 className="product__section-title">{t("Addons")}</h2>
-            <ul className="product__addons__list">
-              {productInStorage.addons.map((addon, index) => (
-                <li key={index} className="product__addons__list__item">
-                  <FontAwesomeIcon icon={faCheck} />
-                  <span className="product__addons__list__item__text">{t(addon)}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+
+          <main className="product__main product__section">
+            <div className="product__main__left">
+              <div className="product__section__item">
+                <h2 className="product__section-title">{t("Vehicle Specifications")}</h2>
+                <div className="product__section__content">
+                  <ProductDetails product={productInStorage} />
+                </div>
+              </div>
+            </div>
+
+            <div className="product__main__right">
+              <div className="product__section__item">
+                <h2 className="product__section-title">{t("Included Features")}</h2>
+                <div className="product__section__content">
+                  <ul className="product__addons__list">
+                    {Object.entries(productInStorage.addons)?.map(([addon_code, addon], index) => (
+                      <li key={index} className="product__addons__list__item">
+                        <FontAwesomeIcon icon={addons_icons.get(addon_code) ?? faCheck} />
+                        <span className="product__addons__list__item__text">{t(addon)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </main>
         </div>
       ) : (
         <div className="fetchError"></div>

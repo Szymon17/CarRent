@@ -41,14 +41,24 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
   }
 
   const query = `
-    SELECT * FROM cars WHERE 
-    ${orders.length > 0 ? `id NOT IN (${orders.join(",")}) AND` : ""}
-    index < $1
-    AND daily_price BETWEEN $2 AND $3
-    AND localisation = $4
+   SELECT 
+    c.*,
+    COALESCE(
+        jsonb_object_agg(a.code, a.description) FILTER (WHERE a.id IS NOT NULL),
+        '{}'::jsonb
+    ) AS addons
+FROM cars c
+LEFT JOIN car_addons_map am ON am.car_id = c.id
+LEFT JOIN car_addons a ON a.id = am.addon_id
+WHERE 
+    ${orders.length > 0 ? `c.id NOT IN (${orders.join(",")}) AND` : ""}
+    c.index < $1
+    AND c.daily_price BETWEEN $2 AND $3
+    AND c.localisation = $4
     ${filterConditions.length > 0 ? `AND ${filterConditions.join(" AND ")}` : ""}
-    ORDER BY "index" DESC
-    LIMIT $5
+GROUP BY c.id
+ORDER BY c.index DESC
+LIMIT $5;
   `;
 
   try {

@@ -1,4 +1,5 @@
 @use '../../sass/mixins' as mixins
+@use '../../sass/varibles' as vars
 @use '../../sass/break_points' as bp
 
 .productDetails
@@ -13,7 +14,7 @@
     &__list
         list-style: none
         font-weight: 550
-        width: 40%
+        width: 100%
         display: inline-block
         padding: 0
 
@@ -21,8 +22,22 @@
             width: 100%       
 
         &__item
-            @include mixins.flexDisplay($primarySetting: space-between)
-            margin-bottom: 10px
+            @include mixins.flexDisplay($primarySetting: flex-start)
+            width: 100%
+            border-bottom: 1px solid vars.$border-color
+            padding: 10px 0
+            font-size: 0.9em
+
+            &:first-child > span
+                color: black
+                font-weight: 600
+
+            &:last-child
+                border: none
+
+            &__left
+                width: 60%
+                font-weight: 600
 
             &__right
                 color: #0088e2

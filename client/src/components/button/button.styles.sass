@@ -78,7 +78,7 @@
     display: flex
     width: 130px
     padding: 5px
-    background: #333
+    background: vars.$success-color
     border-radius: 3px
     gap: 5px
     position: relative
@@ -86,7 +86,7 @@
     & > button
         min-width: 30px
         max-width: 30px
-        background: #333
+        background: vars.$secondary-color
         color: white
         margin: 0
         outline: none
@@ -95,18 +95,18 @@
         transition: all 0.3s 
 
         &:hover
-            background: #4d4d4d
+            background: adjust-color(vars.$secondary-color, $lightness: 10%)
 
     & > input
         width: 50px
         text-align: center
         padding-right: 30px
-        background: #333
+        background: vars.$success-color
         color: white
 
     & .placeholder
         position: absolute
-        left: calc(50% - 5px)
+        left: calc(50% - 7px)
         top: 50%
         color: white
         z-index: 10

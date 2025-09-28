@@ -14,7 +14,7 @@ type product = {
   fuel_usage_outcity: string;
   image_url: string;
   index: number;
-  addons: string[];
+  addons: Record<string, string>;
   mileage: string;
   traits: string[];
   localisation: string;

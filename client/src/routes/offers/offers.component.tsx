@@ -16,6 +16,7 @@ const regexp = /\?[\S]+/;
 
 const Offers = () => {
   const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
   const productStatus = useAppSelector(selectProductsStatus);
   const products = useAppSelector(selectProducts);
@@ -70,12 +71,12 @@ const Offers = () => {
       </div>
       <main ref={productsRef} className="offers__main">
         <div className="offers__settings">
-          <div className="checkboxes">
+          {/* <div className="checkboxes">
             <div className="offers__checkbox-box">
               <input type="checkbox" />
               <span className="offers__checkbox-box-text">{t("Driver aged 25+")}</span>
             </div>
-          </div>
+          </div> */}
         </div>
         {products.length > 0 && productStatus !== "loading" ? (
           <div onScroll={handleScroll} className="offers__products">

@@ -11,6 +11,10 @@ const ProductDetails: FC<{ product: product }> = ({ product }) => {
       <div className="productDetails__lists">
         <ul className="productDetails__list">
           <li className="productDetails__list__item">
+            <span className="productDetails__list__item__left">{t("Specification")}</span>
+            <span className="productDetails__list__item__right">{t("Details")}</span>
+          </li>
+          <li className="productDetails__list__item">
             <span className="productDetails__list__item__left">{t("Brand")}</span>
             <span className="productDetails__list__item__right">{product.brand}</span>
           </li>
@@ -30,8 +34,6 @@ const ProductDetails: FC<{ product: product }> = ({ product }) => {
             <span className="productDetails__list__item__left">{t("Color")}</span>
             <span className="productDetails__list__item__right">{t(product.color)}</span>
           </li>
-        </ul>
-        <ul className="productDetails__list">
           <li className="productDetails__list__item">
             <span className="productDetails__list__item__left">{t("Transmission")}</span>
             <span className="productDetails__list__item__right">{t(product.transmission)}</span>
