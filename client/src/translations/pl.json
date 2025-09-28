@@ -108,6 +108,10 @@
     "there is nothing to display": "Nie ma nic do wyświetlenia",
     "Pick-up and drop-off": "Odbiór i zwrot",
     "Product": "Produkt",
-    "Product Card": "Karta produktu"
+    "Product Card": "Karta produktu",
+    "per day": "za dzień",
+    "Rental configuration": "Konfiguracja wynajmu",
+    "Number of days": "Liczba dni wynajmu",
+    "Reserve Vehicle": "Zarezerwuj pojazd"
   }
 }

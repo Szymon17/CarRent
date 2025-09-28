@@ -21,10 +21,11 @@ app.use(helmet());
 app.use(api);
 
 app.listen(process.env.PORT, async () => {
+  console.log("Starting server...");
   try {
     await client.connect();
     console.log(`starting server at port ${process.env.PORT}...`);
   } catch (err: any) {
-    throw Error(err);
+    console.log(err);
   }
 });

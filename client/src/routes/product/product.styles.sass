@@ -4,7 +4,7 @@
 
 .product
     min-height: calc( 100vh - vars.$navHeight )
-    padding: 30px 100px
+    padding: 30px 50px
     background-color: vars.$container-color
 
     @media (max-width:bp.$extra-large)
@@ -16,17 +16,23 @@
     &__header
         margin-top: 20px
         position: relative
-        display: flex
         width: 100%
-        justify-content: space-between
-        align-items: center
+        display: grid
+        grid-template-columns: 1fr 2fr
+        gap: 50px
+        border: 1px solid vars.$border-color
+        padding: 30px
 
         @media (max-width:bp.$large)
-            flex-direction: column
+            grid-template-columns: 1fr
             font-size: 0.7em
            
         &__img
-            max-width: 350px
+            margin-top: 10px
+            max-width: 400px
+            padding: 0 10px
+            border: 1px solid vars.$border-color
+            background-color: vars.$silver_background
 
             @media (max-width:bp.$small)
                 width: 80%
@@ -38,14 +44,11 @@
             gap: 30px
             width: 100%
 
-            @media (min-width: bp.$large)
-                max-width: 600px
-
-            &__title
-                width: 100%
-                font-size: 1.5em
+            &__top
+                display: flex
+                justify-content: space-between
                 position: relative
-                padding-bottom: 50px
+                margin-bottom: 30px
 
                 &::after
                     position: absolute
@@ -54,7 +57,15 @@
                     height: 2px
                     background-color: vars.$primary-color
                     left: 0
-                    bottom: 30px
+                    bottom: -10px
+
+            &__title
+                width: 100%
+                font-size: 1.5em
+                position: relative
+
+            &__prices
+                text-align: right
 
             &__price
                 font-size: 2em
@@ -66,23 +77,19 @@
 
             &__dailyPrice
                 display: block
-                margin-bottom: 20px
-                padding-left: 5px
+                color: #9b9b9b
 
             &__avilability
                 display: block
-                font-size: 1.2em
                 color: vars.$success-color
-                margin-bottom: 10px
-
-                &::before
-                    content: ''
-                    display: inline-block
-                    margin-right: 5px
-                    width: 0.8em
-                    height: 0.8em
-                    background-color: vars.$success-color
-                    border-radius: 50%
+                border: 1px solid vars.$secondary-color_border
+                margin-top: 10px
+                font-size: 0.75em
+                background: vars.$secondary-color_light
+                width: 80px
+                text-align: center
+                padding: 3px 5px
+                border-radius: 6px
 
             &__localisation
                 display: block
@@ -137,18 +144,94 @@
                     & > svg
                         margin-right: 5px
 
-            & button
-                &:nth-child(1)
-                    flex-grow: 1
+
 
         &__buttons
-            margin-top: 50px
+            margin-top: 10px
             display: flex
             align-items: center
+            justify-content: flex-end
             gap: 20px
 
-            & .button, & .number__button-cnt
-                height: 40px    
+            & .button
+                height: 40px
+                padding: 0 50px  
+                font-weight: 500
+                flex-grow: 1
+
+                @media (min-width: bp.$medium)
+                    flex-grow: 0 
+
+
+    &__configuration
+        margin-bottom: 20px
+        padding: 10px
+        border: 1px solid vars.$border-color
+        font-size: 1.2em
+
+        @media (min-width: bp.$medium)
+            font-size: 1em
+
+        &__title
+            margin-bottom: 20px
+             
+            & svg
+                margin-right: 10px
+
+        &__box
+            display: flex
+            justify-content: space-between
+            flex-wrap: wrap
+            
+            @media (min-width: bp.$medium)
+                flex-wrap: nowrap
+
+        &__block
+            margin-top: 10px
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            gap: 10px
+            min-width: 40%
+
+            @media (min-width: bp.$medium)
+                min-width: unset
+
+            &__title
+                font-size: 0.8em
+                color: vars.$alternative_text-color
+
+            &__element
+                height: 35px
+
+                & .number__button-cnt
+                    height: 100%
+
+                    & .button__text, & .placeholder
+                        font-size: 0.9em
+
+                        @media (min-width: bp.$medium)
+                            font-size: 0.75em
+
+    &__summary
+        margin-top: 20px
+        padding: 10px
+        background: vars.$silver-background
+        border: 1px solid vars.$border-color
+
+        &__element
+            margin-bottom: 8px
+            font-weight: 400
+            display: flex
+            justify-content: space-between
+
+            &.sum
+                font-weight: 500
+                font-size: 1.1em
+                border-top: 1px solid vars.$border-color
+                margin-top: 20px
+                padding-top: 10px
+
 
     &__box.right
         width: 100%

@@ -10,7 +10,7 @@ import { faCreditCard, faMoneyBill, faMoneyBillTransfer, faTruck, IconDefinition
 import { faCcPaypal } from "@fortawesome/free-brands-svg-icons";
 
 const iconsMap = new Map<string, any>([
-  ["card", faCreditCard],
+  ["credit_card", faCreditCard],
   ["blik", faMoneyBill],
   ["bank_transfer", faMoneyBillTransfer],
   ["paypal", faCcPaypal],

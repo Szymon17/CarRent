@@ -6,7 +6,8 @@ import { selectProductByName } from "../../store/products/products.selectors";
 import { getProductByNameFetch } from "../../utils/fetchFunctions";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+
 import { replaceProducts } from "../../store/products/products.reducer";
 import { selectOrder } from "../../store/order/order.selector";
 import { saveOrderDays } from "../../store/order/order.reducer";
@@ -44,56 +45,80 @@ const Product = () => {
       {productInStorage ? (
         <div className="product container">
           <header className="product__header">
-            <img className="product__header__img" src={"/Eksport/Golf.png"} alt="car image" />
+            <div className="product__header__img__cnt">
+              <img className="product__header__img" src={"/Eksport/Golf.png"} alt="car image" />
+            </div>
             <div className="product__header__description">
-              <h2 className="product__header__description__title">{`${productInStorage.brand} ${productInStorage.model} `}</h2>
-              <div className="product__boxex_cnt">
-                <div className="product__box">
+              <div className="product__header__description__top">
+                <div className="product__header__description__title__box">
+                  <h2 className="product__header__description__title">{`${productInStorage.brand} ${productInStorage.model} `}</h2>
+                  <span className="product__header__description__avilability">{t("Dostępny")}</span>
+                </div>
+
+                <div className="product__header__description__prices">
                   <span className="product__header__description__price">{`${(productInStorage.daily_price * orderInStoreage.dayQuantity).toFixed(
                     2
                   )}PLN`}</span>
                   <span className="product__header__description__dailyPrice">
-                    {`${productInStorage.daily_price}PLN`} / <span className="product__header__description__price-unit">{t("Day")}</span>
+                    {`${productInStorage.daily_price}PLN`} <span className="product__header__description__price-unit">{t("per day")}</span>
                   </span>
-                  <span className="product__header__description__avilability">{t("Dostępny")}</span>
+                </div>
+              </div>
 
-                  <div className="product__header__description__traits">
-                    {productInStorage.traits.map((trait, index) => (
-                      <span key={index} className="product__header__description__traits__trait">
-                        <FontAwesomeIcon icon={faCheck} />
-                        {t(trait)}
-                      </span>
-                    ))}
+              <div className="product__configuration">
+                <div className="product__configuration__title">
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                  <span>{t("Rental configuration")}</span>
+                </div>
+                <div className="product__configuration__box">
+                  <div className="product__configuration__block">
+                    <span className="product__configuration__block__title">{t("Number of days")}</span>
+                    <div className="product__configuration__block__element">
+                      <NumberButton
+                        min={1}
+                        max={30}
+                        state={{ get: orderInStoreage.dayQuantity, set: saveOrderDays as ActionCreatorWithPayload<number> }}
+                        onClick={() => null}
+                      >
+                        {orderInStoreage.dayQuantity > 1 ? t("Days") : t("Day")}
+                      </NumberButton>
+                    </div>
+                  </div>
+                  <div className="product__configuration__block">
+                    <span className="product__configuration__block__title">{t("Pick up location")}</span>
+                    <div className="product__configuration__block__element">
+                      <div className="text">
+                        <p className="text-small">{new Date(orderInStoreage.date_of_receipt).toLocaleString("pl-PL") ?? ""}</p>
+                        <span>{productInStorage.localisation}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="product__configuration__block">
+                    <span className="product__configuration__block__title">{t("Return location")}</span>
+                    <div className="text">
+                      <p className="text-small">{new Date(orderInStoreage.date_of_return).toLocaleString("pl-PL") ?? ""}</p>
+                      <span>{productInStorage.localisation}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="product__box right">
-                  <h3>{t("Pick-up and drop-off")}</h3>
-                  <div className="product__box container">
-                    <div className="product__header__description__localisation">
-                      <div className="text">
-                        <span className="text-small">{orderInStoreage.date_of_receipt.toLocaleString().split(",")[0] ?? ""}</span>
-                        <span>{productInStorage.localisation}</span>
-                      </div>
-                    </div>
-                    <div className="product__header__description__localisation">
-                      <div className="text">
-                        <span className="text-small">{orderInStoreage.date_of_return.toLocaleString().split(",")[0] ?? ""}</span>
-                        <span>{productInStorage.localisation}</span>
-                      </div>
-                    </div>
+
+                <div className="product__summary">
+                  <div className="product__summary__element">
+                    <span>{t("Daily Rate")}:</span>
+                    <span>{`${productInStorage.daily_price}PLN`}</span>
+                  </div>
+                  <div className="product__summary__element">
+                    <span>{t("Days")}:</span>
+                    <span>{orderInStoreage.dayQuantity}</span>
+                  </div>
+                  <div className="product__summary__element sum">
+                    <span>{t("Total Amount")}</span>
+                    <span>{`${(productInStorage.daily_price * orderInStoreage.dayQuantity).toFixed(2)}PLN`}</span>
                   </div>
                 </div>
               </div>
               <div className="product__header__buttons">
-                <Button onClick={() => navigate("/summary")}>{t("Order")}</Button>
-                <NumberButton
-                  min={1}
-                  max={30}
-                  state={{ get: orderInStoreage.dayQuantity, set: saveOrderDays as ActionCreatorWithPayload<number> }}
-                  onClick={() => null}
-                >
-                  {orderInStoreage.dayQuantity > 1 ? t("Days") : t("Day")}
-                </NumberButton>
+                <Button onClick={() => navigate("/summary")}>{t("Reserve Vehicle")}</Button>
               </div>
             </div>
           </header>
