@@ -1,9 +1,9 @@
 import "./product.styles.sass";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectProductByName } from "../../store/products/products.selectors";
-import { getProductByNameFetch } from "../../utils/fetchFunctions";
+import { getProductByNameFetch, serverUrl } from "../../utils/fetchFunctions";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCalendarAlt, faLocationArrow, IconDefinition } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +22,6 @@ const addons_icons = new Map<string, IconDefinition>([["gps", faLocationArrow], 
 const Product = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { t } = useTranslation();
 
   const { name } = useParams();
@@ -31,14 +30,30 @@ const Product = () => {
   const productInStorage = useAppSelector(selectProductByName(decodedName));
   const orderInStoreage = useAppSelector(selectOrder);
 
+  const [companyInfo, setCompanyInfo] = useState<{ attribute_name: string; attribute_value: string }[]>([]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       if (decodedName) {
         const res = await getProductByNameFetch(decodedName);
-        console.log(res, "res to");
+
         if (res) dispatch(replaceProducts([res]));
       }
     };
+
+    const fetchCompanyInfo = async () => {
+      try {
+        const req = await fetch(`${serverUrl}/assistance_info`);
+        const res = await req.json();
+
+        console.log(res.data, "moja");
+        if (res.status === "ok") setCompanyInfo(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCompanyInfo();
 
     if (!productInStorage) fetchProduct();
   }, []);
@@ -152,6 +167,22 @@ const Product = () => {
                   </ul>
                 </div>
               </div>
+
+              {companyInfo && (
+                <div className="product__section__item assistance">
+                  <h2 className="product__section-title">{t("Need Assistance?")}</h2>
+                  <div className="product__section__content">
+                    <ul className="product__assistance">
+                      {companyInfo.map(({ attribute_name, attribute_value }) => (
+                        <li className="product__assistance__item">
+                          <span className="product__assistance__title">{attribute_name}</span>
+                          <span className="product__assistance__value">{attribute_value}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           </main>
         </div>

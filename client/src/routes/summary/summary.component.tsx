@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { saveOrderFetch } from "../../utils/fetchFunctions";
 import { saveUserOrder } from "../../store/user/user.reducer";
 import { toast } from "react-toastify";
+import { faCalendarAlt, faCarRear, faCreditCard, faEnvelope, faLocationDot, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProductCard from "../../components/product-card/product-card.component";
 import Payments from "../../components/payments/payments.component";
 
@@ -43,43 +45,104 @@ const Summary = () => {
   return (
     <div className="summary container">
       <div className="summary__left">
-        <h3 className="summary__title">{t("Receipt data")}</h3>
-        <div className="summary__order-data">
-          <div className="summary__left__order-data">
-            <span className="summary__left__order-data__date">{`${t("Pick up date")}: ${dateToLocalString(new Date(order.date_of_receipt))}`}</span>
-            <span className="summary__left__order-data__date">{`${t("Return date")}: ${dateToLocalString(new Date(order.date_of_return))}`}</span>
-            <span className="summary__left__order-data__location">{`${t("Pick up location")}: ${order.place_of_receipt}`}</span>
-            <span className="summary__left__order-data__location">{`${t("Return location")}: ${order.place_of_return}`}</span>
-          </div>
-          <div className="summary__left__order-data --right">
-            <div className="summary__left__order-data__right-container">
-              <div className="summary__left__order-data__value">Email: {user?.email}</div>
-              <div className="summary__left__order-data__value">
-                {t("Name")}: {user?.name}
-              </div>
-              <div className="summary_left__order-data__value">
-                {t("Surname")}: {user?.surname}
-              </div>
-              <div className="summary__left_order-data__value">
-                {t("Phone number")}: {user?.phoneNumber}
-              </div>
+        <div className="summary__section">
+          <h3 className="summary__title">
+            <FontAwesomeIcon icon={faLocationDot} />
+            <span>{t("Receipt data")}</span>
+          </h3>
+          <div className="summary__order-data">
+            <ul className="summary__left__order-data">
+              <li className="summary__left__order-data__date">
+                <span className="summary__left__order-data__title">{`${t("Pick up date")}: `}</span>
+                <div>
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                  <span>{dateToLocalString(new Date(order.date_of_receipt))}</span>
+                </div>
+              </li>
+              <li className="summary__left__order-data__date">
+                <span className="summary__left__order-data__title">{`${t("Return date")}: `}</span>
+                <div>
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                  <span>{dateToLocalString(new Date(order.date_of_return))}</span>
+                </div>
+              </li>
+              <li className="summary__left__order-data__location">
+                <span className="summary__left__order-data__title">{`${t("Pick up location")}: `}</span>
+                <div>
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <span>{order.place_of_receipt}</span>
+                </div>
+              </li>
+              <li className="summary__left__order-data__location">
+                <span className="summary__left__order-data__title">{`${t("Return location")}: `}</span>
+                <div>
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <span>{order.place_of_return}</span>
+                </div>
+              </li>
+            </ul>
+
+            <div className="summary__left__order-data --right">
+              <ul className="summary__left__order-data__right-container">
+                <li className="summary__left__order-data__value">
+                  <span className="summary__left__order-data__title">Email: </span>
+                  <div>
+                    <FontAwesomeIcon icon={faEnvelope} />
+                    <span>{user?.email}</span>
+                  </div>
+                </li>
+                <li className="summary__left__order-data__value">
+                  <span className="summary__left__order-data__title">{t("Name")}: </span>
+                  <div>
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>{user?.name}</span>
+                  </div>
+                </li>
+                <li className="summary__left__order-data__value">
+                  <span className="summary__left__order-data__title">{t("Surname")}: </span>
+                  <div>
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>{user?.surname}</span>
+                  </div>
+                </li>
+                <li className="summary__left__order-data__value">
+                  <span className="summary__left__order-data__title">{t("Phone number")}: </span>
+                  <div>
+                    <FontAwesomeIcon icon={faPhone} />
+                    <span>{user?.phoneNumber}</span>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <h3 className="summary__title --section_title">{t("Payments")}</h3>
-        <section className="summary__left__data__section --payments">
-          <Payments />
-        </section>
+        <div className="summary__section">
+          <h3 className="summary__title">
+            <FontAwesomeIcon icon={faCreditCard} />
+            <span>{t("Payments")}</span>
+          </h3>
 
-        <h3 className="summary__title --section_title">{t("Product Card")}</h3>
-        {product && (
-          <section className="summary__left__data__section --product">
-            <ProductCard product={product} />
+          <section className="summary__left__data__section --payments">
+            <Payments />
           </section>
-        )}
+        </div>
+
+        <div className="summary__section">
+          <h3 className="summary__title">
+            <FontAwesomeIcon icon={faCarRear} />
+            <span>{t("Product Card")}</span>
+          </h3>
+
+          {product && (
+            <section className="summary__left__data__section --product">
+              <ProductCard product={product} />
+            </section>
+          )}
+        </div>
       </div>
       <div className="summary__right">
+        <h3 className="summary__right__title">{t("Costs summary")}</h3>
         <div className="summary__right__informations">
           <span className="summary__right__informations__title">{t("Additional costs")}</span>
           <span className="summary__right__informations__ammount">0ZŁ</span>
@@ -89,6 +152,7 @@ const Summary = () => {
           <span className="summary__right__informations__ammount">{`${order.dayQuantity * (product?.daily_price ?? NaN)}ZŁ`}</span>
         </div>
         <Button onClick={submit}>{t("Order")}</Button>
+        <p className="summary__terms">{t("By clicking 'Order' you accept the terms of use")}</p>
       </div>
     </div>
   );

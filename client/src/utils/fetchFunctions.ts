@@ -3,7 +3,7 @@ import { paymentState } from "../store/payments/payments.types";
 import { product } from "../store/products/products.types";
 import { userCall, userData, userOrder, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
-const serverUrl = "http://localhost:8000";
+export const serverUrl = "http://localhost:8000";
 
 type fetchType<T> = {
   status: string;
