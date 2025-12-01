@@ -66,10 +66,9 @@ async function httpRegisterUser(req: CustomRequest<userData & { phoneNumber: str
 async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ idnex: string; itemsCount: string }>, res: Response) {
   const user = req.user;
   const index = req.query.index ? Number(req.query.index) : -1;
-  const itemsCount = req.query.itemsCount && Number(req.query.itemsCount) < 5 ? Number(req.query.itemsCount) : 4;
 
-  if (index !== -1 && user && itemsCount) {
-    const payload = await getUserOrders(user.orders, index, itemsCount);
+  if (user) {
+    const payload = await getUserOrders(user.user_id, index);
 
     if (payload.length > 0) return res.status(200).json({ status: "ok", message: "responsed user orders", payload });
     else return res.status(404).json({ status: "error", message: "lastIndex is poprably invalid" });

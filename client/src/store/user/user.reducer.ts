@@ -26,12 +26,6 @@ const userSlice = createSlice({
       state.expireTime = null;
       state.shouldFetchOrders = true;
     },
-
-    saveUserOrder: (state, action: PayloadAction<userOrder>) => {
-      const { payload } = action;
-
-      if (state.user) state.user.orders.unshift(payload);
-    },
   },
 
   extraReducers: builder => {
@@ -66,6 +60,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logOut, updateUserState, saveUserOrder } = userSlice.actions;
+export const { logOut, updateUserState } = userSlice.actions;
 
 export default userSlice.reducer;

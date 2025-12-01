@@ -52,22 +52,8 @@ const Navigation = () => {
             <img src="./Logo.png" className="navigation__logo" alt="" />
           </Link>
         </div>
-        <div className="navigation__searhField">{/* <input type="text" className="navigation__searhInput" /> */}</div>
+        {/* <div className="navigation__searhField"><input type="text" className="navigation__searhInput" /></div> */}
         <ul className="navigation__links">
-          <li className="navigation__link">
-            <img
-              onClick={() => setLanguage("en")}
-              className={`navigation__link__switch-language-icon ${language === "en" && "active"}`}
-              src={ENflag}
-              alt="en-flag"
-            />
-            <img
-              onClick={() => setLanguage("pl")}
-              className={`navigation__link__switch-language-icon ${language === "pl" && "active"}`}
-              src={PLflag}
-              alt="en-flag"
-            />
-          </li>
           <li className="navigation__link">
             <div className="navigation__link-container">
               <Link to="about"> {t("About")}</Link>
@@ -85,7 +71,22 @@ const Navigation = () => {
               <div className="navigation__link-underline"></div>
             </div>
           </li>
-          <li className="navigation__link">
+        </ul>
+        <div className="navigation__right">
+          <img
+            onClick={() => setLanguage("en")}
+            className={`navigation__link__switch-language-icon ${language === "en" && "active"}`}
+            src={ENflag}
+            alt="en-flag"
+          />
+          <img
+            onClick={() => setLanguage("pl")}
+            className={`navigation__link__switch-language-icon ${language === "pl" && "active"}`}
+            src={PLflag}
+            alt="en-flag"
+          />
+
+          <div className="navigation__account">
             <div className="navigation__link-container">
               {user ? (
                 <FontAwesomeIcon
@@ -101,8 +102,8 @@ const Navigation = () => {
               )}
               <div className="navigation__link-underline"></div>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
         {userDropdownState && user && <AccountDropdown setState={setUserDropdownState} />}
       </nav>
       <Outlet />

@@ -40,7 +40,7 @@ const AccountDropdow: FC<AccountDropdownState> = ({ setState }) => {
         </li>
       </ul>
       <div className="account-dropdown__button-container">
-        <Button buttonType={BUTTON_CLASSES.reverse} onClick={logout}>
+        <Button buttonType={BUTTON_CLASSES.black} onClick={logout}>
           {t("Logout")}
         </Button>
       </div>

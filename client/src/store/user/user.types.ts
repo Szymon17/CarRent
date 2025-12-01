@@ -1,7 +1,8 @@
-import { orderData } from "../order/order.types";
+import { fullOrderData, orderData } from "../order/order.types";
 import { product } from "../products/products.types";
 
 type userOrder = { data: orderData; car: product };
+type fullUserOrder = { data: fullOrderData; car: product };
 
 type userSnapshot = {
   email: string;
@@ -51,4 +52,4 @@ type userInitialStateTypes = {
   shouldFetchOrders: boolean;
 };
 
-export { userSnapshot, userCall, userInitialStateTypes, userPayload, userData, userUpdate, userPutResponse, userOrder };
+export { userSnapshot, userCall, userInitialStateTypes, userPayload, userData, userUpdate, userPutResponse, userOrder, fullUserOrder };

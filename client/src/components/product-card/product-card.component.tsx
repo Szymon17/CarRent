@@ -23,13 +23,14 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
     <div className="product-card">
       <img className="product-card__img" src={product.image_url} />
       <div className="product-card__description">
-        <h2 className="product-card__description__title">{`${product.brand} ${product.model}`}</h2>
-        <div className="product-card__description__box">
+        <div className="product-card__description__left">
+          <h2 className="product-card__description__title">{`${product.brand} ${product.model}`}</h2>
+          <div className="product-card__description__box"></div>
           <div className="product-card__description__box__container">
             <div className="product-card__description__icons">
               <div className="product-card__description__icons-box">
                 <FontAwesomeIcon icon={faUserGroup} className="product-card__description__icons-box-icon" />
-                <span className="product-card__description__icons-value">{product.number_of_seats}</span>
+                <span className="product-card__description__icons-value">{`${product.number_of_seats} ${t("seats")}`}</span>
               </div>
               <div className="product-card__description__icons-box">
                 <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-box-icon" />
@@ -54,15 +55,16 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
                 ))}
             </div>
           </div>
-          <div className="product-card__description__box__right">
-            <span className="product-card__description__dailyPrice">
-              <span>{product.daily_price}ZŁ</span>
-              <span className="product-card__description__dailyPrice-text"> / {t("Day")}</span>
-            </span>
-            <Button buttonType={BUTTON_CLASSES.green} onClick={goToProduct}>
-              {t("Check")}
-            </Button>
-          </div>
+        </div>
+        <div className="product-card__description__box__right">
+          <span className="product-card__description__dailyPrice">
+            <span className="product-card__description__dailyPrice-text --from">{t("from")}</span>
+            <span className="product-card__description__dailyPrice">{Math.round(product.daily_price)} ZŁ</span>
+            <span className="product-card__description__dailyPrice-text"> / {t("Day")}</span>
+          </span>
+          <Button buttonType={BUTTON_CLASSES.green} onClick={goToProduct}>
+            {t("Check")}
+          </Button>
         </div>
       </div>
     </div>

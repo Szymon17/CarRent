@@ -7,11 +7,13 @@ import { getProducts } from "../../store/products/products.actions";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
 import SelectLocations from "../select-locations/select-locations.component";
 import Button, { BUTTON_CLASSES } from "../button/button.component";
 import FormInput from "../formInput/formInput.component";
 import Checkbox from "../checkbox/checkbox.component";
+import { faCalendarAlt, faClose, faLocation, faLocationArrow, faLocationDot, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 
 const Filtres = () => {
   const { t } = useTranslation();
@@ -113,6 +115,12 @@ const Filtres = () => {
 
   return (
     <aside className="filtres">
+      <div className="filtres__title">
+        <h2>{t("Filters")}</h2>
+        <button onClick={clearFilters} className="filtres__clearFiltres">
+          <FontAwesomeIcon icon={faClose} />
+        </button>
+      </div>
       <section className="filtres__price filtres__section">
         <div className="filtres__price__box filtres__section__body">
           <span className="filtres__price__box-minValue" style={{ left: progressBarStyles.left }}>
@@ -151,21 +159,34 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__data filtres__section">
-        <div className="filtres__section__body">
-          <div className="filtres__data__locations">
-            <div className="filtres__data__locations__box">
-              <span className="filtres__section__title">{t("Pick up location")}</span>
-              <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
-            </div>
-            <div className="filtres__data__locations__box">
-              <span className="filtres__section__title">{t("Return location")}</span>
-              <SelectLocations value={place_of_return} changeState={set_place_of_return} />
-            </div>
+        <div>
+          <div className="filtres__data__locations__box">
+            <span className="filtres__section__title">
+              <span className="section_ico">
+                <FontAwesomeIcon icon={faLocationDot} />
+              </span>
+              {t("Pick up location")}
+            </span>
+            <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
+          </div>
+          <div className="filtres__data__locations__box">
+            <span className="filtres__section__title">
+              <span className="section_ico">
+                <FontAwesomeIcon icon={faLocationDot} />
+              </span>
+              {t("Return location")}
+            </span>
+            <SelectLocations value={place_of_return} changeState={set_place_of_return} />
           </div>
         </div>
         <div className="filtres__data__dates">
           <div className="filtres__data__dates__box">
-            <span className="filtres__section__title">{t("Pick up date")}</span>
+            <span className="filtres__section__title">
+              <span className="section_ico">
+                <FontAwesomeIcon icon={faCalendarAlt} />
+              </span>
+              {t("Pick up date")}
+            </span>
             <FormInput
               onChange={e => set_date_of_receipt(new Date(e.target.value))}
               value={dateToLocalString(date_of_receipt)}
@@ -175,7 +196,12 @@ const Filtres = () => {
             />
           </div>
           <div className="filtres__data__dates__box">
-            <span className="filtres__section__title">{t("Return date")}</span>
+            <span className="filtres__section__title">
+              <span className="section_ico">
+                <FontAwesomeIcon icon={faCalendarAlt} />
+              </span>
+              {t("Return date")}
+            </span>
             <FormInput
               onChange={e => set_date_of_return(new Date(e.target.value))}
               value={dateToLocalString(date_of_return)}
@@ -240,9 +266,6 @@ const Filtres = () => {
         </div>
       </section>
       <div className="filtres__buttons">
-        <button onClick={clearFilters} className="filtres__clearFiltres">
-          {t("Clear filters")}
-        </button>
         <Button buttonType={BUTTON_CLASSES.green} onClick={filterHendler}>
           {t("Filter")}
         </Button>

@@ -1,6 +1,6 @@
 import protect from "../../utils/protect.js";
 import express = require("express");
-import { deleteProfile, httpLogInWithToken, updateProfile, logoutUser, httpRegisterUser, httpGetUserOrderedProducts } from "./account.controler.js";
+import { deleteProfile, httpLogInWithToken, updateProfile, logoutUser, httpRegisterUser, httpGetUserOrderedProducts } from "./account.controller.js";
 
 const accountRoute = express.Router();
 

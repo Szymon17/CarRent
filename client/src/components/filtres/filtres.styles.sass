@@ -4,31 +4,42 @@
     
 .filtres
     @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: flex-start, $direction:column)
-    padding: 0 10px
+    padding: 0 20px
     padding-bottom: 50px
     padding-top: 10px
     position: relative
     width: 100%
     min-height: 90vh
     background: var.$windows-color
-
-    @media (min-width: bp.$large)
-        padding-right: 15px
+    border: 1px solid silver
+    border-radius: 5px
 
     @media (min-width: bp.$extra-large)
         height: unset
         overflow: hidden
+    
+    & .section_ico
+        color: var.$secondary-color_text
+        margin-right: 5px
+
+    &__title
+        width: 100%
+        display: flex
+        align-items: center
+        justify-content: space-between
+        margin-bottom: 30px
 
     &__section
         width: 100%
-        margin-bottom: 5px 
-        padding: 10px 0
+        margin-top: 10px
 
         &:nth-last-child(2)
             border: none
 
         &__title
             font-size: 1em
+            display: block
+            margin-bottom: 5px
 
         &__body
             margin-top: 10px
@@ -45,6 +56,7 @@
     &__price
         padding: 0 20px
         border: none 
+        margin-bottom: 20px
 
         &__box
             position: relative
@@ -140,10 +152,13 @@
 
             &__box
                 flex-grow: 1
+                margin-bottom: 15px
 
                 & > span
                     display: inline-block
                     min-width: 120px
+                    margin-bottom: 5px
+                    font-size: 0.9em
 
                     @media (max-width: bp.$extra-large)
                         width: 100%
@@ -151,7 +166,6 @@
                         color: #2c2c2c
 
                 & .selectLocations
-                    margin-top: 10px
 
                     @media (max-width: bp.$extra-large)
                         width: 100%
@@ -160,17 +174,16 @@
                         border: 1px solid #ccc
 
         &__dates
-            @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting:center)
             width: 100%
             gap: 10px
-            margin-top: 20px
 
             @media (max-width: bp.$extra-large)
                 flex-direction: column
 
             
             &__box
-                width: 48%
+                width: 100%
+                margin-bottom: 15px
 
                 @media (max-width: bp.$extra-large)
                     width: 100%
@@ -188,12 +201,8 @@
             flex-grow: 1
         
     &__clearFiltres
-        border: 1px solid #b4b4b4
-        background-color: white
-        height: 40px
-        padding: 5px 10px
-        font-size: 0.7em
-        border-radius: 3px
         outline: none
         cursor: pointer
+        border: none
+        background: unset
             

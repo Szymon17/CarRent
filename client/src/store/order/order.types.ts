@@ -7,10 +7,14 @@ type orderData = {
   dayQuantity: number;
 };
 
+type fullOrderData = orderData & {
+  id: string;
+};
+
 type orderInitialState = orderData & {
   productIndex: number | null;
   canclel: boolean;
   paymentMethod: number | null;
 };
 
-export { orderData, orderInitialState };
+export { orderData, orderInitialState, fullOrderData };

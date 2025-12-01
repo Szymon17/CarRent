@@ -9,7 +9,6 @@ import { dateToLocalString } from "../../utils/basicFunctions";
 import { selectProductByIndex } from "../../store/products/products.selectors";
 import { useNavigate } from "react-router-dom";
 import { saveOrderFetch } from "../../utils/fetchFunctions";
-import { saveUserOrder } from "../../store/user/user.reducer";
 import { toast } from "react-toastify";
 import { faCalendarAlt, faCarRear, faCreditCard, faEnvelope, faLocationDot, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,7 +34,6 @@ const Summary = () => {
       const status = await saveOrderFetch(order);
 
       if (status === "ok") {
-        dispatch(saveUserOrder({ car: product, data: order }));
         toast.success(t("Ordered"));
         navigate("/");
       }

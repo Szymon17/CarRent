@@ -86,14 +86,16 @@ async function addUserToDB(user: userData): Promise<void | Error> {
   ]);
 }
 
-async function getUserOrders(userOrders: userOrder[], index: number, itemsCount: number = 4) {
-  const ordersId: string[] = [];
-  for (let i = 1; i <= itemsCount; i++) {
-    const order = userOrders[userOrders.length - index - i];
-    if (order) ordersId.push(order.id);
-  }
+async function getUserOrders(userID: number, index: number) {
+  const query = `SELECT * FROM orders WHERE user_id = $1 AND id > $2 LIMIT(4)`;
+  let orders: Reservation[];
 
-  const orders = await getOrders(ordersId);
+  try {
+    orders = (await client.query<Reservation>(query, [userID, index])).rows;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 
   if (!Array.isArray(orders)) return [];
 
@@ -101,17 +103,17 @@ async function getUserOrders(userOrders: userOrder[], index: number, itemsCount:
   const cars = await getOffersById(cars_id);
 
   return orders.map(orderData => {
-    const car = JSON.parse(JSON.stringify(cars.find(car => car.id === orderData.car_id)));
+    const car = cars.find(car => Number(car.id) === Number(orderData.car_id));
     const data = JSON.parse(JSON.stringify(orderData));
 
-    delete car._id, delete data.user_id, delete data.car_id;
+    if (!car) return { data, car: "This car is not avilable" };
 
-    if (car)
-      return {
-        car,
-        data,
-      };
-    else return { data, car: "This car is not avilable" };
+    delete (car as any)._id, delete data.user_id, delete data.car_id;
+
+    return {
+      car,
+      data,
+    };
   });
 }
 
