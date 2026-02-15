@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { getAppEvent } from "../../store/app/app.selectors";
 
-type selectLocationsTypes = { value: string; changeState: Function };
+type selectLocationsTypes = { value: string; changeState: (value: string) => any };
 
 const SelectLocations: FC<selectLocationsTypes> = ({ value, changeState }) => {
   const locations = useAppSelector(selectLocations);

@@ -2,6 +2,14 @@
 @use "../../sass/mixins" as mixins
 @use '../../sass/break_points' as bp
 
+.filtres__data
+    display: flex
+    width: 100%
+    gap: 10px
+
+    & > div
+        width: 25%
+
 .offers
     @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start )
     padding-left: 20px
@@ -57,7 +65,12 @@
 
     &__products
         margin: 0 auto
-        max-width: 1000px          
+        width: 100%     
+
+        &-cnt
+            display: grid
+            grid-template-columns: repeat(3, 1fr)
+            gap: 20px 
             
 
     &__filters-switch

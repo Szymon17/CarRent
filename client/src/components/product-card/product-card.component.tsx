@@ -1,73 +1,49 @@
 import "./product-card.styles.sass";
 import { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGasPump, faGauge, faMoneyBill1, faUserGroup, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { saveOrderIndex } from "../../store/order/order.reducer";
 import { useAppDispatch } from "../../store/hooks";
 import { product } from "../../store/products/products.types";
-import Button, { BUTTON_CLASSES } from "../button/button.component";
 
 const ProductCard: FC<{ product: product }> = ({ product }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const goToProduct = () => {
-    dispatch(saveOrderIndex(product.index));
-    navigate("/product/" + product.brand + " " + product.model);
-  };
-
   return (
-    <div className="product-card">
-      <img className="product-card__img" src={product.image_url} />
-      <div className="product-card__description">
-        <div className="product-card__description__left">
-          <h2 className="product-card__description__title">{`${product.brand} ${product.model}`}</h2>
-          <div className="product-card__description__box"></div>
-          <div className="product-card__description__box__container">
-            <div className="product-card__description__icons">
-              <div className="product-card__description__icons-box">
-                <FontAwesomeIcon icon={faUserGroup} className="product-card__description__icons-box-icon" />
-                <span className="product-card__description__icons-value">{`${product.number_of_seats} ${t("seats")}`}</span>
-              </div>
-              <div className="product-card__description__icons-box">
-                <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-box-icon" />
-                <span className="product-card__description__icons-value"> {t(product.fuel_type)}</span>
-              </div>
-              <div className="product-card__description__icons-box">
-                <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-box-icon" />
-                <span className="product-card__description__icons-value">{product.power}hp</span>
-              </div>
-              <div className="product-card__description__icons-box">
-                <FontAwesomeIcon icon={faMoneyBill1} className="product-card__description__icons-box-icon" />
-                <span className="product-card__description__icons-value">{product.mileage} km</span>
-              </div>
-            </div>
-            <div className="product-card__description__box__traits">
-              {product.traits &&
-                product.traits.map(trait => (
-                  <div key={trait} className="product-card__trait">
-                    <FontAwesomeIcon icon={faCheck} className="product-card__trait__icon" />
-                    <span className="product-card__trait-text">{t(trait)}</span>
-                  </div>
-                ))}
-            </div>
+    <a href={"/product/" + product.brand + " " + product.model} className="product-card" onClick={() => dispatch(saveOrderIndex(product.index))}>
+      <div className="product-card__top">
+        <div className="product-card__top-box">
+          <div className="product-card__top__block">
+            <FontAwesomeIcon className="product-card__icon" icon={faCalendarAlt} />
+            <span>{product.year}</span>
+          </div>
+          <div className="product-card__top__block">
+            <FontAwesomeIcon className="product-card__icon -star" icon={faStar} />
+            <span className="rate">
+              5.0 <span>(150)</span>
+            </span>
           </div>
         </div>
-        <div className="product-card__description__box__right">
-          <span className="product-card__description__dailyPrice">
-            <span className="product-card__description__dailyPrice-text --from">{t("from")}</span>
-            <span className="product-card__description__dailyPrice">{Math.round(product.daily_price)} ZŁ</span>
-            <span className="product-card__description__dailyPrice-text"> / {t("Day")}</span>
+      </div>
+      <img className="product-card__img" src={product.image_url} alt={product.model} />
+      <div className="product-card__bottom">
+        <div className="product-card__bottom__left">
+          <h3 className="product-card__model">
+            {product.brand} {product.model}
+          </h3>
+          <div className="product-card__details">
+            {product.engine_capacity} {t(product.fuel_type)} ({product.power}HP)
+          </div>
+        </div>
+        <div className="product-card__bottom__right">
+          <span className="price">
+            {product.daily_price}Zł/<span className="price__unit">{t("Day")}</span>
           </span>
-          <Button buttonType={BUTTON_CLASSES.green} onClick={goToProduct}>
-            {t("Check")}
-          </Button>
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 

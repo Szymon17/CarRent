@@ -4,20 +4,25 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts, addProducts } from "../../store/products/products.actions";
 import { selectLastIndex, selectProductFetchState, selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCalendarAlt, faClose, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
+import { countDateFromToday, dateToLocalString } from "../../utils/basicFunctions";
+import * as filtresReducer from "../../store/filtres/filtres.reducer";
+import { selectFiltres } from "../../store/filtres/filtres.selector";
 import Filtres from "../../components/filtres/filtres.component";
 import ProductCard from "../../components/product-card/product-card.component";
 import Spinner from "../../components/spinner/spinner.component";
 import CustomError from "../../components/custom-error/custom-error.component";
+import SelectLocations from "../../components/select-locations/select-locations.component";
+import FormInput from "../../components/formInput/formInput.component";
 
 const regexp = /\?[\S]+/;
 
 const Offers = () => {
   const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
+  const filtresSelector = useAppSelector(selectFiltres);
   const productStatus = useAppSelector(selectProductsStatus);
   const products = useAppSelector(selectProducts);
   const lastIndex = useAppSelector(selectLastIndex);
@@ -71,12 +76,57 @@ const Offers = () => {
       </div>
       <main ref={productsRef} className="offers__main">
         <div className="offers__settings">
-          {/* <div className="checkboxes">
-            <div className="offers__checkbox-box">
-              <input type="checkbox" />
-              <span className="offers__checkbox-box-text">{t("Driver aged 25+")}</span>
+          <section className="filtres__data">
+            <div className="filtres__data__locations__box">
+              <span className="filtres__section__title">
+                <span className="section_ico">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </span>
+                {t("Pick up location")}
+              </span>
+              <SelectLocations value={filtresSelector.place_of_receipt} changeState={value => dispatch(filtresReducer.setPlaceOfReceipt(value))} />
             </div>
-          </div> */}
+            <div className="filtres__data__locations__box">
+              <span className="filtres__section__title">
+                <span className="section_ico">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </span>
+                {t("Return location")}
+              </span>
+              <SelectLocations value={filtresSelector.place_of_return} changeState={value => dispatch(filtresReducer.setPlaceOfReturn(value))} />
+            </div>
+
+            <div className="filtres__data__dates__box">
+              <span className="filtres__section__title">
+                <span className="section_ico">
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                </span>
+                {t("Pick up date")}
+              </span>
+              <FormInput
+                onChange={e => dispatch(filtresReducer.setDateOfReceipt(new Date(e.target.value)))}
+                value={dateToLocalString(new Date(filtresSelector.date_of_receipt))}
+                type="date"
+                min={countDateFromToday(1)}
+                max={countDateFromToday(0, 3)}
+              />
+            </div>
+            <div className="filtres__data__dates__box">
+              <span className="filtres__section__title">
+                <span className="section_ico">
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                </span>
+                {t("Return date")}
+              </span>
+              <FormInput
+                onChange={e => dispatch(filtresReducer.setDateOfReturn(new Date(e.target.value)))}
+                value={dateToLocalString(new Date(filtresSelector.date_of_return))}
+                type="date"
+                min={countDateFromToday(2)}
+                max={countDateFromToday(10, 3)}
+              />
+            </div>
+          </section>
         </div>
         {products.length > 0 && productStatus !== "loading" ? (
           <div onScroll={handleScroll} className="offers__products">
