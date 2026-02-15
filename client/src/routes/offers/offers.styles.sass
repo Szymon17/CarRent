@@ -4,11 +4,19 @@
 
 .filtres__data
     display: flex
+    flex-wrap: wrap
     width: 100%
-    gap: 10px
 
-    & > div
-        width: 25%
+    & > .filtres__data__locations__box, & .filtres__data__dates__box
+        padding: 0 5px
+        display: flex
+        flex-direction: column
+
+        @media (min-width: bp.$medium)
+            width: 25%
+
+        .section_ico
+            margin-right: 5px
 
 .offers
     @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start )
@@ -69,8 +77,11 @@
 
         &-cnt
             display: grid
-            grid-template-columns: repeat(3, 1fr)
+            grid-template-columns: repeat(1, 1fr)
             gap: 20px 
+
+            @media (min-width: bp.$small)
+                grid-template-columns: repeat(3, 1fr)
             
 
     &__filters-switch
@@ -90,7 +101,6 @@
         &-button
             width: 50px
             height: 50px
-            margin-right: 5px
             border: none
             background-color: #333
             color: white

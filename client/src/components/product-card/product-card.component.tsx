@@ -39,7 +39,7 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
         </div>
         <div className="product-card__bottom__right">
           <span className="price">
-            {product.daily_price}Zł/<span className="price__unit">{t("Day")}</span>
+            {product.daily_price}PLN/<span className="price__unit">{t("Day")}</span>
           </span>
         </div>
       </div>

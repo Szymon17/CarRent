@@ -133,9 +133,24 @@ const Summary = () => {
           </h3>
 
           {product && (
-            <section className="summary__left__data__section --product">
-              <ProductCard product={product} />
-            </section>
+            <a href={"/product/" + product.brand + " " + product.model} className="summary__left__data__section summary-product">
+              <img className="summary-product__img" src={product.image_url} alt={product.brand + " " + product.model} />
+              <div className="summary-product__detatils">
+                <div>
+                  <h3 className="summary-product__name">
+                    {product.brand} {product.model}
+                  </h3>
+                  <div className="summary-product__additional-text">
+                    {product.engine_capacity} {t(product.fuel_type)} ({product.power}HP)
+                  </div>
+                </div>
+                <div className="summary-product__details">
+                  <div className="summary-product__price">
+                    {product.daily_price}PLN/<span className="price__unit">{t("Day")}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
           )}
         </div>
       </div>

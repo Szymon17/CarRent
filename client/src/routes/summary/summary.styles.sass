@@ -14,9 +14,6 @@
     @media (min-width: bp.$medium)
         flex-direction: row
 
-    & .product-card__description__dailyPrice-text.--from
-        display: none
-
     &__section
         border: 1px solid vars.$border-color
         padding: 20px
@@ -32,7 +29,50 @@
         & > div
             flex-grow: 1
             flex-basis: 40%
-            font-size: 0.9em   
+            font-size: 0.9em  
+
+    & .summary-product
+        display: flex
+        gap: 10px
+        flex-direction: column
+
+        @media (min-width: bp.$small)
+            flex-direction: row
+
+        &__name
+            font-size: 1.3em
+
+        &__img
+            width: 100%
+            order: 1
+
+            @media (min-width: bp.$small)
+                height: 120px
+                width: auto
+                order: 0
+
+        &__detatils
+            flex-grow: 1
+            display: flex
+            justify-content: space-between
+            order: 1
+
+            @media (min-width: bp.$small)
+                flex-direction: column
+
+        &__price
+            font-size: 1.2em
+
+        & .price__unit
+            color: gray
+            font-size: 0.7em
+
+        &__additional-text
+            color: gray
+            font-size: 0.8em
+
+        &__price
+            text-align: right
 
     &__title
         display: flex

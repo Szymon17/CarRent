@@ -46,7 +46,6 @@ const Product = () => {
         const req = await fetch(`${serverUrl}/assistance_info`);
         const res = await req.json();
 
-        console.log(res.data, "moja");
         if (res.status === "ok") setCompanyInfo(res.data);
       } catch (error) {
         console.error(error);
@@ -75,7 +74,7 @@ const Product = () => {
 
                 <div className="product__header__description__prices">
                   <span className="product__header__description__price">{`${(productInStorage.daily_price * orderInStoreage.dayQuantity).toFixed(
-                    2
+                    2,
                   )}PLN`}</span>
                   <span className="product__header__description__dailyPrice">
                     {`${productInStorage.daily_price}PLN`} <span className="product__header__description__price-unit">{t("per day")}</span>
@@ -136,7 +135,7 @@ const Product = () => {
                 </div>
               </div>
               <div className="product__header__buttons">
-                <Button buttonType={BUTTON_CLASSES.green} onClick={() => navigate("/summary")}>
+                <Button buttonType={BUTTON_CLASSES.black} onClick={() => navigate("/summary")}>
                   {t("Reserve Vehicle")}
                 </Button>
               </div>
@@ -173,8 +172,8 @@ const Product = () => {
                   <h2 className="product__section-title">{t("Need Assistance?")}</h2>
                   <div className="product__section__content">
                     <ul className="product__assistance">
-                      {companyInfo.map(({ attribute_name, attribute_value }) => (
-                        <li className="product__assistance__item">
+                      {companyInfo.map(({ attribute_name, attribute_value }, index) => (
+                        <li key={index} className="product__assistance__item">
                           <span className="product__assistance__title">{attribute_name}</span>
                           <span className="product__assistance__value">{attribute_value}</span>
                         </li>
