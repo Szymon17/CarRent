@@ -5,8 +5,7 @@ const selectProductsReducer = (state: stateType) => state.products;
 
 const selectProducts = createSelector([selectProductsReducer], ({ products }) => products);
 
-const selectProductByIndex = (index: number) =>
-  createSelector([selectProductsReducer], ({ products }) => products.find(product => product.index === index));
+const selectProductByIndex = (id: number) => createSelector([selectProductsReducer], ({ products }) => products.find(product => product.id === id));
 
 const selectProductByName = (name: string) => {
   const [brand, model] = name.split(" ");
@@ -15,7 +14,7 @@ const selectProductByName = (name: string) => {
 };
 
 const selectLastIndex = createSelector([selectProductsReducer], ({ products }) =>
-  products[products.length - 1] ? products[products.length - 1].index : 0
+  products[products.length - 1] ? products[products.length - 1].id : 0,
 );
 
 const selectProductsStatus = createSelector([selectProductsReducer], ({ status }) => status);

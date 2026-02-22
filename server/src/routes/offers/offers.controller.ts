@@ -49,6 +49,7 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 
   const count = req.query.count ? (Number(req.query.count) >= 7 ? 4 : Number(req.query.count)) : 4;
 
+  //whitelist of filtres keys
   const filters = createFilters(req.query);
 
   if (
@@ -71,7 +72,7 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 }
 
 async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIndex: number }> & UserRequest, res: Response) {
-  if (req.user && req.body.productIndex && req.body.payment_id && validateOrderData(req.body.userData)) {
+  if (req.user && typeof req.body.productIndex === "number" && typeof req.body.payment_id === "number" && validateOrderData(req.body.userData)) {
     const product = await getOfferByIndex(req.body.productIndex);
 
     const chargedAccount = true;
@@ -83,8 +84,8 @@ async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIn
 
       const orderResult = await saveOrder(order);
 
-      if (orderResult && product.index) {
-        const userResult = await updateUserOrders(orderResult.user_id.toString(), product.index, req.user);
+      if (orderResult && product.id) {
+        const userResult = await updateUserOrders(orderResult.user_id.toString(), product.id, req.user);
         if (userResult) res.status(202).json({ status: "ok", message: "Created order" });
         else res.status(404).json({ status: "error", message: "This order is unvilable" });
       } else res.status(404).json({ status: "error", message: "This order is unvilable" });

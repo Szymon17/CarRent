@@ -12,7 +12,7 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
   const { t } = useTranslation();
 
   return (
-    <a href={"/product/" + product.brand + " " + product.model} className="product-card" onClick={() => dispatch(saveOrderIndex(product.index))}>
+    <a href={"/product/" + product.brand + " " + product.model} className="product-card" onClick={() => dispatch(saveOrderIndex(product.id))}>
       <div className="product-card__top">
         <div className="product-card__top-box">
           <div className="product-card__top__block">

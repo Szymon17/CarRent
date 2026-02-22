@@ -23,7 +23,11 @@ async function getUnvilableCars(receiptDate: Date, returnDate: Date) {
 
 async function getAvilableCars(lastIndex: number, filters: aditionalfilters, count: number, basicFiltersData: dataToGetoffers) {
   const { receiptDate, returnDate, receiptLocation, price_from, price_to } = basicFiltersData;
+  // TODO: add validate filtres logic here
+  // safe for now because values are whitelisted before
 
+  // TODO: parametrize orders instead of join() for SQL safety
+  // safe for now because values come from DB only
   let unvilableCars: { car_id: string }[] = await getUnvilableCars(receiptDate, returnDate);
 
   const orders = unvilableCars.map(order => order.car_id);
@@ -52,12 +56,12 @@ LEFT JOIN car_addons_map am ON am.car_id = c.id
 LEFT JOIN car_addons a ON a.id = am.addon_id
 WHERE 
     ${orders.length > 0 ? `c.id NOT IN (${orders.join(",")}) AND` : ""}
-    c.index < $1
+    c.id < $1
     AND c.daily_price BETWEEN $2 AND $3
     AND c.localisation = $4
     ${filterConditions.length > 0 ? `AND ${filterConditions.join(" AND ")}` : ""}
 GROUP BY c.id
-ORDER BY c.index DESC
+ORDER BY c.id DESC
 LIMIT $5;
   `;
 

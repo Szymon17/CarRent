@@ -30,7 +30,9 @@ const Summary = () => {
   }, [user]);
 
   const submit = async () => {
-    if (product?.index) {
+    console.log(order);
+
+    if (product?.id) {
       const status = await saveOrderFetch(order);
 
       if (status === "ok") {
