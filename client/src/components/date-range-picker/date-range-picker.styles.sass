@@ -1,0 +1,229 @@
+@use "../../sass/varibles" as vars
+@use "../../sass/mixins" as mixins
+@use "../../sass/break_points" as bp
+
+.date-range-picker
+    width: 100%
+
+    &__label
+        display: none
+
+    &__container
+        display: flex
+        align-items: center
+        gap: 6px
+        flex-wrap: nowrap
+        width: 100%
+        height: 100%
+
+        @media (max-width: bp.$extra-large)
+            width: 100%
+
+    &__item
+        position: relative
+        flex: 1
+        min-width: 140px
+
+    &__input-wrapper
+        position: relative
+        display: flex
+        align-items: center
+        height: 36px
+        background: white
+        border: 2px solid #e8eef0
+        border-radius: 12px
+        padding: 0 12px
+        cursor: pointer
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+        gap: 6px
+
+        &:hover
+            border-color: vars.$secondary-color
+            background: #fafafa
+
+        &:focus-within
+            border-color: vars.$secondary-color
+            background: linear-gradient(135deg, #f0fdf4, rgba(240, 253, 244, 0.5))
+            box-shadow: 0 0 0 4px rgba(56, 185, 67, 0.12)
+
+    &__icon
+        display: flex
+        align-items: center
+        justify-content: center
+        color: #999
+        font-size: 0.75em
+        flex-shrink: 0
+
+    &__input
+        flex: 1
+        border: none
+        background: transparent
+        outline: none
+        padding: 0
+        font-size: 0.8em
+        color: #333
+        font-weight: 500
+        cursor: pointer
+        user-select: none
+        line-height: 36px
+
+        &:disabled
+            opacity: 0.6
+            cursor: not-allowed
+
+    &__separator
+        color: #d0d0d0
+        font-size: 1.1em
+        font-weight: 300
+        user-select: none
+        margin: 0 -2px
+
+    &__popup
+        position: absolute
+        top: 100%
+        left: 0
+        z-index: 1000
+        border-radius: 12px
+        margin-top: 8px
+        padding: 8px
+        min-width: 320px
+
+        &--right
+            left: auto
+            right: 0
+
+    // React DatePicker overrides
+    :global(.react-datepicker)
+        border: none
+        background: white
+        padding: 12px
+        font-family: inherit
+        width: 100%
+
+    :global(.react-datepicker__month-container)
+        width: 100%
+
+    :global(.react-datepicker__header)
+        background: white
+        border: none
+        border-bottom: 1px solid #e8e8e8
+        padding: 12px 0
+        margin-bottom: 12px
+
+    :global(.react-datepicker__day-name)
+        color: #999
+        font-size: 0.75em
+        font-weight: 600
+        width: calc(100% / 7)
+        line-height: 28px
+        margin: 0
+
+    :global(.react-datepicker__day),
+    :global(.react-datepicker__time-name)
+        width: calc(100% / 7)
+        line-height: 32px
+        color: #333
+        font-size: 0.85em
+        margin: 2px 0
+        border-radius: 6px
+        transition: all 0.2s ease
+
+        &:hover
+            background: #f5f5f5
+            color: vars.$secondary-color
+
+    :global(.react-datepicker__day--selected),
+    :global(.react-datepicker__day--keyboard-selected)
+        background: vars.$secondary-color
+        color: white
+        border-radius: 6px
+        font-weight: 600
+
+        &:hover
+            background: darken(vars.$secondary-color, 5%)
+
+    :global(.react-datepicker__day--in-range)
+        background: #e8f5e9
+        color: #333
+        border-radius: 0
+
+    :global(.react-datepicker__day--range-start),
+    :global(.react-datepicker__day--range-end)
+        border-radius: 6px
+        background: vars.$secondary-color
+        color: white
+
+    :global(.react-datepicker__day--disabled)
+        opacity: 0.5
+        cursor: not-allowed
+        color: #ccc
+
+    :global(.react-datepicker__input-container)
+        position: relative
+
+    :global(.react-datepicker__month)
+        margin: 0
+
+    :global(.react-datepicker__year-dropdown-container),
+    :global(.react-datepicker__month-dropdown-container)
+        display: inline-block
+        margin: 0 4px
+
+    :global(.react-datepicker__year-dropdown),
+    :global(.react-datepicker__month-dropdown)
+        position: absolute
+        background: white
+        border: 1px solid #e8e8e8
+        border-radius: 6px
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+        padding: 8px 0
+        max-height: 200px
+        overflow-y: auto
+
+    :global(.react-datepicker__year-option),
+    :global(.react-datepicker__month-option)
+        padding: 8px 12px
+        color: #333
+        cursor: pointer
+        transition: all 0.2s ease
+        font-size: 0.75em
+
+        &:hover
+            background: #f5f5f5
+            color: vars.$secondary-color
+
+        &.react-datepicker__year-option--selected,
+        &.react-datepicker__month-option--selected
+            background: vars.$secondary-color
+            color: white
+            font-weight: 600
+
+    :global(.react-datepicker__navigation)
+        top: 14px
+        line-height: 20px
+        width: 24px
+        height: 24px
+        display: flex
+        align-items: center
+        justify-content: center
+        border: 1px solid #e8e8e8
+        border-radius: 4px
+        background: white
+        color: #666
+        transition: all 0.2s ease
+        cursor: pointer
+
+        &:hover
+            border-color: vars.$secondary-color
+            color: vars.$secondary-color
+            background: #fafafa
+
+    :global(.react-datepicker__navigation--previous)
+        left: 12px
+
+    :global(.react-datepicker__navigation--next)
+        right: 12px
+
+    :global(.react-datepicker__navigation-icon::before)
+        border-width: 1.5px
+        border-color: currentColor

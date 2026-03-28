@@ -1,69 +1,105 @@
 .selectLocations
     position: relative
-    height: 35px
+    height: 36px
     user-select: none
-    background: #ffffff
-    border-radius: 4px
+    background: white
+    border-radius: 12px
+    border: 2px solid #e8eef0
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    display: flex
+    align-items: center
+
+    &:focus-within
+        border-color: #38b943
+        background: linear-gradient(135deg, #f0fdf4, rgba(240, 253, 244, 0.5))
+        box-shadow: 0 0 0 4px rgba(56, 185, 67, 0.12)
+
+    &:hover
+        border-color: #38b943
 
     &__selectBox
-        position: relative
+        position: absolute
+        top: 100%
+        left: 0
+        right: 0
         width: 100%
-        transition: 0.3s all
-        z-index: 3
-        background: #ffffff
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+        z-index: 999
+        background: white
         display: none
-        border-radius: 5px
-        transform: translateY(5px)
-        padding: 5px
-        box-shadow: 0 3px 7px 1px rgba(0, 0, 0, 0.2)
+        border-radius: 12px
+        margin-top: 8px
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08)
+        border: 1px solid #e8eef0
+        overflow: hidden
 
         &__container
-            max-height: 143px
-            overflow: auto
+            max-height: 220px
+            overflow-y: auto
+            padding: 6px 0
         
     &__option
-        line-height: 35px
+        line-height: 32px
         cursor: pointer
-        font-size: 0.9em
-        transition: 0.2s all
-        border-radius: 3px
-        padding-left: 10px
+        font-size: 0.8em
+        transition: all 0.2s ease
+        padding: 0 12px
+        color: #666
+        font-weight: 500
 
         &:hover
-            background-color: #dfdfdf
-            color: black
+            background: #f5f5f5
+            color: #38b943
+            font-weight: 600
+
+        &.selected
+            background: #f5f5f5
+            color: #38b943
+            font-weight: 700
 
     &__selected
-        padding-left: 15px
-        line-height: 35px
-        height: 35px
-        color: black
+        padding: 0 12px
+        line-height: 36px
+        height: 36px
+        color: #333
+        font-weight: 500
+        font-size: 0.8em
+        color: #1a1a1a
         cursor: pointer
-        font-size: 0.9em
         font-weight: 600
-        border-radius: 3px
-        line-height: 35px
+        border-radius: 12px
+        display: flex
+        align-items: center
+        background: white
+        transition: all 0.2s ease
+        flex: 1
+        width: 100%
     
     &__icon
         position: absolute
-        right: 20px
+        right: 16px
         top: 50%
         transform: translateY(-50%)
         pointer-events: none
-        color: black
+        color: #999
+        font-size: 0.8em
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+        z-index: 1
 
-    &.extend > .selectLocations__selectBox
-        display: block
-        animation: showElement 0.3s forwards
+    &.extend 
+        & > .selectLocations__selectBox
+            display: block
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards
 
-@keyframes showElement
+        & > .selectLocations__icon
+            color: #38b943
+            transform: translateY(-50%) rotate(180deg)
+
+@keyframes slideDown
     0%
-        display: none
-    1%
-        display: block
-        transform: translate(-2px, 2px)
         opacity: 0
-    50%
-        opacity: 1
+        transform: translateY(-10px)
+        
     100% 
-        transform: translate(0, 10px)
+        opacity: 1
+        transform: translateY(0)

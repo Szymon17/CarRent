@@ -3,8 +3,8 @@
 .spinner
     content: ""
     position: relative
-    width: 50px
-    height: 50px
+    width: 60px
+    height: 60px
  
     &::after
         content: ""
@@ -12,9 +12,11 @@
         width: 100%
         height: 100%
         border-radius: 50%
-        border: 5px solid white
-        border-top: 5px solid black
-        animation: spinner 1s infinite
+        border: 4px solid rgba(56, 185, 67, 0.1)
+        border-top: 4px solid #38b943
+        border-right: 4px solid #38b943
+        animation: spinner 0.8s linear infinite
+        box-shadow: 0 0 15px rgba(56, 185, 67, 0.2)
     
 @keyframes spinner
     0% 

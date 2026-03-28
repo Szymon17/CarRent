@@ -3,114 +3,129 @@
     
 .button
     position: relative
-    padding: 0 30px
-    height: 40px
+    padding: 0 24px
+    height: 38px
     border: none
     outline: none
     font-weight: 600
     cursor: pointer
-    border-radius: 3px
-    transition: all 0.3s
+    border-radius: 8px
+    transition: all 0.2s ease
     overflow: hidden
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    font-size: 0.9em
+    letter-spacing: 0
+    display: inline-flex
+    align-items: center
+    justify-content: center
 
     @media (max-width: bp.$medium)
-        font-size: 1em        
-
-    &::before
-        transition: all 0.3s
+        font-size: 0.85em
+        padding: 0 20px
+        height: 36px
 
     &__text
         position: relative
         z-index: 1
 
     &__green
-        background-color: #31b63c
-        color: #ffffff
+        background: #38b943
+        color: white
+        box-shadow: 0 2px 6px rgba(56, 185, 67, 0.15)
 
         &:hover
-            background-color: #24922d
+            background: #2d8835
+            box-shadow: 0 3px 8px rgba(56, 185, 67, 0.2)
+
+        &:active
+            box-shadow: 0 1px 3px rgba(56, 185, 67, 0.15)
 
     &__black
-        background-color: #333
+        background: #333
         color: white
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1)
 
         &:hover
-            background-color: #3a3a3a
+            background: #1a1a1a
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15)
+
+        &:active
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
 
     &__reverse
-        background-color: #ebebeb
-        color: black
-        font-weight: 700
+        background: #f0f0f0
+        color: #333
+        font-weight: 600
+        box-shadow: none
 
-        &:hover
-            background-color: #b4b4b4
-            color: #333
+        &:active
+            background: #d5d5d5
 
     &__disable
-        cursor: default
-        background-color: silver
+        cursor: not-allowed
+        background: #e8e8e8
+        color: #999
+        opacity: 1
 
     &__red
-        border-radius: 0
-        background-color: transparent
-        border: 2px solid red
-        color: white
-
-        &::before
-            content: ""
-            position: absolute
-            left: 0
-            top: 0
-            width: 100%
-            height: 0
-            background-color: red      
-            opacity: 0.5
+        border-radius: 8px
+        background: transparent
+        border: 1px solid #d32f2f
+        color: #d32f2f
+        box-shadow: none
+        transition: all 0.2s ease
 
         &:hover
-            background-color: transparent
-            box-shadow: 0 0 15px 2px red
+            background: #fce4ec
+            border-color: #d32f2f
 
-            &::before
-                height: 100%
-                opacity: 1
+        &:active
+            background: #f8bbd0
 
 .number__button-cnt
     display: flex
-    width: 130px
-    padding: 5px
-    background: #333
-    border-radius: 3px
-    gap: 5px
+    width: 140px
+    padding: 4px
+    background: #f5f5f5
+    border-radius: 8px
+    gap: 4px
     position: relative
+    box-shadow: none
 
     & > button
-        min-width: 30px
-        max-width: 30px
-        background: #333
-        color: white
+        flex: 1
+        background: white
+        color: #666
         margin: 0
         outline: none
-        border: none
+        border: 1px solid #e8e8e8
         cursor: pointer
-        transition: all 0.3s 
+        border-radius: 6px
+        transition: all 0.2s ease
+        font-weight: 500
+        font-size: 0.85em
 
         &:hover
-            background: adjust-color(#333, $lightness: 10%)
+            background: #38b943
+            color: white
+            border-color: #38b943
+
+        &:active
+            background: #2d8835
 
     & > input
-        width: 50px
+        width: 70px
         text-align: center
-        padding-right: 30px
-        background: #333
-        color: white
+        border: none
+        border-radius: 4px
+        font-size: 0.85em
 
     & .placeholder
         position: absolute
-        left: calc(50% - 7px)
+        left: calc(50% - 5px)
         top: 50%
-        color: white
         z-index: 10
+        font-size: 0.85em
         font-size: 12px
         transform: translateY(-50%)
 

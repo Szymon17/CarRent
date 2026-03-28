@@ -291,6 +291,35 @@
             font-size: 0.7em
             padding-left: 7px
             color: #5f5f5f
+
+.fetchError
+    min-height: calc(100vh - vars.$navHeight)
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 20px
+    background-color: vars.$container-color
+
+    &__content
+        text-align: center
+        max-width: 500px
+        padding: 40px
+        background: vars.$windows-color
+        border: 1px solid vars.$border-color
+        border-radius: 8px
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+
+    &__title
+        font-size: 1.5em
+        font-weight: 600
+        color: vars.$text-color
+        margin-bottom: 15px
+
+    &__message
+        font-size: 1em
+        color: #666
+        margin-bottom: 30px
+        line-height: 1.5
             
             
             

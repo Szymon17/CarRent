@@ -11,7 +11,6 @@ import { faCheck, faCalendarAlt, faLocationArrow, IconDefinition } from "@fortaw
 import { replaceProducts } from "../../store/products/products.reducer";
 import { selectOrder } from "../../store/order/order.selector";
 import { saveOrderDays } from "../../store/order/order.reducer";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import Button, { BUTTON_CLASSES } from "../../components/button/button.component";
 import NumberButton from "../../components/button/numberButton.component";
 import ProductDetails from "../../components/product-details/product-details.component";
@@ -36,7 +35,6 @@ const Product = () => {
     const fetchProduct = async () => {
       if (decodedName) {
         const res = await getProductByNameFetch(decodedName);
-
         if (res) dispatch(replaceProducts([res]));
       }
     };
@@ -63,7 +61,7 @@ const Product = () => {
         <div className="product container">
           <header className="product__header">
             <div className="product__header__img__cnt">
-              <img className="product__header__img" src={"/Eksport/Golf.png"} alt="car image" />
+              <img className="product__header__img" src={productInStorage.image_url} alt="car image" />
             </div>
             <div className="product__header__description">
               <div className="product__header__description__top">
@@ -91,12 +89,7 @@ const Product = () => {
                   <div className="product__configuration__block">
                     <span className="product__configuration__block__title">{t("Number of days")}</span>
                     <div className="product__configuration__block__element">
-                      <NumberButton
-                        min={1}
-                        max={30}
-                        state={{ get: orderInStoreage.dayQuantity, set: saveOrderDays as ActionCreatorWithPayload<number> }}
-                        onClick={() => null}
-                      >
+                      <NumberButton min={1} max={30} value={orderInStoreage.dayQuantity} onChange={value => dispatch(saveOrderDays(value))}>
                         {orderInStoreage.dayQuantity > 1 ? t("Days") : t("Day")}
                       </NumberButton>
                     </div>
@@ -186,7 +179,17 @@ const Product = () => {
           </main>
         </div>
       ) : (
-        <div className="fetchError"></div>
+        <div className="fetchError">
+          <div className="fetchError__content">
+            <h2 className="fetchError__title">{t("Product Not Found")}</h2>
+            <p className="fetchError__message">
+              {t("Sorry, the product you're looking for could not be found. It may have been removed or the link is incorrect.")}
+            </p>
+            <Button buttonType={BUTTON_CLASSES.black} onClick={() => navigate("/offers")}>
+              {t("Browse Other Vehicles")}
+            </Button>
+          </div>
+        </div>
       )}
     </>
   );

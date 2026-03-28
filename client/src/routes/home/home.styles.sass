@@ -44,8 +44,13 @@
             left: 50%
             top: 20%
             transform: translateX(-50%)
-            width: clamp(340px, 50%, 700px)
-            height: 55%
+            width: clamp(340px, 80%, 700px)
+            height: 75%
+            max-height: 350px
+
+            @media (min-width: bp.$small)
+                height: 55%
+                max-height: 250px
 
     &__beneffits
         margin-top: 30px

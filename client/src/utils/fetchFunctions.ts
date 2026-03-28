@@ -107,6 +107,7 @@ const getProductsFetch = async (params: string): Promise<product[] | void> => {
 
 const getProductByNameFetch = async (name: string): Promise<product | void> => {
   try {
+    console.log(name);
     const res = await fetch(`${serverUrl}/offers/product/${name}`);
     const status: fetchType<product> = await res.json();
 
@@ -133,8 +134,6 @@ const getPaymentMethodsFetch = async () => {
   try {
     const res = await fetch(`${serverUrl}/payment_methods`);
     const data: fetchType<paymentState[]> = await res.json();
-
-    console.log(data);
 
     if (data.status === "ok") return data.payload;
     else console.log("Get request to server failed");
@@ -165,7 +164,7 @@ const saveOrderFetch = async (data: orderInitialState) => {
     const status: fetchType<null> = await res.json();
 
     if (status.status === "ok") return status.status;
-    else console.log("Get request to server failed");
+    else console.log("request to server failed");
   } catch (error) {
     console.log(error);
   }

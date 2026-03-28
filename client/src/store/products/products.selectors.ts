@@ -8,9 +8,9 @@ const selectProducts = createSelector([selectProductsReducer], ({ products }) =>
 const selectProductByIndex = (id: number) => createSelector([selectProductsReducer], ({ products }) => products.find(product => product.id === id));
 
 const selectProductByName = (name: string) => {
-  const [brand, model] = name.split(" ");
+  const [brand, model, id] = name.split("-");
 
-  return createSelector([selectProductsReducer], ({ products }) => products.find(product => product.model === model && product.brand === brand));
+  return createSelector([selectProductsReducer], ({ products }) => products.find(product => product.id === +id));
 };
 
 const selectLastIndex = createSelector([selectProductsReducer], ({ products }) =>

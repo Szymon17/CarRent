@@ -14,6 +14,7 @@ import { selectFiltres } from "../../store/filtres/filtres.selector";
 import * as filtresReducer from "../../store/filtres/filtres.reducer";
 import Checkbox from "../checkbox/checkbox.component";
 import Button, { BUTTON_CLASSES } from "../button/button.component";
+import PriceInput from "./price-input/price-input.component";
 
 const MAX_VALUE = 1000;
 const MAX_DIFF = 100;
@@ -162,28 +163,18 @@ const Filtres = () => {
         </div>
 
         <div className="filtres__price__inputs">
-          <div className="filtres__price__input-box">
-            <label>From</label>
-            <input
-              value={filtresSelector.inputMinValue}
-              onInput={e => dispatch(filtresReducer.setInputMinValue(+e.currentTarget.value))}
-              onBlur={e => rangeInputHandler(e, "min")}
-              className="filtres__price__inputs__min"
-              type="text"
-            />
-            <span className="unit">ZŁ</span>
-          </div>
-          <div className="filtres__price__input-box">
-            <label>To</label>
-            <input
-              value={filtresSelector.inputMaxValue}
-              onInput={e => dispatch(filtresReducer.setInputMaxValue(+e.currentTarget.value))}
-              onBlur={e => rangeInputHandler(e, "max")}
-              className="filtres__price__inputs__max"
-              type="text"
-            />
-            <span className="unit">ZŁ</span>
-          </div>
+          <PriceInput
+            label="From"
+            value={filtresSelector.inputMinValue}
+            onChange={value => dispatch(filtresReducer.setInputMinValue(value))}
+            onBlur={e => rangeInputHandler(e, "min")}
+          />
+          <PriceInput
+            label="To"
+            value={filtresSelector.inputMaxValue}
+            onChange={value => dispatch(filtresReducer.setInputMaxValue(value))}
+            onBlur={e => rangeInputHandler(e, "max")}
+          />
         </div>
       </section>
 

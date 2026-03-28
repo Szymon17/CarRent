@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts, addProducts } from "../../store/products/products.actions";
 import { selectLastIndex, selectProductFetchState, selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCalendarAlt, faClose, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose, faLocationDot, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
-import { countDateFromToday, dateToLocalString } from "../../utils/basicFunctions";
+import { countDateFromToday } from "../../utils/basicFunctions";
 import * as filtresReducer from "../../store/filtres/filtres.reducer";
 import { selectFiltres } from "../../store/filtres/filtres.selector";
 import Filtres from "../../components/filtres/filtres.component";
@@ -15,7 +15,7 @@ import ProductCard from "../../components/product-card/product-card.component";
 import Spinner from "../../components/spinner/spinner.component";
 import CustomError from "../../components/custom-error/custom-error.component";
 import SelectLocations from "../../components/select-locations/select-locations.component";
-import FormInput from "../../components/formInput/formInput.component";
+import DateRangePicker from "../../components/date-range-picker/date-range-picker.component";
 
 const regexp = /\?[\S]+/;
 
@@ -103,12 +103,17 @@ const Offers = () => {
                 </span>
                 {t("Pick up date")}
               </span>
-              <FormInput
-                onChange={e => dispatch(filtresReducer.setDateOfReceipt(new Date(e.target.value)))}
-                value={dateToLocalString(new Date(filtresSelector.date_of_receipt))}
-                type="date"
-                min={countDateFromToday(1)}
-                max={countDateFromToday(0, 3)}
+              <DateRangePicker
+                startDate={new Date(filtresSelector.date_of_receipt)}
+                endDate={new Date(filtresSelector.date_of_return)}
+                onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+                onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
+                minStartDate={new Date(countDateFromToday(1))}
+                maxStartDate={new Date(countDateFromToday(0, 3))}
+                minEndDate={new Date(countDateFromToday(2))}
+                maxEndDate={new Date(countDateFromToday(10, 3))}
+                type="single"
+                singleMode="start"
               />
             </div>
             <div className="filtres__data__dates__box">
@@ -118,12 +123,17 @@ const Offers = () => {
                 </span>
                 {t("Return date")}
               </span>
-              <FormInput
-                onChange={e => dispatch(filtresReducer.setDateOfReturn(new Date(e.target.value)))}
-                value={dateToLocalString(new Date(filtresSelector.date_of_return))}
-                type="date"
-                min={countDateFromToday(2)}
-                max={countDateFromToday(10, 3)}
+              <DateRangePicker
+                startDate={new Date(filtresSelector.date_of_receipt)}
+                endDate={new Date(filtresSelector.date_of_return)}
+                onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+                onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
+                minStartDate={new Date(countDateFromToday(2))}
+                maxStartDate={new Date(countDateFromToday(10, 3))}
+                minEndDate={new Date(countDateFromToday(2))}
+                maxEndDate={new Date(countDateFromToday(10, 3))}
+                type="single"
+                singleMode="end"
               />
             </div>
           </section>

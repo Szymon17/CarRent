@@ -1,0 +1,63 @@
+@use "../../../sass/varibles" as var
+@use "../../../sass/break_points" as bp
+
+.price-input
+  display: flex
+  flex-direction: column
+  gap: 6px
+  flex: 1
+
+  &__label
+    font-size: 0.75em
+    font-weight: 600
+    color: #666
+    text-transform: uppercase
+    letter-spacing: 0.7px
+    margin: 0
+
+  &__wrapper
+    position: relative
+    display: flex
+    align-items: center
+    width: 100%
+
+  &__field
+    width: 100%
+    height: 36px
+    padding: 8px 12px
+    padding-right: 32px
+    border: 1px solid #e8e8e8
+    border-radius: 6px
+    font-size: 0.9em
+    font-weight: 500
+    color: #333
+    background: white
+    transition: all 0.2s ease
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+
+    &:hover
+      border-color: #d0d0d0
+
+    &:focus
+      outline: none
+      border-color: var.$secondary-color
+      background: white
+      box-shadow: 0 0 0 2px rgba(56, 185, 67, 0.1)
+
+    /* Remove spinner arrows */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button
+      -webkit-appearance: none
+      margin: 0
+
+    &[type="number"]
+      -moz-appearance: textfield
+
+  &__unit
+    position: absolute
+    right: 12px
+    font-size: 0.85em
+    font-weight: 600
+    color: #999
+    pointer-events: none
+    user-select: none

@@ -47,7 +47,7 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
   const price_from = Number(req.query.price_from) || 0;
   const price_to = Number(req.query.price_to) || 500;
 
-  const count = req.query.count ? (Number(req.query.count) >= 7 ? 4 : Number(req.query.count)) : 4;
+  const count = req.query.count ? (Number(req.query.count) > 9 ? 9 : Number(req.query.count)) : 9;
 
   //whitelist of filtres keys
   const filters = createFilters(req.query);
@@ -64,9 +64,11 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 
     if (timeDiff > tenDaysInMs) return res.status(404).json({ status: "error", message: "your rent time is too long" });
 
-    const avilableCars = await getAvilableCars(lastIndex, filters, count, { returnDate, receiptLocation, receiptDate, price_from, price_to });
+    const basicFiltres = { returnDate, receiptLocation, receiptDate, price_from, price_to };
+    const avilableCars = await getAvilableCars(lastIndex, filters, count, basicFiltres);
 
-    if (avilableCars.length === 0) return res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
+    if (avilableCars && avilableCars.length === 0)
+      return res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
     else return res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
   } else return res.status(404).json({ status: "error", message: "your data in filters is invalid" });
 }
@@ -77,15 +79,15 @@ async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIn
 
     const chargedAccount = true;
 
-    if (product && chargedAccount) {
+    if (product && chargedAccount && !product.borrowed) {
       const user_id = req.user.user_id;
       const car_id = product.id as string;
-      const order = { ...req.body.userData, user_id, car_id, cancel: false, payment_method_id: req.body.payment_id };
+      const order = { ...req.body.userData, user_id, car_id, payment_method_id: req.body.payment_id };
 
       const orderResult = await saveOrder(order);
 
-      if (orderResult && product.id) {
-        const userResult = await updateUserOrders(orderResult.user_id.toString(), product.id, req.user);
+      if (orderResult && product) {
+        const userResult = await updateUserOrders(orderResult.user_id.toString(), +product.id, req.user);
         if (userResult) res.status(202).json({ status: "ok", message: "Created order" });
         else res.status(404).json({ status: "error", message: "This order is unvilable" });
       } else res.status(404).json({ status: "error", message: "This order is unvilable" });
@@ -93,15 +95,16 @@ async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIn
   } else res.status(404).json({ status: "error", message: "bad data request" });
 }
 
-async function httpGetProductByName(req: RequestWithQuery<{ index: number }>, res: Response) {
-  const productName = decodeURIComponent((req.params as any).productName);
+async function httpGetProductByIndex(req: RequestWithQuery<{ index: number }>, res: Response) {
+  const productParams = decodeURIComponent((req.params as any).product).split("-");
+  const index = productParams[2] ? Number(productParams[2]) : null;
 
-  if (productName) {
-    const product = await getOfferByName(productName);
+  if (index) {
+    const product = await getOfferByIndex(index);
 
     if (product) return res.status(200).json({ status: "ok", message: "Responsed product", payload: product });
     else return res.status(404).json({ status: "error", message: "Your product index is invalid" });
   } else return res.status(404).json({ status: "error", message: "There is nothing to return" });
 }
 
-export { httpGetOffers, httpPostOrder, httpGetProductByName };
+export { httpGetOffers, httpPostOrder, httpGetProductByIndex };

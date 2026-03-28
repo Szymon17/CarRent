@@ -1,22 +1,31 @@
 @use "../../sass/varibles" as vars
 
 .custom-checkbox
-    min-width: 50px
+    min-width: 52px
     text-align: center
-    line-height: 25px
-    border-radius: 3px
-    border: 1px solid #ccc
+    line-height: 28px
+    border-radius: 10px
+    border: 2px solid #e8eef0
     user-select: none
     cursor: pointer
-    transition: all 0.3s
-    padding: 0 5px
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    padding: 7px 10px
+    background: white
+    font-weight: 600
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05)
 
     &.checked, &:hover
-        border-color: vars.$primary-color
+        border-color: vars.$secondary-color
+        background: linear-gradient(135deg, rgba(56, 185, 67, 0.08), rgba(56, 185, 67, 0.04))
+        box-shadow: 0 4px 12px rgba(56, 185, 67, 0.15)
 
         & .custom-checkbox__label
+            color: vars.$secondary-color
+            font-weight: 700
 
     &__label
-        color: #333
+        color: #666
         pointer-events: none
         font-size: 0.9em
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+        font-weight: 600

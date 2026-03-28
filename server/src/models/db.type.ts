@@ -17,6 +17,7 @@ interface Car {
   index: number;
   addons: string[];
   localisation: string;
+  borrowed: boolean;
 }
 
 interface Reservation {
@@ -26,5 +27,4 @@ interface Reservation {
   date_of_return: Date;
   place_of_receipt: string;
   place_of_return: string;
-  cancel: boolean;
 }
