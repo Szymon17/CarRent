@@ -1,4 +1,4 @@
-interface Car {
+export interface Car {
   id: string;
   year: number;
   number_of_seats: number;
@@ -20,7 +20,7 @@ interface Car {
   borrowed: boolean;
 }
 
-interface Reservation {
+export interface Reservation {
   car_id: string;
   user_id: string;
   date_of_receipt: Date;

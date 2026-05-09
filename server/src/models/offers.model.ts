@@ -1,5 +1,6 @@
 import client from "../services/pg.js";
 import { aditionalfilters, dataToGetoffers, order } from "../types/basicTypes.js";
+import { Car, Reservation } from "./db.type.js";
 
 async function getAvilableCars(lastIndex: number, filters: aditionalfilters, count: number, basicFiltersData: dataToGetoffers) {
   const { receiptDate, returnDate, receiptLocation, price_from, price_to } = basicFiltersData;

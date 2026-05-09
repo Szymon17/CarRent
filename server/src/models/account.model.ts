@@ -1,6 +1,7 @@
 import client from "../services/pg.js";
 import { userSnapshot, update, userData, userOrder } from "../types/basicTypes.js";
 import { validate } from "../utils/validate.js";
+import { Reservation } from "./db.type.js";
 import { getOffersById, getOrders } from "./offers.model.js";
 import bcrypt = require("bcrypt");
 
@@ -108,7 +109,7 @@ async function getUserOrders(userID: number, index: number) {
 
     if (!car) return { data, car: "This car is not avilable" };
 
-    delete (car as any)._id, delete data.user_id, delete data.car_id;
+    (delete (car as any)._id, delete data.user_id, delete data.car_id);
 
     return {
       car,
