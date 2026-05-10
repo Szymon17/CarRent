@@ -1,10 +1,16 @@
-import "dotenv/config";
-import express = require("express");
-import cookieParser = require("cookie-parser");
-import api from "./routes/api.js";
-import cors = require("cors");
+import path from "path";
+import dotenv from "dotenv";
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import helmet from "helmet";
+
+import api from "./routes/api.js";
 import client from "./services/pg.js";
+
+dotenv.config({
+  path: path.resolve(__dirname, "../.env"),
+});
 
 const app = express();
 
@@ -18,14 +24,16 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
+
 app.use("/api", api);
 
 app.listen(process.env.PORT, async () => {
   console.log("Starting server...");
+
   try {
     await client.connect();
     console.log(`starting server at port ${process.env.PORT}...`);
-  } catch (err: any) {
+  } catch (err) {
     console.log(err);
   }
 });

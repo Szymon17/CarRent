@@ -52,4 +52,4 @@ type userInitialStateTypes = {
   shouldFetchOrders: boolean;
 };
 
-export { userSnapshot, userCall, userInitialStateTypes, userPayload, userData, userUpdate, userPutResponse, userOrder, fullUserOrder };
+export type { userSnapshot, userCall, userInitialStateTypes, userPayload, userData, userUpdate, userPutResponse, userOrder, fullUserOrder };

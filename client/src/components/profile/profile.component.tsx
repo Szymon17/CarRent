@@ -25,10 +25,7 @@ const Profile = () => {
 
   useEffect(() => {
     const intervalIndex = setInterval(() => setTimeToUpdate(new Date().getTime()), 1000);
-
-    return () => {
-      clearInterval(intervalIndex);
-    };
+    return () => clearInterval(intervalIndex);
   }, []);
 
   const updateUser = async (e: FormEvent<HTMLFormElement>) => {
@@ -48,33 +45,36 @@ const Profile = () => {
         dispatch(updateUserState(status.nextUpdateTime));
         dispatch(logOut());
       }
-    } else console.log("User not found");
+    }
   };
 
   const calculateDelayTime = (): string => {
     const time = nextUpdateTime - timeToUpdate;
-
     const seconds = Math.floor((time % (1000 * 60)) / 1000);
     const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-
     return `${minutes > 9 ? minutes : "0" + minutes}:${seconds > 9 ? seconds : "0" + seconds}`;
   };
 
   return (
     <form onSubmit={updateUser} method="put" className="profile">
-      <div className="profile__inputs">
-        <FormInput value={email} onChange={e => setEmail(e.target.value)} label="Email" />
-        <FormInput value={name} onChange={e => setName(e.target.value)} label={t("Name")} />
-        <FormInput value={surname} onChange={e => setSurname(e.target.value)} label={t("Surname")} />
-        <FormInput value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} label={t("Phone number")} />
+      <h3 className="profile__header">{t("Profile")}</h3>
+      <div className="profile__body">
+        <div className="profile__inputs">
+          <FormInput value={email} onChange={e => setEmail(e.target.value)} label="Email" />
+          <FormInput value={name} onChange={e => setName(e.target.value)} label={t("Name")} />
+          <FormInput value={surname} onChange={e => setSurname(e.target.value)} label={t("Surname")} />
+          <FormInput value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} label={t("Phone number")} />
+        </div>
+        <div className="profile__actions">
+          {nextUpdateTime < timeToUpdate ? (
+            <Button type="submit">{t("Save")}</Button>
+          ) : (
+            <Button buttonType={BUTTON_CLASSES.disable} onClick={e => e.preventDefault()}>
+              {calculateDelayTime()}
+            </Button>
+          )}
+        </div>
       </div>
-      {nextUpdateTime < timeToUpdate ? (
-        <Button type="submit">{t("Save")}</Button>
-      ) : (
-        <Button buttonType={BUTTON_CLASSES.disable} onClick={e => e.preventDefault()}>
-          {`${calculateDelayTime()}`}
-        </Button>
-      )}
     </form>
   );
 };

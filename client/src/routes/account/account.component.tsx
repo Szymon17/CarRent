@@ -1,5 +1,5 @@
 import "./account.styles.sass";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/user/user.selectors";
 import { useEffect, useState } from "react";
@@ -8,15 +8,14 @@ import { logOut } from "../../store/user/user.reducer";
 import { useTranslation } from "react-i18next";
 import Button, { BUTTON_CLASSES } from "../../components/button/button.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faClockRotateLeft, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Account = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
-
   const { t } = useTranslation();
   const user = useAppSelector(selectUser);
-
   const [deleteAlert, setDeleteAlert] = useState(false);
 
   useEffect(() => {
@@ -26,50 +25,68 @@ const Account = () => {
   const deleteAccount = async () => {
     if (user) {
       const res = await deleteUserFetch(user.email);
-
       if (res && res.status === "ok") dispatch(logOut());
     }
-
     setDeleteAlert(false);
   };
 
+  const isHistory = location.pathname.includes("history");
+
   return (
     <div className="account">
-      <div className="account__container">
-        <div className="account__profile">
-          <aside className="account__aside">
-            <div className="account__aside__profile__title">
-              <div className="account__aside__profile__title-picture">
-                <span className="account__aside__profile__title-picture-text">{`${user?.name.charAt(0)}${user?.surname.charAt(0)}`}</span>
-              </div>
-              <h2 className="account__aside__profile__title-name"></h2>
-            </div>
-            <ul className="account__aside__profileActions">
-              <li className="account__aside__profileActions-link">
-                <Link to="">{t("Profile")}</Link>
-              </li>
-              <li className="account__aside__profileActions-link">
-                <Link to="history">{t("History of orders")}</Link>
-              </li>
-              <li className="account__aside__profileActions-link">
-                <button onClick={() => setDeleteAlert(true)}>{t("Delete account")}</button>
-              </li>
-            </ul>
-          </aside>
-          <h1 className="account__name">{`${user?.name} ${user?.surname}`}</h1>
-          <main className="account__main">
-            <Outlet />
-          </main>
-        </div>
+      <div className="account__layout container">
+        <aside className="account__sidebar">
+          <div className="account__avatar">
+            <span className="account__avatar__initials">
+              {user?.name.charAt(0)}{user?.surname.charAt(0)}
+            </span>
+          </div>
+          <div className="account__user-info">
+            <span className="account__user-info__name">{user?.name} {user?.surname}</span>
+            <span className="account__user-info__email">{user?.email}</span>
+          </div>
+
+          <nav className="account__nav">
+            <Link to="" className={`account__nav__link${!isHistory ? " account__nav__link--active" : ""}`}>
+              <FontAwesomeIcon icon={faUser} />
+              {t("Profile")}
+            </Link>
+            <Link to="history" className={`account__nav__link${isHistory ? " account__nav__link--active" : ""}`}>
+              <FontAwesomeIcon icon={faClockRotateLeft} />
+              {t("History of orders")}
+            </Link>
+          </nav>
+
+          <button className="account__delete-btn" onClick={() => setDeleteAlert(true)}>
+            <FontAwesomeIcon icon={faTrash} />
+            {t("Delete account")}
+          </button>
+        </aside>
+
+        <main className="account__main">
+          <Outlet />
+        </main>
       </div>
+
       {deleteAlert && (
-        <div className="account__deleteAlert">
-          <div className="account__deleteAlert__container">
-            <h2 className="account__deleteAlert__title">{t("Delete alert")}</h2>
-            <Button buttonType={BUTTON_CLASSES.red} onClick={deleteAccount}>
-              {t("Delete account")}
-            </Button>
-            <FontAwesomeIcon onClick={() => setDeleteAlert(false)} icon={faXmark} className="account__deleteAlert__cancel" />
+        <div className="account__overlay">
+          <div className="account__dialog">
+            <button className="account__dialog__close" onClick={() => setDeleteAlert(false)}>
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <div className="account__dialog__icon">
+              <FontAwesomeIcon icon={faTrash} />
+            </div>
+            <h2 className="account__dialog__title">{t("Delete alert")}</h2>
+            <p className="account__dialog__text">{t("Delete alert")}</p>
+            <div className="account__dialog__actions">
+              <Button buttonType={BUTTON_CLASSES.reverse} onClick={() => setDeleteAlert(false)}>
+                {t("Cancel") ?? "Anuluj"}
+              </Button>
+              <Button buttonType={BUTTON_CLASSES.red} onClick={deleteAccount}>
+                {t("Delete account")}
+              </Button>
+            </div>
           </div>
         </div>
       )}

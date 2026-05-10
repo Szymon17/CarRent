@@ -1,229 +1,172 @@
 @use "../../sass/varibles" as vars
-@use "../../sass/mixins" as mixins
-@use "../../sass/break_points" as bp
 
-.date-range-picker
+.rdp-picker
     width: 100%
 
     &__label
         display: none
 
-    &__container
+    &__row
         display: flex
         align-items: center
-        gap: 6px
-        flex-wrap: nowrap
+        gap: 8px
         width: 100%
-        height: 100%
 
-        @media (max-width: bp.$extra-large)
-            width: 100%
+    &__sep
+        color: #ccc
+        font-size: 0.9em
+        flex-shrink: 0
+        user-select: none
 
-    &__item
+    &__field
         position: relative
         flex: 1
-        min-width: 140px
 
-    &__input-wrapper
-        position: relative
+    &__trigger
+        width: 100%
         display: flex
         align-items: center
-        height: 36px
-        background: white
-        border: 2px solid #e8eef0
-        border-radius: 12px
+        gap: 8px
+        height: 38px
         padding: 0 12px
+        background: white
+        border: 1.5px solid #e2e5e9
+        border-radius: 8px
         cursor: pointer
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
-        gap: 6px
+        font-size: 0.82em
+        font-weight: 600
+        color: #1a1a1a
+        transition: border-color 0.15s ease, box-shadow 0.15s ease
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+        white-space: nowrap
 
         &:hover
+            border-color: #b8bfc8
+
+        &--open
             border-color: vars.$secondary-color
-            background: #fafafa
+            box-shadow: 0 0 0 3px rgba(56, 185, 67, 0.1)
 
-        &:focus-within
-            border-color: vars.$secondary-color
-            background: linear-gradient(135deg, #f0fdf4, rgba(240, 253, 244, 0.5))
-            box-shadow: 0 0 0 4px rgba(56, 185, 67, 0.12)
-
-    &__icon
-        display: flex
-        align-items: center
-        justify-content: center
-        color: #999
-        font-size: 0.75em
-        flex-shrink: 0
-
-    &__input
-        flex: 1
-        border: none
-        background: transparent
-        outline: none
-        padding: 0
-        font-size: 0.8em
-        color: #333
-        font-weight: 500
-        cursor: pointer
-        user-select: none
-        line-height: 36px
-
-        &:disabled
-            opacity: 0.6
+        &--disabled
+            opacity: 0.5
             cursor: not-allowed
 
-    &__separator
-        color: #d0d0d0
-        font-size: 1.1em
-        font-weight: 300
-        user-select: none
-        margin: 0 -2px
+    &__ico
+        color: vars.$secondary-color
+        font-size: 0.78em
+        flex-shrink: 0
 
     &__popup
         position: absolute
-        top: 100%
+        top: calc(100% + 8px)
         left: 0
         z-index: 1000
-        border-radius: 12px
-        margin-top: 8px
-        padding: 8px
-        min-width: 320px
+        background: white
+        border: 1px solid #ebebeb
+        border-radius: 14px
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06)
+        overflow: hidden
+        animation: rdpPopupIn 0.15s ease
 
         &--right
             left: auto
             right: 0
 
-    // React DatePicker overrides
-    :global(.react-datepicker)
-        border: none
-        background: white
-        padding: 12px
-        font-family: inherit
-        width: 100%
+@keyframes rdpPopupIn
+    from
+        opacity: 0
+        transform: translateY(-6px)
+    to
+        opacity: 1
+        transform: translateY(0)
 
-    :global(.react-datepicker__month-container)
-        width: 100%
 
-    :global(.react-datepicker__header)
-        background: white
-        border: none
-        border-bottom: 1px solid #e8e8e8
-        padding: 12px 0
-        margin-bottom: 12px
+.rdp-root
+    --rdp-accent-color: #{vars.$secondary-color}
+    --rdp-accent-background-color: rgba(56, 185, 67, 0.1)
+    --rdp-today-color: #{vars.$secondary-color}
+    --rdp-selected-border: 2px solid #{vars.$secondary-color}
+    --rdp-day-height: 36px
+    --rdp-day-width: 36px
+    --rdp-day_button-height: 32px
+    --rdp-day_button-width: 32px
+    --rdp-day_button-border-radius: 7px
+    --rdp-nav_button-height: 28px
+    --rdp-nav_button-width: 28px
+    --rdp-nav-height: 32px
+    --rdp-weekday-opacity: 1
+    --rdp-outside-opacity: 0.3
+    --rdp-disabled-opacity: 1
+    font-size: 13px
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+    color: #333
+    padding: 14px
 
-    :global(.react-datepicker__day-name)
-        color: #999
-        font-size: 0.75em
-        font-weight: 600
-        width: calc(100% / 7)
-        line-height: 28px
-        margin: 0
+.rdp-month_caption
+    font-size: 13px
+    font-weight: 700
+    color: #111
 
-    :global(.react-datepicker__day),
-    :global(.react-datepicker__time-name)
-        width: calc(100% / 7)
-        line-height: 32px
-        color: #333
-        font-size: 0.85em
-        margin: 2px 0
-        border-radius: 6px
-        transition: all 0.2s ease
+.rdp-selected
+    font-size: inherit
 
-        &:hover
-            background: #f5f5f5
-            color: vars.$secondary-color
 
-    :global(.react-datepicker__day--selected),
-    :global(.react-datepicker__day--keyboard-selected)
-        background: vars.$secondary-color
-        color: white
-        border-radius: 6px
-        font-weight: 600
+.rdp-selected .rdp-day_button
+    background-color: vars.$secondary-color
+    color: white
+    border-color: vars.$secondary-color
 
-        &:hover
-            background: darken(vars.$secondary-color, 5%)
+    &:hover
+        background-color: #2d9e36
 
-    :global(.react-datepicker__day--in-range)
-        background: #e8f5e9
-        color: #333
-        border-radius: 0
+.rdp-day_button
+    font-size: 13px
+    font-weight: 500
+    color: #333
+    transition: background 0.1s ease, color 0.1s ease
 
-    :global(.react-datepicker__day--range-start),
-    :global(.react-datepicker__day--range-end)
-        border-radius: 6px
-        background: vars.$secondary-color
-        color: white
+    &:hover:not([disabled])
+        background: #f0f0f0
+        color: #111
 
-    :global(.react-datepicker__day--disabled)
-        opacity: 0.5
-        cursor: not-allowed
-        color: #ccc
+.rdp-today:not(.rdp-selected) .rdp-day_button
+    color: vars.$secondary-color
+    font-weight: 700
 
-    :global(.react-datepicker__input-container)
-        position: relative
 
-    :global(.react-datepicker__month)
-        margin: 0
+.rdp-outside .rdp-day_button
+    color: #ccc
 
-    :global(.react-datepicker__year-dropdown-container),
-    :global(.react-datepicker__month-dropdown-container)
-        display: inline-block
-        margin: 0 4px
 
-    :global(.react-datepicker__year-dropdown),
-    :global(.react-datepicker__month-dropdown)
-        position: absolute
-        background: white
-        border: 1px solid #e8e8e8
-        border-radius: 6px
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
-        padding: 8px 0
-        max-height: 200px
-        overflow-y: auto
+.rdp-disabled .rdp-day_button
+    color: #ddd
+    cursor: not-allowed
+    pointer-events: none
 
-    :global(.react-datepicker__year-option),
-    :global(.react-datepicker__month-option)
-        padding: 8px 12px
-        color: #333
-        cursor: pointer
-        transition: all 0.2s ease
-        font-size: 0.75em
 
-        &:hover
-            background: #f5f5f5
-            color: vars.$secondary-color
+.rdp-weekday
+    font-size: 11px
+    font-weight: 700
+    color: #bbb
+    text-transform: uppercase
+    letter-spacing: 0.4px
+    padding: 4px 0 8px
 
-        &.react-datepicker__year-option--selected,
-        &.react-datepicker__month-option--selected
-            background: vars.$secondary-color
-            color: white
-            font-weight: 600
 
-    :global(.react-datepicker__navigation)
-        top: 14px
-        line-height: 20px
-        width: 24px
-        height: 24px
-        display: flex
-        align-items: center
-        justify-content: center
-        border: 1px solid #e8e8e8
-        border-radius: 4px
-        background: white
-        color: #666
-        transition: all 0.2s ease
-        cursor: pointer
+.rdp-button_previous,
+.rdp-button_next
+    border: 1.5px solid #e2e5e9
+    border-radius: 7px
+    background: white
+    color: #888
+    transition: border-color 0.15s ease, color 0.15s ease
 
-        &:hover
-            border-color: vars.$secondary-color
-            color: vars.$secondary-color
-            background: #fafafa
+    &:hover:not([disabled])
+        border-color: vars.$secondary-color
+        color: vars.$secondary-color
 
-    :global(.react-datepicker__navigation--previous)
-        left: 12px
 
-    :global(.react-datepicker__navigation--next)
-        right: 12px
-
-    :global(.react-datepicker__navigation-icon::before)
-        border-width: 1.5px
-        border-color: currentColor
+.rdp-chevron
+    fill: currentColor
+    width: 12px
+    height: 12px

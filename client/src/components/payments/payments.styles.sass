@@ -1,22 +1,45 @@
+@use "../../sass/varibles" as vars
+
 .payments
+    padding: 14px 18px
     display: flex
-    flex-wrap: wrap
-    gap: 20px
+    flex-direction: column
+    gap: 8px
 
-    .payment
-        width: calc(33.33% - (40px / 3)) //gap * 2 - number of elements
-        padding: 30px 20px
-        height: 50px
-        border: 1px solid silver
-        border-radius: 5px
-        display: flex
-        align-items: center
-        gap: 15px
-        cursor: pointer
-        color: #333
-        
-        &.--selected
-            width: 100%
+.payment
+    display: flex
+    align-items: center
+    gap: 12px
+    padding: 11px 14px
+    border: 1.5px solid #e2e5e9
+    border-radius: 9px
+    cursor: pointer
+    transition: border-color 0.12s ease, background 0.12s ease
+    background: white
 
-        &__icon
-            font-size: 20px
+    &:hover
+        border-color: #b8bfc8
+        background: #fafafa
+
+    &.--selected
+        border-color: vars.$secondary-color
+        background: rgba(56, 185, 67, 0.04)
+
+        & .payment__name
+            color: #111
+            font-weight: 700
+
+        & .payment__icon
+            color: vars.$secondary-color
+
+    &__icon
+        font-size: 1.1em
+        color: #aaa
+        width: 18px
+        text-align: center
+        flex-shrink: 0
+
+    &__name
+        font-size: 0.84em
+        font-weight: 600
+        color: #555

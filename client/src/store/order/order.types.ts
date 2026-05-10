@@ -1,6 +1,7 @@
 type orderData = {
   date_of_receipt: string | Date;
   date_of_return: string | Date;
+  add_date: string | Date;
   place_of_receipt: string;
   place_of_return: string;
   canclel?: boolean;
@@ -17,4 +18,4 @@ type orderInitialState = orderData & {
   paymentMethod: number | null;
 };
 
-export { orderData, orderInitialState, fullOrderData };
+export type { orderData, orderInitialState, fullOrderData };

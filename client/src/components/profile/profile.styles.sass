@@ -1,13 +1,51 @@
-@use "../../sass/mixins" as mixins
+@use "../../sass/varibles" as vars
+@use "../../sass/break_points" as bp
 
 .profile
-    margin-top: 30px
-    padding: 0 50px
-    text-align: right
-            
-    &__inputs
-        @include mixins.flexDisplay($primarySetting: space-around, $secondarySetting: center , $direction: column)
-        min-height: 400px
+    background: white
+    border: 1px solid #e8e8e8
+    border-radius: 12px
+    overflow: hidden
 
-        &  .formInput__input
+    &__header
+        font-size: 0.72em
+        font-weight: 700
+        color: #888
+        text-transform: uppercase
+        letter-spacing: 0.8px
+        padding: 13px 18px
+        background: #fafafa
+        border-bottom: 1px solid #eee
+        display: flex
+        align-items: center
+        gap: 8px
+        margin: 0
+
+        &::before
+            content: ''
+            display: block
+            width: 3px
+            height: 13px
+            background: vars.$secondary-color
+            border-radius: 2px
+
+    &__body
+        padding: 20px 18px 24px
+
+    &__inputs
+        display: grid
+        grid-template-columns: 1fr 1fr
+        gap: 16px 20px
+        margin-bottom: 24px
+
+        @media (max-width: bp.$small)
+            grid-template-columns: 1fr
+
+    &__actions
+        display: flex
+        justify-content: flex-end
+
+        & .button
             height: 40px
+            padding: 0 28px
+            font-size: 0.88em

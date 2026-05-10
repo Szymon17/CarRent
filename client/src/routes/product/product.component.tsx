@@ -6,8 +6,7 @@ import { selectProductByName } from "../../store/products/products.selectors";
 import { getProductByNameFetch, serverUrl } from "../../utils/fetchFunctions";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCalendarAlt, faLocationArrow, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-
+import { faCheck, faCalendarAlt, faLocationArrow, faGasPump, faBolt, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { replaceProducts } from "../../store/products/products.reducer";
 import { selectOrder } from "../../store/order/order.selector";
 import { saveOrderDays } from "../../store/order/order.reducer";
@@ -43,7 +42,6 @@ const Product = () => {
       try {
         const req = await fetch(`${serverUrl}/assistance_info`);
         const res = await req.json();
-
         if (res.status === "ok") setCompanyInfo(res.data);
       } catch (error) {
         console.error(error);
@@ -51,91 +49,92 @@ const Product = () => {
     };
 
     fetchCompanyInfo();
-
     if (!productInStorage) fetchProduct();
   }, []);
+
+  const totalPrice = (productInStorage?.daily_price ?? 0) * orderInStoreage.dayQuantity;
 
   return (
     <>
       {productInStorage ? (
         <div className="product container">
           <header className="product__header">
-            <div className="product__header__img__cnt">
-              <img className="product__header__img" src={productInStorage.image_url} alt="car image" />
+            <div className="product__header__img-wrap">
+              <img className="product__header__img" src={productInStorage.image_url} alt={productInStorage.model} />
             </div>
-            <div className="product__header__description">
-              <div className="product__header__description__top">
-                <div className="product__header__description__title__box">
-                  <h2 className="product__header__description__title">{`${productInStorage.brand} ${productInStorage.model} `}</h2>
-                  <span className="product__header__description__avilability">{t("Dostępny")}</span>
-                </div>
 
-                <div className="product__header__description__prices">
-                  <span className="product__header__description__price">{`${(productInStorage.daily_price * orderInStoreage.dayQuantity).toFixed(
-                    2,
-                  )}PLN`}</span>
-                  <span className="product__header__description__dailyPrice">
-                    {`${productInStorage.daily_price}PLN`} <span className="product__header__description__price-unit">{t("per day")}</span>
+            <div className="product__header__info">
+              <div className="product__header__info__top">
+                <span className="product__header__badge">{t("Dostępny")}</span>
+                <h1 className="product__header__title">
+                  {productInStorage.brand} {productInStorage.model}
+                </h1>
+                <div className="product__header__tags">
+                  <span className="product__header__tag">
+                    <FontAwesomeIcon icon={faCalendarAlt} /> {productInStorage.year}
+                  </span>
+                  <span className="product__header__tag">
+                    <FontAwesomeIcon icon={faGasPump} /> {t(productInStorage.fuel_type)}
+                  </span>
+                  <span className="product__header__tag">
+                    <FontAwesomeIcon icon={faBolt} /> {productInStorage.power} HP
                   </span>
                 </div>
               </div>
 
-              <div className="product__configuration">
-                <div className="product__configuration__title">
-                  <FontAwesomeIcon icon={faCalendarAlt} />
-                  <span>{t("Rental configuration")}</span>
+              <div className="product__header__pricing">
+                <div className="product__header__pricing__daily">
+                  <span className="product__header__pricing__amount">{productInStorage.daily_price} PLN</span>
+                  <span className="product__header__pricing__unit">/ {t("Day")}</span>
                 </div>
-                <div className="product__configuration__box">
-                  <div className="product__configuration__block">
-                    <span className="product__configuration__block__title">{t("Number of days")}</span>
-                    <div className="product__configuration__block__element">
-                      <NumberButton min={1} max={30} value={orderInStoreage.dayQuantity} onChange={value => dispatch(saveOrderDays(value))}>
-                        {orderInStoreage.dayQuantity > 1 ? t("Days") : t("Day")}
-                      </NumberButton>
-                    </div>
-                  </div>
-                  <div className="product__configuration__block">
-                    <span className="product__configuration__block__title">{t("Pick up location")}</span>
-                    <div className="product__configuration__block__element">
-                      <div className="text">
-                        <p className="text-small">{new Date(orderInStoreage.date_of_receipt).toLocaleString("pl-PL") ?? ""}</p>
-                        <span>{orderInStoreage.place_of_receipt}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="product__configuration__block">
-                    <span className="product__configuration__block__title">{t("Return location")}</span>
-                    <div className="text">
-                      <p className="text-small">{new Date(orderInStoreage.date_of_return).toLocaleString("pl-PL") ?? ""}</p>
-                      <span>{orderInStoreage.place_of_return}</span>
-                    </div>
-                  </div>
-                </div>
+                <span className="product__header__pricing__total">
+                  {totalPrice.toFixed(2)} PLN {t("Total Amount").toLowerCase()} ({orderInStoreage.dayQuantity}{" "}
+                  {orderInStoreage.dayQuantity === 1 ? t("Day") : t("Days")})
+                </span>
+              </div>
 
-                <div className="product__summary">
-                  <div className="product__summary__element">
-                    <span>{t("Daily Rate")}:</span>
-                    <span>{`${productInStorage.daily_price}PLN`}</span>
-                  </div>
-                  <div className="product__summary__element">
-                    <span>{t("Days")}:</span>
-                    <span>{orderInStoreage.dayQuantity}</span>
-                  </div>
-                  <div className="product__summary__element sum">
-                    <span>{t("Total Amount")}</span>
-                    <span>{`${(productInStorage.daily_price * orderInStoreage.dayQuantity).toFixed(2)}PLN`}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="product__header__buttons">
-                <Button buttonType={BUTTON_CLASSES.black} onClick={() => navigate("/summary")}>
-                  {t("Reserve Vehicle")}
-                </Button>
-              </div>
+              <Button buttonType={BUTTON_CLASSES.green} onClick={() => navigate("/summary")}>
+                {t("Reserve Vehicle")}
+              </Button>
             </div>
           </header>
 
-          <main className="product__main product__section">
+          <div className="product__booking">
+            <div className="product__booking__block product__booking__block--days">
+              <span className="product__booking__label">{t("Number of days")}</span>
+              <NumberButton min={1} max={30} value={orderInStoreage.dayQuantity} onChange={value => dispatch(saveOrderDays(value))}>
+                {orderInStoreage.dayQuantity > 1 ? t("Days") : t("Day")}
+              </NumberButton>
+            </div>
+
+            <div className="product__booking__divider" />
+
+            <div className="product__booking__block">
+              <span className="product__booking__label">{t("Pick up location")}</span>
+              <span className="product__booking__value">{orderInStoreage.place_of_receipt}</span>
+              <span className="product__booking__sub">{new Date(orderInStoreage.date_of_receipt).toLocaleDateString("pl-PL")}</span>
+            </div>
+
+            <div className="product__booking__divider" />
+
+            <div className="product__booking__block">
+              <span className="product__booking__label">{t("Return location")}</span>
+              <span className="product__booking__value">{orderInStoreage.place_of_return}</span>
+              <span className="product__booking__sub">{new Date(orderInStoreage.date_of_return).toLocaleDateString("pl-PL")}</span>
+            </div>
+
+            <div className="product__booking__divider" />
+
+            <div className="product__booking__block product__booking__block--total">
+              <span className="product__booking__label">{t("Total Amount")}</span>
+              <span className="product__booking__total">{totalPrice.toFixed(2)} PLN</span>
+              <span className="product__booking__sub">
+                {productInStorage.daily_price} PLN × {orderInStoreage.dayQuantity} {orderInStoreage.dayQuantity === 1 ? t("Day") : t("Days")}
+              </span>
+            </div>
+          </div>
+
+          <main className="product__main">
             <div className="product__main__left">
               <div className="product__section__item">
                 <h2 className="product__section-title">{t("Vehicle Specifications")}</h2>
@@ -153,15 +152,15 @@ const Product = () => {
                     {Object.entries(productInStorage.addons)?.map(([addon_code, addon], index) => (
                       <li key={index} className="product__addons__list__item">
                         <FontAwesomeIcon icon={addons_icons.get(addon_code) ?? faCheck} />
-                        <span className="product__addons__list__item__text">{t(addon)}</span>
+                        <span>{t(addon)}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              {companyInfo && (
-                <div className="product__section__item assistance">
+              {companyInfo.length > 0 && (
+                <div className="product__section__item">
                   <h2 className="product__section-title">{t("Need Assistance?")}</h2>
                   <div className="product__section__content">
                     <ul className="product__assistance">

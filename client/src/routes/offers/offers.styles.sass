@@ -6,43 +6,59 @@
     display: flex
     flex-wrap: wrap
     width: 100%
-    gap: 8px
+    gap: 0
+    background: white
+    border-radius: 12px
+    border: 1px solid #e8e8e8
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06)
 
     & > .filtres__data__locations__box, & .filtres__data__dates__box
-        padding: 8px 10px
+        padding: 12px 16px
         display: flex
         flex-direction: column
         justify-content: center
         background: white
-        border-radius: 6px
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05)
-        border: 1px solid #e8e8e8
-        height: 70px
+        height: 72px
+        border-right: 1px solid #eee
+        flex: 1
+        min-width: 160px
+        transition: background 0.15s ease
+
+        &:last-child
+            border-right: none
+
+        &:hover
+            background: #fafafa
 
         @media (min-width: bp.$medium)
-            width: calc(25% - 6px)
+            width: calc(25% - 0px)
 
         .section_ico
-            margin-right: 4px
-            color: #999
-            font-size: 0.75em
+            margin-right: 5px
+            color: vars.$secondary-color
+            font-size: 0.7em
 
         .filtres__section__title
-            font-size: 0.65em
+            font-size: 0.6em
             margin-bottom: 5px
+            color: #888
+            font-weight: 600
+            text-transform: uppercase
+            letter-spacing: 0.6px
+            display: flex
+            align-items: center
 
     & > .filtres__data__dates__container
-        padding: 8px 10px
+        padding: 12px 16px
         display: flex
         align-items: center
         background: white
-        border-radius: 6px
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05)
-        border: 1px solid #e8e8e8
-        height: 62px
+        height: 72px
+        border-right: 1px solid #eee
+        flex: 1
 
         @media (min-width: bp.$medium)
-            width: calc(50% - 6px)
+            width: calc(50% - 0px)
 
     .filtres__data__dates__section
         width: 100%
@@ -59,16 +75,20 @@
             padding-top: 5px
 
         .filtres__section__title
-            font-size: 0.65em
+            font-size: 0.6em
             margin-bottom: 0
             display: flex
             align-items: center
             white-space: nowrap
+            color: #888
+            font-weight: 600
+            text-transform: uppercase
+            letter-spacing: 0.6px
 
             .section_ico
-                margin-right: 4px
-                color: #999
-                font-size: 0.75em
+                margin-right: 5px
+                color: vars.$secondary-color
+                font-size: 0.7em
 
     .filtres__data__dates__picker
         width: 100%
@@ -76,9 +96,8 @@
         align-items: center
 
 .offers
-    @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start )
-    padding-left: 20px
-    background: #f8f8f8
+    @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start)
+    background: #f4f6f8
     min-height: calc(100vh - vars.$navHeight)
 
     @media (max-width:bp.$extra-large)
@@ -90,16 +109,11 @@
         padding: 0px
         justify-content: flex-start
 
-    &__checkbox-box
-        margin-bottom: 32px
-        
-        &-text
-            margin-left: 12px
-            font-weight: 500
-
     &__filters-box
-        width: 30%
-        padding: 18px
+        width: 300px
+        min-width: 260px
+        padding: 20px 16px
+        flex-shrink: 0
 
         @media (max-width: bp.$large)
             width: 100%
@@ -112,15 +126,14 @@
     &__main
         position: relative
         width: 100%
-        height: 100%
         min-height: 80vh
-        padding: 18px 22px 0px 18px
+        padding: 24px 28px 32px 16px
 
         @media (max-width:bp.$huge)
-            padding-right: 32px
+            padding-right: 24px
 
         @media (max-width:bp.$large)
-            padding: 24px 18px
+            padding: 20px 16px 32px
 
         &.hidden
             display: none
@@ -128,62 +141,73 @@
     &__settings
         display: flex
         justify-content: flex-end
+        margin-bottom: 24px
+
+    &__results-header
+        display: flex
+        align-items: center
+        justify-content: space-between
         margin-bottom: 18px
 
+        &-count
+            font-size: 0.8em
+            color: #888
+            font-weight: 500
+
     &__products
-        margin: 0 auto
-        width: 100%     
+        width: 100%
 
         &-cnt
             display: grid
             grid-template-columns: repeat(1, 1fr)
-            gap: 16px 
+            gap: 16px
 
             @media (min-width: bp.$small)
-                grid-template-columns: repeat(3, 1fr)
-                gap: 18px
-            
-            @media (max-width: bp.$large)
                 grid-template-columns: repeat(2, 1fr)
-                gap: 14px
+                gap: 18px
+
+            @media (min-width: bp.$extra-large)
+                grid-template-columns: repeat(3, 1fr)
+                gap: 20px
 
     &__filters-switch
         @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:center)
         width: 100%
         display: none
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06)
-        background: linear-gradient(135deg, #ffffff, #f8fafb)
-        border-bottom: 1px solid #f0f0f0
+        background: white
+        border-bottom: 2px solid vars.$secondary-color
+        padding: 0 4px
 
         @media (max-width:bp.$large)
             display: flex
 
         &-title
-            font-size: 1.15em
+            font-size: 1em
             font-weight: 700
             padding-left: 20px
-            color: #0f2419
-            letter-spacing: -0.3px
+            color: #1a1a1a
+            letter-spacing: -0.2px
+
+        &-cnt
+            display: flex
 
         &-button
-            width: 50px
-            height: 50px
+            width: 52px
+            height: 52px
             border: none
             background: transparent
-            color: #999
+            color: #666
             cursor: pointer
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+            transition: color 0.2s ease
             display: flex
             align-items: center
             justify-content: center
 
             &:hover
                 color: vars.$secondary-color
-                background: rgba(56, 185, 67, 0.08)
-                transform: scale(1.05)
 
             & svg
-                font-size: 1.2em
+                font-size: 1.1em
 
     & .spinner, & .custom-error
         @include mixins.absoluteCenter($height:center)

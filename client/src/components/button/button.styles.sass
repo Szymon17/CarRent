@@ -85,10 +85,8 @@
 .number__button-cnt
     display: flex
     width: 140px
-    padding: 4px
-    background: #f5f5f5
-    border-radius: 8px
-    gap: 4px
+    border-radius: 4px
+    border: 1px solid #ccc
     position: relative
     box-shadow: none
 
@@ -98,23 +96,25 @@
         color: #666
         margin: 0
         outline: none
-        border: 1px solid #e8e8e8
+        border: none
         cursor: pointer
-        border-radius: 6px
+        border-radius: 3px
         transition: all 0.2s ease
         font-weight: 500
         font-size: 0.85em
 
         &:hover
-            background: #38b943
-            color: white
-            border-color: #38b943
+            background-color: #ececec
 
-        &:active
-            background: #2d8835
+        &:first-child
+            border-right: 1px solid #ccc
+
+        &:last-child
+            border-left: 1px solid #ccc
 
     & > input
         width: 70px
+        height: 30px
         text-align: center
         border: none
         border-radius: 4px

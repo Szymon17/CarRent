@@ -1,137 +1,140 @@
-@use '../../sass/mixins' as mixins
-@use '../../sass/break_points' as bp
-    
-.orderHistoryItem
-    position: relative
-    margin: 0 auto
-    margin-bottom: 40px
-    padding: 10px
-    width: 100%
-    height: 180px
-    box-shadow: 0 2px 4px 2px #0000002f
-    border-radius: 6px
-    transition: 0.5s 0.2s height
+@use "../../sass/varibles" as vars
+@use "../../sass/break_points" as bp
 
-    @media ( max-width: bp.$medium )
-        padding: 0
-        height: 330px
-        
+.order-history-item
+    background: white
+    border: 1px solid #e8e8e8
+    border-radius: 12px
+    margin-bottom: 12px
+    overflow: hidden
 
     &__header
-        @include mixins.flexDisplay($primarySetting: space-between)
-        height: 150px
-        width: 100%
-            
-        @media ( max-width: bp.$medium )
+        display: flex
+        align-items: center
+        gap: 20px
+        padding: 16px 20px
+        cursor: pointer
+        transition: background 0.12s ease
+
+        &:hover
+            background: #fafafa
+
+        @media (max-width: bp.$small)
             flex-direction: column
-            align-items: center
-            height: 300px
+            align-items: flex-start
+            gap: 12px
 
     &__img
-        padding: 15px
-        height: 100%
+        width: 30%
+        height: 130px
+        object-fit: contain
+        flex-shrink: 0
+        filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1))
 
-        @media ( max-width: bp.$medium )
-            width: 50%
-            height: auto
+        @media (max-width: bp.$medium)
+            width: 130px
+            height: 88px
 
-        @media ( max-width: bp.$small )
-            width: 70%
-            
+        @media (max-width: bp.$small)
+            width: 100%
+            height: 140px
 
-    &__description
-        position: relative
-        height: 100%
-        flex-grow: 1
-        font-size: 1em
-        text-align: center
+    &__info
+        flex: 1
+        min-width: 0
+        display: flex
+        flex-direction: column
+        gap: 10px
 
-        @media ( max-width: bp.$medium )
-            position: static
+    &__row
+        display: flex
+        align-items: center
+        justify-content: space-between
+        gap: 12px
+
+        &--footer
+            margin-top: 2px
+            padding-top: 10px
+            border-top: 1px solid #f5f5f5
 
     &__title
-        font-size: 1.1em
-        font-weight: 500
+        font-size: 0.95em
+        font-weight: 700
+        color: #111
+        margin: 0
 
-        @media ( max-width: bp.$medium )
-            margin-bottom: 10px
+    &__status
+        font-size: 0.72em
+        font-weight: 700
+        padding: 3px 10px
+        border-radius: 20px
+        white-space: nowrap
+        flex-shrink: 0
 
-    &__basicData
-        margin-top: 10px
+        &--pending
+            background: rgba(255, 166, 0, 0.12)
+            color: #cc8800
+
+        &--finished
+            background: rgba(56, 185, 67, 0.1)
+            color: #2a8c33
+
+        &--canceled
+            background: rgba(198, 40, 40, 0.1)
+            color: #c62828
+
+    &__meta
+        list-style: none
+        padding: 0
+        margin: 0
         display: grid
-        grid-template-columns: repeat(2, 1fr)
-        gap: 30px 0
-
-        @media ( max-width: bp.$medium )
-            gap: 10px
-        
-    &__extendIcon
-        position: absolute
-        bottom: 10px
-        left: 50%
-        transform: translateX(-50%) rotate(0deg)
-        cursor: pointer
-        transition: 0.5s all
-
-    &__body
-        margin-top: 40px
-        padding: 0 10px
-        height: 0
-        opacity: 0
-        transition: 0.3s all
+        grid-template-columns: 1fr 1fr
+        gap: 7px 20px
 
         @media (max-width: bp.$medium)
-            margin: 0
+            grid-template-columns: 1fr
+
+        & li
+            display: flex
+            align-items: center
+            gap: 6px
+            font-size: 0.78em
+            color: #666
+            font-weight: 500
+
+            & svg
+                color: vars.$secondary-color
+                font-size: 0.85em
+                flex-shrink: 0
 
     &__price
-        text-align: center
-        margin-bottom: 20px
+        font-size: 0.9em
+        font-weight: 800
+        color: vars.$secondary-color
 
+    &__toggle-hint
+        display: flex
+        align-items: center
+        gap: 5px
+        font-size: 0.75em
+        font-weight: 600
+        color: #bbb
+        user-select: none
 
+        & svg
+            transition: transform 0.3s ease
 
-    &__statusBox 
-        position: absolute
-        bottom: 10px
-        right: 10px
+    &__body
+        max-height: 0
+        overflow: hidden
+        transition: max-height 0.4s ease
 
-        @media (max-width: bp.$medium)
-            bottom: 40px
-            right: 50%
-            transform: translateX(50%)
-        
-        & > span
-            margin: 0 5px
-            font-weight: 600
+        & .productDetails
+            padding: 16px 20px
+            border-top: 1px solid #f0f0f0
 
-    &__pending
-        color: #ffa600
+    &--expanded &__body
+        max-height: 600px
 
-    &__finished
-        color: #2cbe00
-
-    &__canceled
-        color: #f70000
-
-    & .productDetails
-        display: none
-
-.orderHistoryItem.extended
-    height: 750px
-    transition: 0.5s height
-
-    @media ( max-width: bp.$medium )
-        height: 750px
-
-    .orderHistoryItem__body
-        display: block
-        transition: 0.8s 0.3s all
-        height: auto
-        opacity: 1
-
-    .orderHistoryItem__extendIcon
-        transform: translateX(-50%) rotate(180deg)
-
-    & .productDetails
-        display: block
-
-    
+    &--expanded &__toggle-hint svg
+        transform: rotate(180deg)

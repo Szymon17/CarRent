@@ -1,12 +1,12 @@
+import "react-day-picker/style.css";
 import "./date-range-picker.styles.sass";
 import { FC, useState, useRef, useEffect } from "react";
-import ReactDatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { DayPicker } from "react-day-picker";
+import { pl, enUS } from "date-fns/locale";
+import { format } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-
-// Locales don't need explicit registration with modern react-datepicker
 
 interface DateRangePickerProps {
   startDate: Date;
@@ -40,135 +40,100 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   disabled = false,
 }) => {
   const { i18n } = useTranslation();
-  const [isStartPickerOpen, setIsStartPickerOpen] = useState(false);
-  const [isEndPickerOpen, setIsEndPickerOpen] = useState(false);
-  const startPickerRef = useRef<HTMLDivElement>(null);
-  const endPickerRef = useRef<HTMLDivElement>(null);
+  const [isStartOpen, setIsStartOpen] = useState(false);
+  const [isEndOpen, setIsEndOpen] = useState(false);
+  const startRef = useRef<HTMLDivElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
 
-  // Format date for display
-  const formatDateDisplay = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${day}/${month}/${year}`;
-  };
+  const locale = i18n.language === "pl" ? pl : enUS;
+  const formatDate = (date: Date) => format(date, "dd.MM.yyyy");
 
-  // Close pickers when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (startPickerRef.current && !startPickerRef.current.contains(event.target as Node)) {
-        setIsStartPickerOpen(false);
-      }
-      if (endPickerRef.current && !endPickerRef.current.contains(event.target as Node)) {
-        setIsEndPickerOpen(false);
-      }
+    const handleOutside = (e: MouseEvent) => {
+      if (startRef.current && !startRef.current.contains(e.target as Node)) setIsStartOpen(false);
+      if (endRef.current && !endRef.current.contains(e.target as Node)) setIsEndOpen(false);
     };
-
-    if (isStartPickerOpen || isEndPickerOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
+    if (isStartOpen || isEndOpen) {
+      document.addEventListener("mousedown", handleOutside);
+      return () => document.removeEventListener("mousedown", handleOutside);
     }
-  }, [isStartPickerOpen, isEndPickerOpen]);
+  }, [isStartOpen, isEndOpen]);
 
-  const locale = i18n.language === "pl" ? "pl" : "en";
+  const showStart = type === "range" || singleMode === "start";
+  const showEnd = type === "range" || singleMode === "end";
 
   return (
-    <div className="date-range-picker">
-      {label && <label className="date-range-picker__label">{label}</label>}
+    <div className="rdp-picker">
+      {label && <span className="rdp-picker__label">{label}</span>}
 
-      <div className="date-range-picker__container">
-        {/* Start Date Picker or Single Date Picker */}
-        {type === "range" || singleMode === "start" ? (
-          <div ref={startPickerRef} className="date-range-picker__item">
-            <div
-              className="date-range-picker__input-wrapper"
-              onClick={() => {
-                if (!disabled) setIsStartPickerOpen(!isStartPickerOpen);
-              }}
+      <div className="rdp-picker__row">
+        {showStart && (
+          <div ref={startRef} className="rdp-picker__field">
+            <button
+              type="button"
+              className={`rdp-picker__trigger${isStartOpen ? " rdp-picker__trigger--open" : ""}${disabled ? " rdp-picker__trigger--disabled" : ""}`}
+              onClick={() => !disabled && setIsStartOpen(v => !v)}
             >
-              <span className="date-range-picker__icon">
-                <FontAwesomeIcon icon={faCalendarAlt} />
-              </span>
-              <input
-                type="text"
-                className="date-range-picker__input"
-                value={formatDateDisplay(startDate)}
-                readOnly
-                placeholder={placeholder || "Select date"}
-                disabled={disabled}
-              />
-            </div>
+              <FontAwesomeIcon className="rdp-picker__ico" icon={faCalendarAlt} />
+              <span>{formatDate(startDate)}</span>
+            </button>
 
-            {isStartPickerOpen && (
-              <div className="date-range-picker__popup">
-                <ReactDatePicker
+            {isStartOpen && (
+              <div className="rdp-picker__popup">
+                <DayPicker
+                  mode="single"
                   selected={startDate}
-                  onChange={(date: Date | null) => {
-                    if (date) {
-                      onStartDateChange(date);
-                    }
+                  onSelect={date => { if (date) { onStartDateChange(date); setIsStartOpen(false); } }}
+                  disabled={[
+                    ...(minStartDate ? [{ before: minStartDate }] : []),
+                    ...(maxStartDate ? [{ after: maxStartDate }] : []),
+                  ]}
+                  locale={locale}
+                  components={{
+                    Chevron: ({ orientation }) => (
+                      <FontAwesomeIcon icon={orientation === "left" ? faChevronLeft : faChevronRight} />
+                    ),
                   }}
-                  minDate={minStartDate}
-                  maxDate={maxStartDate}
-                  inline
-                  dateFormat="dd/MM/yyyy"
-                  showMonthDropdown
-                  showYearDropdown
-                  preventOpenOnFocus
                 />
               </div>
             )}
           </div>
-        ) : null}
+        )}
 
-        {/* End Date Picker (for range type or single end mode) */}
-        {type === "range" || singleMode === "end" ? (
-          <>
-            {type === "range" && <span className="date-range-picker__separator">—</span>}
-            <div ref={endPickerRef} className="date-range-picker__item">
-              <div
-                className="date-range-picker__input-wrapper"
-                onClick={() => {
-                  if (!disabled) setIsEndPickerOpen(!isEndPickerOpen);
-                }}
-              >
-                <span className="date-range-picker__icon">
-                  <FontAwesomeIcon icon={faCalendarAlt} />
-                </span>
-                <input
-                  type="text"
-                  className="date-range-picker__input"
-                  value={formatDateDisplay(endDate)}
-                  readOnly
-                  placeholder={placeholder || "Select date"}
-                  disabled={disabled}
+        {type === "range" && <span className="rdp-picker__sep">—</span>}
+
+        {showEnd && (
+          <div ref={endRef} className="rdp-picker__field">
+            <button
+              type="button"
+              className={`rdp-picker__trigger${isEndOpen ? " rdp-picker__trigger--open" : ""}${disabled ? " rdp-picker__trigger--disabled" : ""}`}
+              onClick={() => !disabled && setIsEndOpen(v => !v)}
+            >
+              <FontAwesomeIcon className="rdp-picker__ico" icon={faCalendarAlt} />
+              <span>{formatDate(endDate)}</span>
+            </button>
+
+            {isEndOpen && (
+              <div className="rdp-picker__popup rdp-picker__popup--right">
+                <DayPicker
+                  mode="single"
+                  selected={endDate}
+                  onSelect={date => { if (date) { onEndDateChange(date); setIsEndOpen(false); } }}
+                  disabled={[
+                    ...(minEndDate ? [{ before: minEndDate }] : []),
+                    ...(maxEndDate ? [{ after: maxEndDate }] : []),
+                  ]}
+                  locale={locale}
+                  components={{
+                    Chevron: ({ orientation }) => (
+                      <FontAwesomeIcon icon={orientation === "left" ? faChevronLeft : faChevronRight} />
+                    ),
+                  }}
                 />
               </div>
-
-              {isEndPickerOpen && (
-                <div className="date-range-picker__popup date-range-picker__popup--right">
-                  <ReactDatePicker
-                    selected={endDate}
-                    onChange={(date: Date | null) => {
-                      if (date) {
-                        onEndDateChange(date);
-                      }
-                    }}
-                    minDate={minEndDate}
-                    maxDate={maxEndDate}
-                    inline
-                    dateFormat="dd/MM/yyyy"
-                    showMonthDropdown
-                    showYearDropdown
-                    preventOpenOnFocus
-                  />
-                </div>
-              )}
-            </div>
-          </>
-        ) : null}
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

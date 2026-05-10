@@ -1,225 +1,275 @@
 @use '../../sass/varibles' as vars
 @use '../../sass/mixins' as mixins
 @use '../../sass/break_points' as bp
-    
-.summary 
-    padding: 20px
-    padding-top: 30px
-    background-color: vars.$container-color
+
+.summary
+    padding: 24px 0 48px
+    background: #f4f6f8
+    min-height: calc(100vh - vars.$navHeight)
     display: flex
     align-items: flex-start
-    flex-direction: column
-    gap: 30px
+    gap: 20px
+    font-size: 0.9em
 
-    @media (min-width: bp.$medium)
-        flex-direction: row
-
-    &__section
-        border: 1px solid vars.$border-color
-        padding: 20px
-        margin-bottom: 30px
-        background: vars.$windows-color
-
-    &__order-data
-        margin-top: 20px
-        display: flex
-        justify-content: center
-        border-radius: 5px 
-
-        & > div
-            flex-grow: 1
-            flex-basis: 40%
-            font-size: 0.9em  
-
-    & .summary-product
-        display: flex
-        gap: 10px
+    @media (max-width: bp.$medium)
         flex-direction: column
 
-        @media (min-width: bp.$small)
-            flex-direction: row
+    &__section
+        background: white
+        border: 1px solid #e8e8e8
+        border-radius: 12px
+        overflow: hidden
+        margin-bottom: 16px
 
-        &__name
-            font-size: 1.3em
-
-        &__img
-            width: 100%
-            order: 1
-
-            @media (min-width: bp.$small)
-                height: 120px
-                width: auto
-                order: 0
-
-        &__detatils
-            flex-grow: 1
-            display: flex
-            justify-content: space-between
-            order: 1
-
-            @media (min-width: bp.$small)
-                flex-direction: column
-
-        &__price
-            font-size: 1.2em
-
-        & .price__unit
-            color: gray
-            font-size: 0.7em
-
-        &__additional-text
-            color: gray
-            font-size: 0.8em
-
-        &__price
-            text-align: right
+        &:last-child
+            margin-bottom: 0
 
     &__title
         display: flex
         align-items: center
-        
+        gap: 8px
+        font-size: 0.72em
+        font-weight: 700
+        color: #888
+        text-transform: uppercase
+        letter-spacing: 0.8px
+        padding: 13px 18px
+        background: #fafafa
+        border-bottom: 1px solid #eee
+        margin: 0
+
         & svg
-            color: vars.$success-color
-            margin-right: 5px
+            color: vars.$secondary-color
+            font-size: 0.95em
 
-        & span
-            font-size: 1em
-            font-weight: 500
-
-        &.--section_title
-            margin-top: 50px
-        
+        &::before
+            content: ''
+            display: block
+            width: 3px
+            height: 13px
+            background: vars.$secondary-color
+            border-radius: 2px
 
     &__left
-        width: 70%
-        height: 100%
-        display: inline-block
+        flex: 1
+        min-width: 0
 
-        @media ( max-width: bp.$medium )
+        @media (max-width: bp.$medium)
             width: 100%
 
-        & .product-card
-            & button
-                display: none
+    &__order-data
+        display: grid
+        grid-template-columns: 1fr 1fr
+        gap: 0
 
-            & .product-card__description__icons
-                gap: 0 5px
+        @media (max-width: bp.$small)
+            grid-template-columns: 1fr
 
-            @media (max-width: bp.$huge)
-                font-size: 0.7em
+        & > div
+            padding: 14px 18px
 
-            & .product-card__img
-                @media (max-width: bp.$huge)
-                    max-height: 80px
+            &:first-child
+                border-right: 1px solid #f0f0f0
 
-        &__order-data
-            display: flex
-            flex-direction: column
-
-            &.--right
-                align-items: flex-end
-
-            &__right-container
-                width: fit-content
-
-            & ul, &
-                color: gray
-
-                & li
-                    margin-bottom: 10px
-
-                &__title
-                    font-weight: 500
-
-                & li > div
-                    font-size: 0.9em 
-                    margin-top: 5px
-                    display: flex
-                    align-items: center
-                    
-                    & svg
-                        margin-right: 5px
-                        font-size: 0.9em
-
-        &__data__section
-            margin-top: 10px
-
-            &__box
-                @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting:center)
-                width: 100%
-                margin: 10px 0 
-
-            &__value
-                width: 30%
-                font-weight: 500
-                font-size: 1em
-
-            &__title
-                font-size: 1.3em
-                margin-bottom: 20px
-
-
-        position: relative
-
-        &__label
-            position: absolute
-            top: 50%
-            right: 30px
-            transform: translateY(-50%)
-
-            @media ( max-width: bp.$medium )
-                top: 0
-                left: 20px
-                transform: translateY(-100%)
-
-    &__right
-        position: sticky
-        top: 20px
-        right: 0
-        padding: 20px
-        width: 30%
-        border-radius: 5px
-        border: 1px solid silver
-        background: vars.$windows-color
-        color: #333
-
-        @media ( max-width: bp.$medium )
-            width: 100%
+                @media (max-width: bp.$small)
+                    border-right: none
+                    border-bottom: 1px solid #f0f0f0
 
         &__title
-            margin-bottom: 50px
-            font-weight: 400
-            font-weight: 1.1em
+            font-size: 0.68em
+            font-weight: 700
+            color: #aaa
+            text-transform: uppercase
+            letter-spacing: 0.6px
+            margin-bottom: 12px
+
+        & ul
+            list-style: none
+            padding: 0
+            margin: 0
+            display: flex
+            flex-direction: column
+            gap: 12px
+
+        & li
+            display: flex
+            flex-direction: column
+            gap: 3px
+
+        &__item-label
+            font-size: 0.68em
+            color: #bbb
+            font-weight: 600
+            text-transform: uppercase
+            letter-spacing: 0.5px
+
+        &__item-value
+            display: flex
+            align-items: center
+            gap: 6px
+            font-weight: 600
+            color: #222
+
+            & svg
+                color: vars.$secondary-color
+                font-size: 0.8em
+                flex-shrink: 0
+
+    & .summary-product
+        display: flex
+        align-items: center
+        gap: 16px
+        padding: 14px 18px
+        text-decoration: none
+        color: inherit
+        transition: background 0.12s ease
+
+        &:hover
+            background: #fafafa
+
+        &__img
+            width: 300px
+            height: 120px
+            object-fit: contain
+            flex-shrink: 0
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))
+
+            @media (max-width: bp.$large)
+                width: 180px
+
+        &__detatils
+            flex: 1
+            display: flex
+            justify-content: space-between
+            align-items: center
+            gap: 12px
+
+            @media (max-width: bp.$small)
+                flex-direction: column
+                align-items: flex-start
+
+        &__name
+            font-size: 1em
+            font-weight: 700
+            color: #111
+            margin: 0 0 4px
+            letter-spacing: -0.2px
+
+        &__additional-text
+            font-size: 0.75em
+            color: #aaa
+            font-weight: 500
+
+        &__price
+            font-size: 1.1em
+            font-weight: 800
+            color: vars.$secondary-color
+            white-space: nowrap
+
+            & .price__unit
+                font-size: 0.6em
+                color: #bbb
+                font-weight: 500
+
+    &__right
+        width: 320px
+        flex-shrink: 0
+        position: sticky
+        top: 20px
+
+        @media (max-width: bp.$medium)
+            width: 100%
+            position: static
+
+        @media (max-width: bp.$extra-large)
+            width: 280px
+
+        &__card
+            background: white
+            border: 1px solid #e8e8e8
+            border-radius: 12px
+            overflow: hidden
+
+        &__title
+            font-size: 0.72em
+            font-weight: 700
+            color: #888
+            text-transform: uppercase
+            letter-spacing: 0.8px
+            padding: 13px 18px
+            background: #fafafa
+            border-bottom: 1px solid #eee
+            display: flex
+            align-items: center
+            gap: 8px
+            margin: 0
+
+            &::before
+                content: ''
+                display: block
+                width: 3px
+                height: 13px
+                background: vars.$secondary-color
+                border-radius: 2px
 
         &__informations
-            width: 100%
-            display: grid
-            grid-template-columns: 70% 30%
-            gap: 20px 0
+            padding: 16px 18px
+            display: flex
+            flex-direction: column
+            gap: 0
 
-            &__title
-                font-size: 1em
-                font-weight: 400
-                border-bottom: 1px solid vars.$border-color
-                padding-bottom: 10px
+        &__row
+            display: flex
+            justify-content: space-between
+            align-items: center
+            padding: 9px 0
+            border-bottom: 1px solid #f5f5f5
+            font-size: 0.95em
 
-            &__ammount
-                text-align: right
-                align-content: center
-                font-size: 1.1em
-                border-bottom: 1px solid vars.$border-color
-                padding-bottom: 10px
+            &:last-child
+                border-bottom: none
 
-                &:nth-last-of-type(1)
-                    color: vars.$secondary-color_text
+            &--total
+                padding-top: 12px
+                margin-top: 4px
+                border-top: 2px solid #eee
+                border-bottom: none
 
-        & button 
-            margin-top: 50px
-            width: 100%
-        
+                & .summary__right__row-label
+                    font-weight: 700
+                    color: #111
+                    font-size: 1rem
+
+                & .summary__right__row-value
+                    font-size: 1.15em
+                    font-weight: 800
+                    color: vars.$secondary-color
+
+        &__row-label
+            color: #888
+            font-weight: 500
+
+        &__row-value
+            font-weight: 700
+            color: #333
+
+        &__actions
+            padding: 14px 18px
+            border-top: 1px solid #eee
+            display: flex
+            flex-direction: column
+            gap: 10px
+
+            & .button
+                width: 100%
+                height: 42px
+                font-size: 0.9em
+                font-weight: 700
+                border-radius: 9px
+
     &__terms
-        margin-top: 10px
         text-align: center
-        font-size: 0.8em
-        color: gray
-
+        font-size: 0.7em
+        color: #bbb
+        line-height: 1.4
+        margin: 0

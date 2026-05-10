@@ -4,6 +4,7 @@ import { product } from "../store/products/products.types";
 import { userCall, userData, userOrder, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
 export const serverUrl = "http://localhost:8000/api";
+// export const serverUrl = "https://shop.szymon-jablonski.pl/api";
 
 type fetchType<T> = {
   status: string;
@@ -149,6 +150,7 @@ const saveOrderFetch = async (data: orderInitialState) => {
     place_of_receipt: data.place_of_receipt,
     place_of_return: data.place_of_return,
     dayQuantity: data.dayQuantity,
+    add_date: data.date_of_receipt,
   };
   const productIndex = data.productIndex;
 

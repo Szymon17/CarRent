@@ -1,67 +1,73 @@
 @use "../../sass/mixins" as mixins
 @use "../../sass/break_points" as bp
 @use "../../sass/varibles" as var
-    
+
 .filtres
     @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: flex-start, $direction:column)
-    padding: 20px
-    padding-bottom: 40px
+    padding: 0
     position: relative
     width: 100%
-    min-height: 90vh
     background: white
     border: 1px solid #e8e8e8
-    border-radius: 8px
-    box-shadow: none
+    border-radius: 12px
+    overflow: hidden
 
     @media (min-width: bp.$extra-large)
         height: unset
-        overflow: hidden
-    
+
     & .section_ico
-        color: #666
+        color: var.$secondary-color
         margin-right: 6px
-        font-size: 0.95em
+        font-size: 0.85em
 
     &__title
         width: 100%
         display: flex
         align-items: center
         justify-content: space-between
-        margin-bottom: 18px
-        padding-bottom: 12px
-        border-bottom: 1px solid #e8e8e8
+        padding: 18px 20px 16px
+        border-bottom: 1px solid #f0f0f0
+        background: #fafafa
 
         h2
-            font-size: 1.1em
-            font-weight: 600
-            color: #333
-            letter-spacing: 0
+            font-size: 1em
+            font-weight: 700
+            color: #1a1a1a
+            letter-spacing: -0.2px
+            display: flex
+            align-items: center
+            gap: 8px
+
+            &::before
+                content: ''
+                display: block
+                width: 3px
+                height: 16px
+                background: var.$secondary-color
+                border-radius: 2px
 
     &__section
         width: 100%
-        margin-top: 16px
+        padding: 16px 20px
+        border-bottom: 1px solid #f0f0f0
 
-        &:first-of-type
-            margin-top: 0
+        &:last-of-type
+            border-bottom: none
 
         &:nth-last-child(2)
-            border: none
+            border-bottom: none
 
         &__title
-            font-size: 0.75em
+            font-size: 0.68em
             display: flex
             align-items: center
-            margin-bottom: 8px
-            font-weight: 600
-            color: #666
+            margin-bottom: 12px
+            font-weight: 700
+            color: #888
             text-transform: uppercase
-            letter-spacing: 0.7px
-            opacity: 1
+            letter-spacing: 0.8px
 
         &__body
-            margin-top: 8px
-            padding-left: 0px
             width: 100%
 
             &:has(.filtres__data__locations)
@@ -69,17 +75,17 @@
 
         &__list
             @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: center)
-            gap: 8px
+            gap: 7px
             flex-wrap: wrap
 
     &__price
-        border: none 
-        margin-bottom: 16px
+        border: none
+        margin-bottom: 0
 
         &__inputs
-            margin-top: 12px
+            margin-top: 14px
             display: flex
-            gap: 12px
+            gap: 10px
             width: 100%
 
         &__cnt
@@ -87,9 +93,9 @@
 
         &__box
             position: relative
-            height: 22px
+            height: 24px
             text-align: center
-            margin: 12px 0
+            margin: 16px 0 8px
 
             &-progress
                 height: 3px
@@ -99,8 +105,7 @@
                 right: 0
                 background: var.$secondary-color
                 z-index: 1
-                border-radius: 2px
-                box-shadow: none
+                border-radius: 99px
 
             &-tumb
                 width: 100%
@@ -108,43 +113,45 @@
                 position: absolute
                 bottom: 5px
                 background-color: #e8e8e8
-                border-radius: 2px
+                border-radius: 99px
                 z-index: 0
-                
 
             & input
                 width: calc(100% + 12px)
                 position: absolute
                 bottom: 2px
-                left: -8px
+                left: -6px
                 background: none
                 pointer-events: none
                 -webkit-appearance: none
                 z-index: 1
 
                 &::-webkit-slider-thumb
-                    height: 14px
-                    width: 14px
+                    height: 16px
+                    width: 16px
                     pointer-events: auto
                     border-radius: 50%
                     -webkit-appearance: none
                     background-color: white
                     z-index: 2
                     cursor: pointer
-                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15)
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
                     border: 2px solid var.$secondary-color
+                    transition: transform 0.15s ease
+
+                    &:active
+                        transform: scale(1.15)
 
                 &::-moz-range-thumb
-                    height: 14px
-                    width: 14px
+                    height: 16px
+                    width: 16px
                     pointer-events: auto
                     border-radius: 50%
                     background-color: white
                     z-index: 2
                     cursor: pointer
-                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15)
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
                     border: 2px solid var.$secondary-color
-
 
     &__data
         border: none
@@ -162,29 +169,25 @@
                 & > span
                     display: flex
                     align-items: center
-                    margin-bottom: 6px
-                    font-size: 0.75em
-                    font-weight: 600
-                    color: #666
+                    margin-bottom: 7px
+                    font-size: 0.68em
+                    font-weight: 700
+                    color: #888
                     text-transform: uppercase
-                    letter-spacing: 0.5px
-                    opacity: 1
+                    letter-spacing: 0.7px
 
                     @media (max-width: bp.$extra-large)
                         width: 100%
-                        font-size: 0.75em
-                        color: #666
 
                 & .selectLocations
-
                     @media (max-width: bp.$extra-large)
                         width: 100%
 
                     &__selected
-                        border: 1px solid #e8e8e8
-                        border-radius: 6px
+                        border: 1.5px solid #e2e5e9
+                        border-radius: 8px
                         background: white
-                        padding: 8px 10px
+                        padding: 8px 12px
                         cursor: pointer
 
         &__dates
@@ -196,7 +199,6 @@
             @media (max-width: bp.$extra-large)
                 flex-direction: column
 
-            
             &__box
                 flex-grow: 1
                 min-width: 220px
@@ -206,41 +208,38 @@
                     width: 100%
 
                     & > span
-                        font-size: 0.75em
-                        font-weight: 600
+                        font-size: 0.68em
+                        font-weight: 700
 
     &__buttons
         @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting:center)
         gap: 10px
         width: 100%
-        margin-top: 16px
-        padding-top: 12px
-        border-top: 1px solid #e8e8e8
+        padding: 14px 20px
+        background: #fafafa
+        border-top: 1px solid #f0f0f0
 
         & > button:nth-last-child(1)
             flex-grow: 1
-        
+
     &__clearFiltres
         outline: none
         cursor: pointer
         border: none
-        background: #f0f0f0
+        background: #f5f5f5
         width: 36px
         height: 36px
-        border-radius: 6px
+        border-radius: 8px
         display: flex
         align-items: center
         justify-content: center
-        color: #999
-        font-size: 1em
-
-        &:hover
-            background: #e8e8e8
-            color: #666
+        color: #aaa
+        font-size: 0.95em
+        flex-shrink: 0
+        transition: background 0.15s ease, color 0.15s ease, transform 0.2s ease
         position: relative
 
         &:hover
-            background: #e8eef0
-            color: var.$secondary-color
+            background: #ffefef
+            color: #e53935
             transform: rotate(90deg)
-            
