@@ -79,7 +79,7 @@ async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIn
 
     const chargedAccount = true;
 
-    if (product && chargedAccount && !product.borrowed) {
+    if (product && chargedAccount) {
       const user_id = req.user.user_id;
       const car_id = product.id as string;
       const order = { ...req.body.userData, user_id, car_id, payment_method_id: req.body.payment_id };

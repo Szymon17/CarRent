@@ -4,43 +4,52 @@ import { Car, Reservation } from "./db.type.js";
 
 async function getAvilableCars(lastIndex: number, filters: aditionalfilters, count: number, basicFiltersData: dataToGetoffers) {
   const { receiptDate, returnDate, receiptLocation, price_from, price_to } = basicFiltersData;
-  // TODO: add validate filtres logic here
-  // safe for now because values are whitelisted before
-
-  // TODO: parametrize orders instead of join() for SQL safety
-  // safe for now because values come from DB only
 
   if (count > 12) count = 12;
 
-  const filterConditions = [];
-  const filterValues = [lastIndex, price_from, price_to, receiptLocation, count];
+  const filterConditions: string[] = [];
+
+  const filterValues = [lastIndex, price_from, price_to, receiptLocation, count, receiptDate, returnDate];
 
   for (const [key, value] of Object.entries(filters)) {
-    if (value) {
-      filterConditions.push(`"${key}" = $${filterValues.length + 1}`);
+    if (value !== undefined && value !== null) {
       filterValues.push(value);
+
+      filterConditions.push(`c."${key}" = $${filterValues.length}`);
     }
   }
 
   const query = `
-   SELECT 
-    c.*,
-    COALESCE(
-        jsonb_object_agg(a.code, a.description) FILTER (WHERE a.id IS NOT NULL),
-        '{}'::jsonb
-    ) AS addons
-FROM cars c
-LEFT JOIN car_addons_map am ON am.car_id = c.id
-LEFT JOIN car_addons a ON a.id = am.addon_id
-WHERE 
-    c.borrowed = FALSE
-    AND c.id < $1
-    AND c.daily_price BETWEEN $2 AND $3
-    AND c.localisation = $4
-    ${filterConditions.length > 0 ? `AND ${filterConditions.join(" AND ")}` : ""}
-GROUP BY c.id
-ORDER BY c.id DESC
-LIMIT $5;
+    SELECT 
+        c.*,
+        COALESCE(
+            jsonb_object_agg(a.code, a.description)
+            FILTER (WHERE a.id IS NOT NULL),
+            '{}'::jsonb
+        ) AS addons
+    FROM cars c
+    LEFT JOIN car_addons_map am ON am.car_id = c.id
+    LEFT JOIN car_addons a ON a.id = am.addon_id
+    WHERE 
+        c.id < $1
+        AND c.daily_price BETWEEN $2 AND $3
+        AND c.localisation = $4
+
+        AND NOT EXISTS (
+            SELECT 1
+            FROM Orders o
+            LEFT JOIN order_statuses os ON os.id = o.status_id
+            WHERE o.car_id = c.id
+    AND os.is_closed = FALSE
+    AND o.add_date <= $7
+    AND o.expected_return_date >= $6
+        )
+
+        ${filterConditions.length > 0 ? `AND ${filterConditions.join(" AND ")}` : ""}
+
+    GROUP BY c.id
+    ORDER BY c.id DESC
+    LIMIT $5;
   `;
 
   try {
@@ -53,7 +62,7 @@ LIMIT $5;
 
 async function getOfferByIndex(index: number): Promise<Car | void> {
   try {
-    const res = await client.query(`SELECT * FROM cars WHERE id = $1 AND borrowed = FALSE`, [index]);
+    const res = await client.query(`SELECT * FROM cars WHERE id = $1`, [index]);
 
     return res.rows[0];
   } catch (error) {
@@ -65,7 +74,7 @@ async function getOfferByName(fullName: string) {
   const [brand, model] = fullName.split("-");
 
   try {
-    const res = await client.query(`SELECT * FROM cars WHERE brand = $1 AND model = $2 AND borrowed = FALSE`, [brand, model]);
+    const res = await client.query(`SELECT * FROM cars WHERE brand = $1 AND model = $2`, [brand, model]);
 
     return res.rows[0];
   } catch (error) {
