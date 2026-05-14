@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="footer__container container">
         <div className="footer__links">
           <Link to="/">
-            <img src="./Logo.png" className="footer__logo" alt="" />
+            <img src="/Logo.png" className="footer__logo" alt="" />
           </Link>
           <div className="footer__link">+000000000</div>
           <div className="footer__link">info@carentalpark.pl</div>
@@ -33,7 +33,7 @@ const Footer = () => {
         <div className="footer__links small">
           <Link
             to={`/offers?pul=Warszawa&rl=Warszawa&rd=${dateToLocalString(tomorrow)}&rtd=${dateToLocalString(
-              dayAfterTomorrow
+              dayAfterTomorrow,
             )}&price_from=0&price_to=1000`}
             className="footer__link"
           >
@@ -41,7 +41,7 @@ const Footer = () => {
           </Link>
           <Link
             to={`/offers?pul=Wrocław&rl=Wrocław&rd=${dateToLocalString(tomorrow)}&rtd=${dateToLocalString(
-              dayAfterTomorrow
+              dayAfterTomorrow,
             )}&price_from=0&price_to=1000`}
             className="footer__link"
           >

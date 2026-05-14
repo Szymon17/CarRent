@@ -40,8 +40,9 @@ const Navigation = () => {
         place_of_return: "Wrocław",
         date_of_receipt: tomorrow,
         date_of_return: dayAfterTomorrow,
+        add_date: tomorrow,
         dayQuantity: 1,
-      })
+      }),
     );
 
   return (
@@ -49,7 +50,7 @@ const Navigation = () => {
       <nav className="navigation">
         <div className="navigation__icon-box">
           <Link to="/">
-            <img src="./Logo.png" className="navigation__logo" alt="" />
+            <img src="/Logo.png" className="navigation__logo" alt="" />
           </Link>
         </div>
         {/* <div className="navigation__searhField"><input type="text" className="navigation__searhInput" /></div> */}
