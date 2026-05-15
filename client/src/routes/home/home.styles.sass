@@ -4,7 +4,7 @@
 
 .home
     &__header
-        height: 55vh
+        height: clamp(500px, 55vh, 700px)
         color: white
         position: relative
         
@@ -99,14 +99,21 @@
 
         &__container
             @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting:center)
-            width: vars.$containerWidth
+            width: 100%
             height: 100%
             margin: 0 auto
 
         &__icon
             margin-right: 10px
-            font-size: 1.2em
+            font-size: 0.8em
             color: black
+
+            @media (min-width: bp.$medium)
+                font-size: 1.2em
+
+        &__item
+            display: flex
+            align-items: center
 
     &__offtenChosenFiltres
         margin-top: 50px
