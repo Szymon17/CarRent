@@ -24,17 +24,19 @@ Login: Test@gmail.com
 Password: 123456
 
 ## How to install
-- You will need your own MongoDB database
+- You will need your own SQL database
 - Clone this repository
 - Install dependencies
 - Create a `.env` file in the server folder and set variables:
-  - HOST
-  - USER
-  - DB_PORT
-  - DB_PASSWORD
-  - DB_NAME
-  - PORT
-  - SECRET_KEY
+
+  - HOST=""
+  - DB_USER=""
+  - DB_PORT=
+  - DB_PASSWORD=""
+  - DB_NAME=""
+  - PORT=
+  - SECRET_KEY=""
+
 - Run the application
 - Enjoy
 
