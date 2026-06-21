@@ -74,15 +74,14 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 }
 
 async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIndex: number }> & UserRequest, res: Response) {
-  if (req.user && typeof req.body.productIndex === "number" && typeof req.body.payment_id === "number" && validateOrderData(req.body.userData)) {
+  if (req.user && typeof req.body.productIndex === "number" && !isNaN(Number(req.body.payment_id)) && validateOrderData(req.body.userData)) {
     const product = await getOfferByIndex(req.body.productIndex);
 
     const chargedAccount = true;
-
     if (product && chargedAccount) {
       const user_id = req.user.user_id;
       const car_id = product.id as string;
-      const order = { ...req.body.userData, user_id, car_id, payment_method_id: req.body.payment_id };
+      const order = { ...req.body.userData, user_id, car_id, payment_method_id: Number(req.body.payment_id) };
 
       const orderResult = await saveOrder(order);
 
