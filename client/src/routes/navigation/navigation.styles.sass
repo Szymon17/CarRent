@@ -5,10 +5,12 @@
 .navigation
     height: vars.$navHeight
     padding: 0 30px
-    position: relative
-    z-index: 1
-    box-shadow: 0 2px 5px -3px rgba(0,0,0,0.5) 
-    background-color: vars.$primary-color
+    position: sticky
+    top: 0
+    z-index: 100
+    background: vars.$primary-color
+    border-bottom: none
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2)
     gap: 10px
     @include mixins.flexDisplay($primarySetting: flex-start , $secondarySetting: center)
 
@@ -20,9 +22,8 @@
 
     &__icon-box
         flex-basis: calc( 50% - 30px)
-        color: white
 
-        @media (max-width: bp.$small) 
+        @media (max-width: bp.$small)
             flex-basis: 10%
 
     &__homeIcon
@@ -34,17 +35,17 @@
         height: 40%
         line-height: 20%
 
-        @media (max-width: bp.$small) 
+        @media (max-width: bp.$small)
             width: 20%
 
     &__searhInput
         width: 200px
         height: 100%
 
-        @media (max-width: bp.$medium) 
+        @media (max-width: bp.$medium)
             width: 70%
 
-        @media (max-width: bp.$small) 
+        @media (max-width: bp.$small)
             width: 100%
 
     &__links
@@ -52,9 +53,9 @@
         gap: 30px
         align-items: center
 
-        @media (max-width: bp.$small) 
+        @media (max-width: bp.$small)
             gap: 10px
-        
+
     &__link
         &-container
             width: fit-content
@@ -62,44 +63,54 @@
             top: 0
 
             & a
-                color: #fff
+                color: rgba(255, 255, 255, 0.85)
+                font-weight: 500
+                font-size: 0.9em
+                letter-spacing: 0.1px
+                transition: color 0.2s ease
+
+                &:hover
+                    color: white
 
             &:hover > .navigation__link-underline
                 width: 100%
 
             &__userIcon
-                font-size: 1.5em
-                color: #fff
+                font-size: 1.4em
+                color: rgba(255, 255, 255, 0.85)
                 cursor: pointer
+                transition: color 0.2s ease
+
+                &:hover
+                    color: white
 
         &-underline
-            width: 0px
+            width: 0
             height: 2px
-            background-color: #fff
+            background: vars.$secondary-color
             position: absolute
             left: 0
             bottom: -5px
-            transition: width 0.7s
-
+            transition: width 0.25s ease
 
         &__switch-language-icon
             display: inline
-            width: 30px
-            height: 30px
+            width: 28px
+            height: 28px
             cursor: pointer
-            margin: 0 5px
-            filter: grayscale(80%)
-            transition: all 0.7s
-       
-            @media (max-width:bp.$medium) 
+            margin: 0 4px
+            filter: grayscale(70%) opacity(0.7)
+            transition: filter 0.2s ease
+
+            @media (max-width: bp.$medium)
                 margin-top: 5px
-                width: 25px
-                height: 25px
+                width: 24px
+                height: 24px
 
         &__switch-language-icon.active
             filter: none
 
-    @media (max-width: bp.$small) 
+    @media (max-width: bp.$small)
         font-size: 0.7em
 
     &__right
@@ -107,6 +118,7 @@
         display: flex
         align-items: center
         justify-content: flex-end
+        gap: 4px
 
     &__account
-        margin-left: 20px
+        margin-left: 12px

@@ -1,9 +1,10 @@
 import "./orderWindow.styles.sass";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToLocalString, countDateFromToday, dayAfterTomorrow, isDateError, tomorrow } from "../../utils/basicFunctions";
-import { useAppDispatch } from "../../store/hooks";
+import { dateToLocalString, countDateFromToday, isDateError } from "../../utils/basicFunctions";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { saveOrderData } from "../../store/order/order.reducer";
+import { selectFiltres } from "../../store/filtres/filtres.selector";
+import * as filtresReducer from "../../store/filtres/filtres.reducer";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import Button, { BUTTON_CLASSES } from "../button/button.component";
@@ -12,23 +13,28 @@ import DateRangePicker from "../date-range-picker/date-range-picker.component";
 
 const OrderWindow = () => {
   const { t } = useTranslation();
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [place_of_receipt, set_place_of_receipt] = useState("Warszawa");
-  const [place_of_return, set_place_of_return] = useState("Warszawa");
-  const [date_of_receipt, set_date_of_receipt] = useState(tomorrow);
-  const [date_of_return, set_date_of_return] = useState(dayAfterTomorrow);
+  const filtres = useAppSelector(selectFiltres);
 
   const search = () => {
-    const dateError = isDateError(date_of_receipt, date_of_return);
+    const dateError = isDateError(new Date(filtres.date_of_receipt), new Date(filtres.date_of_return));
 
-    if (!place_of_receipt || !place_of_return) toast.error(t("No location alert"));
+    if (!filtres.place_of_receipt || !filtres.place_of_return) toast.error(t("No location alert"));
     else if (dateError) toast.error(t(dateError));
     else {
-      dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return, dayQuantity: 1 }));
+      dispatch(
+        saveOrderData({
+          place_of_receipt: filtres.place_of_receipt,
+          place_of_return: filtres.place_of_return,
+          date_of_receipt: filtres.date_of_receipt,
+          date_of_return: filtres.date_of_return,
+          add_date: new Date(),
+          dayQuantity: 1,
+        }),
+      );
       navigate(
-        `offers?pul=${place_of_receipt}&rl=${place_of_return}&rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`,
+        `offers?pul=${filtres.place_of_receipt}&rl=${filtres.place_of_return}&rd=${dateToLocalString(new Date(filtres.date_of_receipt))}&rtd=${dateToLocalString(new Date(filtres.date_of_return))}`,
       );
     }
   };
@@ -36,28 +42,26 @@ const OrderWindow = () => {
   return (
     <div className="orderWindow">
       <div className="orderWindow__container">
-        {/* Locations Row */}
         <div className="orderWindow__row">
           <div className="orderWindow__item">
             <label className="orderWindow__inputLabel">{t("Pick up location")}</label>
-            <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
+            <SelectLocations value={filtres.place_of_receipt} changeState={value => dispatch(filtresReducer.setPlaceOfReceipt(value))} />
           </div>
 
           <div className="orderWindow__item">
             <label className="orderWindow__inputLabel">{t("Return location")}</label>
-            <SelectLocations value={place_of_return} changeState={set_place_of_return} />
+            <SelectLocations value={filtres.place_of_return} changeState={value => dispatch(filtresReducer.setPlaceOfReturn(value))} />
           </div>
         </div>
 
-        {/* Dates Row */}
         <div className="orderWindow__row">
           <div className="orderWindow__item">
             <label className="orderWindow__inputLabel">{t("Pick up date")}</label>
             <DateRangePicker
-              startDate={date_of_receipt}
-              endDate={date_of_return}
-              onStartDateChange={set_date_of_receipt}
-              onEndDateChange={set_date_of_return}
+              startDate={new Date(filtres.date_of_receipt)}
+              endDate={new Date(filtres.date_of_return)}
+              onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+              onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
               minStartDate={new Date(countDateFromToday(1))}
               maxStartDate={new Date(countDateFromToday(0, 3))}
               minEndDate={new Date(countDateFromToday(2))}
@@ -70,10 +74,10 @@ const OrderWindow = () => {
           <div className="orderWindow__item">
             <label className="orderWindow__inputLabel">{t("Return date")}</label>
             <DateRangePicker
-              startDate={date_of_receipt}
-              endDate={date_of_return}
-              onStartDateChange={set_date_of_receipt}
-              onEndDateChange={set_date_of_return}
+              startDate={new Date(filtres.date_of_receipt)}
+              endDate={new Date(filtres.date_of_return)}
+              onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+              onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
               minStartDate={new Date(countDateFromToday(1))}
               maxStartDate={new Date(countDateFromToday(0, 3))}
               minEndDate={new Date(countDateFromToday(2))}

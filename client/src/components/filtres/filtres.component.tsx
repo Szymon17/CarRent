@@ -28,8 +28,13 @@ const Filtres = () => {
   const filtresSelector = useAppSelector(selectFiltres);
 
   useEffect(() => {
+    const pul = searchParams.get("pul");
+    const rl = searchParams.get("rl");
     const rd = searchParams.get("rd");
     const rtd = searchParams.get("rtd");
+
+    if (pul) dispatch(filtresReducer.setPlaceOfReceipt(pul));
+    if (rl) dispatch(filtresReducer.setPlaceOfReturn(rl));
 
     if (rd) dispatch(filtresReducer.setDateOfReceipt(new Date(rd)));
     else dispatch(filtresReducer.setDateOfReceipt(new Date(today)));
@@ -84,6 +89,7 @@ const Filtres = () => {
       saveOrderData({
         date_of_receipt: filtresSelector.date_of_receipt,
         date_of_return: filtresSelector.date_of_return,
+        add_date: new Date(),
         place_of_receipt: filtresSelector.place_of_receipt,
         place_of_return: filtresSelector.place_of_return,
         dayQuantity: 1,
@@ -93,14 +99,14 @@ const Filtres = () => {
   };
 
   const filterHandler = () => {
-    const dateError = isDateError(filtresSelector.date_of_receipt, filtresSelector.date_of_return);
+    const dateError = isDateError(new Date(filtresSelector.date_of_receipt), new Date(filtresSelector.date_of_return));
     if (dateError) return toast.error(t(dateError));
 
     const filters = [
       { name: "pul", value: filtresSelector.place_of_receipt },
       { name: "rl", value: filtresSelector.place_of_return },
-      { name: "rd", value: dateToLocalString(filtresSelector.date_of_receipt) },
-      { name: "rtd", value: dateToLocalString(filtresSelector.date_of_return) },
+      { name: "rd", value: dateToLocalString(new Date(filtresSelector.date_of_receipt)) },
+      { name: "rtd", value: dateToLocalString(new Date(filtresSelector.date_of_return)) },
       { name: "number_of_seats", value: filtresSelector.numberOfSits },
       { name: "fuel_type", value: filtresSelector.fuelType },
       { name: "drive_type", value: filtresSelector.driveType },

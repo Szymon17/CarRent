@@ -1,5 +1,6 @@
 import "./offers.styles.sass";
 import { UIEvent, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts, addProducts } from "../../store/products/products.actions";
 import { selectLastIndex, selectProductFetchState, selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
@@ -7,9 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose, faLocationDot, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
-import { countDateFromToday } from "../../utils/basicFunctions";
+import { countDateFromToday, dateToLocalString, isDateError } from "../../utils/basicFunctions";
 import * as filtresReducer from "../../store/filtres/filtres.reducer";
 import { selectFiltres } from "../../store/filtres/filtres.selector";
+import { saveOrderData } from "../../store/order/order.reducer";
+import { toast } from "react-toastify";
 import Filtres from "../../components/filtres/filtres.component";
 import ProductCard from "../../components/product-card/product-card.component";
 import Spinner from "../../components/spinner/spinner.component";
@@ -22,6 +25,7 @@ const regexp = /\?[\S]+/;
 const Offers = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const filtresSelector = useAppSelector(selectFiltres);
   const productStatus = useAppSelector(selectProductsStatus);
   const products = useAppSelector(selectProducts);
@@ -39,7 +43,6 @@ const Offers = () => {
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const el = e.target as HTMLDivElement;
-
     if (el && !fetchDelay && shouldFetch && el.scrollTop + el.clientHeight + 3 >= el.scrollHeight) {
       setFetchDelay(true);
       setTimeout(() => setFetchDelay(false), 400);
@@ -56,9 +59,39 @@ const Offers = () => {
     if (filtersRef.current && productsRef.current) {
       filtersRef.current.classList.toggle("open");
       productsRef.current.classList.toggle("hidden");
-
       setFiltersState(!filtersAreOpen);
     }
+  };
+
+  const handleSearch = () => {
+    const dateError = isDateError(new Date(filtresSelector.date_of_receipt), new Date(filtresSelector.date_of_return));
+    if (dateError) return toast.error(t(dateError));
+
+    const filters = [
+      { name: "pul", value: filtresSelector.place_of_receipt },
+      { name: "rl", value: filtresSelector.place_of_return },
+      { name: "rd", value: dateToLocalString(new Date(filtresSelector.date_of_receipt)) },
+      { name: "rtd", value: dateToLocalString(new Date(filtresSelector.date_of_return)) },
+    ];
+
+    const newLink = filters.reduce((acc, f, i) => {
+      if (!f.value) return acc;
+      return acc + `${i === 0 ? "?" : "&"}${f.name}=${f.value}`;
+    }, "");
+
+    navigate(newLink);
+    dispatch(getProducts(newLink));
+    dispatch(
+      saveOrderData({
+        date_of_receipt: filtresSelector.date_of_receipt,
+        date_of_return: filtresSelector.date_of_return,
+        add_date: new Date(),
+        place_of_receipt: filtresSelector.place_of_receipt,
+        place_of_return: filtresSelector.place_of_return,
+        dayQuantity: 1,
+      }),
+    );
+    dispatch(changeShouldFetchState(true));
   };
 
   return (
@@ -76,67 +109,66 @@ const Offers = () => {
       </div>
       <main ref={productsRef} className="offers__main">
         <div className="offers__settings">
-          <section className="filtres__data">
-            <div className="filtres__data__locations__box">
-              <span className="filtres__section__title">
-                <span className="section_ico">
+          <div className="offers-search">
+            <div className="offers-search__card">
+              <div className="offers-search__field">
+                <span className="offers-search__label">
                   <FontAwesomeIcon icon={faLocationDot} />
+                  {t("Pick up location")}
                 </span>
-                {t("Pick up location")}
-              </span>
-              <SelectLocations value={filtresSelector.place_of_receipt} changeState={value => dispatch(filtresReducer.setPlaceOfReceipt(value))} />
-            </div>
-            <div className="filtres__data__locations__box">
-              <span className="filtres__section__title">
-                <span className="section_ico">
+                <SelectLocations value={filtresSelector.place_of_receipt} changeState={value => dispatch(filtresReducer.setPlaceOfReceipt(value))} />
+              </div>
+              <div className="offers-search__divider" />
+              <div className="offers-search__field">
+                <span className="offers-search__label">
                   <FontAwesomeIcon icon={faLocationDot} />
+                  {t("Return location")}
                 </span>
-                {t("Return location")}
-              </span>
-              <SelectLocations value={filtresSelector.place_of_return} changeState={value => dispatch(filtresReducer.setPlaceOfReturn(value))} />
+                <SelectLocations value={filtresSelector.place_of_return} changeState={value => dispatch(filtresReducer.setPlaceOfReturn(value))} />
+              </div>
             </div>
 
-            <div className="filtres__data__dates__box">
-              <span className="filtres__section__title">
-                <span className="section_ico">
+            <div className="offers-search__card">
+              <div className="offers-search__field">
+                <span className="offers-search__label">
                   <FontAwesomeIcon icon={faCalendarAlt} />
+                  {t("Pick up date")}
                 </span>
-                {t("Pick up date")}
-              </span>
-              <DateRangePicker
-                startDate={new Date(filtresSelector.date_of_receipt)}
-                endDate={new Date(filtresSelector.date_of_return)}
-                onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
-                onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
-                minStartDate={new Date(countDateFromToday(1))}
-                maxStartDate={new Date(countDateFromToday(0, 3))}
-                minEndDate={new Date(countDateFromToday(2))}
-                maxEndDate={new Date(countDateFromToday(10, 3))}
-                type="single"
-                singleMode="start"
-              />
-            </div>
-            <div className="filtres__data__dates__box">
-              <span className="filtres__section__title">
-                <span className="section_ico">
+                <DateRangePicker
+                  startDate={new Date(filtresSelector.date_of_receipt)}
+                  endDate={new Date(filtresSelector.date_of_return)}
+                  onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+                  onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
+                  minStartDate={new Date(countDateFromToday(1))}
+                  maxStartDate={new Date(countDateFromToday(0, 3))}
+                  minEndDate={new Date(countDateFromToday(2))}
+                  maxEndDate={new Date(countDateFromToday(10, 3))}
+                  type="single"
+                  singleMode="start"
+                />
+              </div>
+              <div className="offers-search__divider" />
+              <div className="offers-search__field">
+                <span className="offers-search__label">
                   <FontAwesomeIcon icon={faCalendarAlt} />
+                  {t("Return date")}
                 </span>
-                {t("Return date")}
-              </span>
-              <DateRangePicker
-                startDate={new Date(filtresSelector.date_of_receipt)}
-                endDate={new Date(filtresSelector.date_of_return)}
-                onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
-                onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
-                minStartDate={new Date(countDateFromToday(2))}
-                maxStartDate={new Date(countDateFromToday(10, 3))}
-                minEndDate={new Date(countDateFromToday(2))}
-                maxEndDate={new Date(countDateFromToday(10, 3))}
-                type="single"
-                singleMode="end"
-              />
+                <DateRangePicker
+                  startDate={new Date(filtresSelector.date_of_receipt)}
+                  endDate={new Date(filtresSelector.date_of_return)}
+                  onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+                  onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
+                  minStartDate={new Date(countDateFromToday(2))}
+                  maxStartDate={new Date(countDateFromToday(10, 3))}
+                  minEndDate={new Date(countDateFromToday(2))}
+                  maxEndDate={new Date(countDateFromToday(10, 3))}
+                  type="single"
+                  singleMode="end"
+                />
+              </div>
             </div>
-          </section>
+
+          </div>
         </div>
         {products.length > 0 && productStatus !== "loading" ? (
           <div onScroll={handleScroll} className="offers__products">
