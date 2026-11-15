@@ -3,60 +3,86 @@
 @use '../../sass/break_points' as bp
 
 .offers-search
-    display: flex
-    align-items: stretch
-    gap: 10px
+    display: grid
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+    gap: 24px
+    padding-bottom: 24px
+    border-bottom: 1px solid #ccc
 
     @media (max-width: bp.$medium)
-        flex-direction: column
+        grid-template-columns: repeat(2, minmax(0, 1fr))
 
-    &__card
-        flex: 1
-        background: white
-        border-radius: 8px
-        border: 1px solid #e6e6e6
-        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05)
-        display: flex
-        min-width: 0
+    @media (max-width: bp.$small)
+        grid-template-columns: minmax(0, 1fr)
 
     &__field
-        flex: 1
-        padding: 13px 18px
         display: flex
         flex-direction: column
-        justify-content: center
-        gap: 5px
-        transition: background 0.15s ease
-        cursor: pointer
+        gap: 8px
         min-width: 0
 
-        &:hover
-            background: #fafafa
-
-    &__divider
-        width: 1px
-        background: #efefef
-        flex-shrink: 0
-
     &__label
-        display: flex
-        align-items: center
-        gap: 5px
-        font-size: 0.57em
-        font-weight: 700
-        color: #b0b0b0
-        text-transform: uppercase
-        letter-spacing: 0.9px
-        white-space: nowrap
+        font-size: 0.75em
+        font-weight: 600
+        color: #555
 
-        svg
-            color: vars.$secondary-color
+    .selectLocations
+        height: auto
+        border: 0
+        border-radius: 0
+        background: transparent
+        transition: none
+
+        &:hover, &:focus-within
+            border: 0
+            box-shadow: none
+
+        &:hover .selectLocations__selected, &.extend .selectLocations__selected
+            border-color: #999
+
+        &__selected
+            width: 100%
+            min-height: 40px
+            padding: 8px 34px 8px 10px
+            line-height: 1.4
+            border-radius: 0
+            border: 1px solid #ccc
+            box-sizing: border-box
+            background: white
             font-size: 0.95em
+            font-weight: 500
+
+        &__icon
+            right: 10px
+            color: #222
+
+    .rdp-picker__trigger
+        width: 100%
+        min-height: 40px
+        padding: 8px 10px
+        border: 1px solid #ccc
+        border-radius: 0
+        box-sizing: border-box
+        background: white
+        box-shadow: none
+        font: inherit
+        font-size: 0.95em
+        font-weight: 500
+        color: #111
+
+        &:hover, &--open
+            border-color: #999
+            box-shadow: none
+
+    .rdp-picker__ico
+        display: none
+
+    .rdp-picker__popup
+        z-index: 1000
 
 
 .offers
     @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start)
-    background: #f0f2f5
     min-height: calc(100vh - vars.$navHeight)
 
     @media (max-width:bp.$extra-large)

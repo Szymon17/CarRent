@@ -38,7 +38,7 @@ const LogIn = () => {
           password,
           succesHandler: () => toast.success(t("Login successful")),
           errorHandler: () => toast.error(t("Check your login data")),
-        })
+        }),
       );
   };
 
@@ -53,7 +53,7 @@ const LogIn = () => {
         </SingInPanel>
       </div>
       <footer className="log-in__footer">
-        <p className="log-in__footer__text">Email: Test@gmaill.com</p>
+        <p className="log-in__footer__text">Email: Test@gmail.com</p>
         <p className="log-in__footer__text">{t("Password")}: 123456</p>
       </footer>
     </div>

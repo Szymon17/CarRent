@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts, addProducts } from "../../store/products/products.actions";
 import { selectLastIndex, selectProductFetchState, selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faClose, faLocationDot, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
 import { countDateFromToday, dateToLocalString, isDateError } from "../../utils/basicFunctions";
@@ -110,64 +110,44 @@ const Offers = () => {
       <main ref={productsRef} className="offers__main">
         <div className="offers__settings">
           <div className="offers-search">
-            <div className="offers-search__card">
-              <div className="offers-search__field">
-                <span className="offers-search__label">
-                  <FontAwesomeIcon icon={faLocationDot} />
-                  {t("Pick up location")}
-                </span>
-                <SelectLocations value={filtresSelector.place_of_receipt} changeState={value => dispatch(filtresReducer.setPlaceOfReceipt(value))} />
-              </div>
-              <div className="offers-search__divider" />
-              <div className="offers-search__field">
-                <span className="offers-search__label">
-                  <FontAwesomeIcon icon={faLocationDot} />
-                  {t("Return location")}
-                </span>
-                <SelectLocations value={filtresSelector.place_of_return} changeState={value => dispatch(filtresReducer.setPlaceOfReturn(value))} />
-              </div>
+            <div className="offers-search__field">
+              <span className="offers-search__label">{t("Pick up location")}</span>
+              <SelectLocations value={filtresSelector.place_of_receipt} changeState={value => dispatch(filtresReducer.setPlaceOfReceipt(value))} />
             </div>
-
-            <div className="offers-search__card">
-              <div className="offers-search__field">
-                <span className="offers-search__label">
-                  <FontAwesomeIcon icon={faCalendarAlt} />
-                  {t("Pick up date")}
-                </span>
-                <DateRangePicker
-                  startDate={new Date(filtresSelector.date_of_receipt)}
-                  endDate={new Date(filtresSelector.date_of_return)}
-                  onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
-                  onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
-                  minStartDate={new Date(countDateFromToday(1))}
-                  maxStartDate={new Date(countDateFromToday(0, 3))}
-                  minEndDate={new Date(countDateFromToday(2))}
-                  maxEndDate={new Date(countDateFromToday(10, 3))}
-                  type="single"
-                  singleMode="start"
-                />
-              </div>
-              <div className="offers-search__divider" />
-              <div className="offers-search__field">
-                <span className="offers-search__label">
-                  <FontAwesomeIcon icon={faCalendarAlt} />
-                  {t("Return date")}
-                </span>
-                <DateRangePicker
-                  startDate={new Date(filtresSelector.date_of_receipt)}
-                  endDate={new Date(filtresSelector.date_of_return)}
-                  onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
-                  onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
-                  minStartDate={new Date(countDateFromToday(2))}
-                  maxStartDate={new Date(countDateFromToday(10, 3))}
-                  minEndDate={new Date(countDateFromToday(2))}
-                  maxEndDate={new Date(countDateFromToday(10, 3))}
-                  type="single"
-                  singleMode="end"
-                />
-              </div>
+            <div className="offers-search__field">
+              <span className="offers-search__label">{t("Return location")}</span>
+              <SelectLocations value={filtresSelector.place_of_return} changeState={value => dispatch(filtresReducer.setPlaceOfReturn(value))} />
             </div>
-
+            <div className="offers-search__field">
+              <span className="offers-search__label">{t("Pick up date")}</span>
+              <DateRangePicker
+                startDate={new Date(filtresSelector.date_of_receipt)}
+                endDate={new Date(filtresSelector.date_of_return)}
+                onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+                onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
+                minStartDate={new Date(countDateFromToday(1))}
+                maxStartDate={new Date(countDateFromToday(0, 3))}
+                minEndDate={new Date(countDateFromToday(2))}
+                maxEndDate={new Date(countDateFromToday(10, 3))}
+                type="single"
+                singleMode="start"
+              />
+            </div>
+            <div className="offers-search__field">
+              <span className="offers-search__label">{t("Return date")}</span>
+              <DateRangePicker
+                startDate={new Date(filtresSelector.date_of_receipt)}
+                endDate={new Date(filtresSelector.date_of_return)}
+                onStartDateChange={date => dispatch(filtresReducer.setDateOfReceipt(date))}
+                onEndDateChange={date => dispatch(filtresReducer.setDateOfReturn(date))}
+                minStartDate={new Date(countDateFromToday(2))}
+                maxStartDate={new Date(countDateFromToday(10, 3))}
+                minEndDate={new Date(countDateFromToday(2))}
+                maxEndDate={new Date(countDateFromToday(10, 3))}
+                type="single"
+                singleMode="end"
+              />
+            </div>
           </div>
         </div>
         {products.length > 0 && productStatus !== "loading" ? (

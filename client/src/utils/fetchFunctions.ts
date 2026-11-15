@@ -1,4 +1,5 @@
 import { orderData, orderInitialState } from "../store/order/order.types";
+import { dateToLocalString } from "./basicFunctions";
 import { paymentState } from "../store/payments/payments.types";
 import { product } from "../store/products/products.types";
 import { userCall, userData, userOrder, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
@@ -144,9 +145,10 @@ const getPaymentMethodsFetch = async () => {
 };
 
 const saveOrderFetch = async (data: orderInitialState) => {
+  const toDateOnly = (date: string | Date) => dateToLocalString(date instanceof Date ? date : new Date(date));
   const userData: orderData = {
-    date_of_receipt: data.date_of_receipt,
-    date_of_return: data.date_of_return,
+    date_of_receipt: toDateOnly(data.date_of_receipt),
+    date_of_return: toDateOnly(data.date_of_return),
     place_of_receipt: data.place_of_receipt,
     place_of_return: data.place_of_return,
     dayQuantity: data.dayQuantity,

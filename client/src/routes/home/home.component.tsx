@@ -2,6 +2,9 @@ import "./home.styles.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faLocationDot, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../store/hooks";
+import { setDateOfReceipt, setDateOfReturn } from "../../store/filtres/filtres.reducer";
 import headerImg from "../../assets/BanerBackground.jpg";
 import calendarImg from "../../assets/calendar.png";
 import lockImg from "../../assets/lock.png";
@@ -11,6 +14,13 @@ import FiltersSnapshot from "../../components/filtersSnapshot/filtersSnapshot.co
 
 const Home = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const today = new Date();
+    dispatch(setDateOfReceipt(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)));
+    dispatch(setDateOfReturn(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2)));
+  }, [dispatch]);
 
   return (
     <div className="home">
