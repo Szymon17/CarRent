@@ -3,11 +3,40 @@ import { getAvilableCars, getOfferByIndex, getOfferByName, saveOrder } from "../
 import { CustomRequest, RequestWithQuery, UserRequest, aditionalfilters, orderData, queryBasicData } from "../../types/basicTypes.js";
 import { updateUserOrders } from "../../models/account.model.js";
 
-const validateOrderData = (userDataOb: orderData): boolean => {
-  const { date_of_receipt, date_of_return, place_of_receipt, place_of_return } = userDataOb;
+const parseOrderDate = (value: unknown): Date | null => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
 
-  if (date_of_receipt && date_of_return && place_of_receipt && place_of_return && new Date(date_of_receipt) < new Date(date_of_return)) return true;
-  else return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const parsedDate = new Date(year, month - 1, day);
+
+  if (parsedDate.getFullYear() !== year || parsedDate.getMonth() !== month - 1 || parsedDate.getDate() !== day) return null;
+  return parsedDate;
+};
+
+const validateOrderData = (userDataOb: unknown): userDataOb is orderData => {
+  if (!userDataOb || typeof userDataOb !== "object" || Array.isArray(userDataOb)) return false;
+
+  const data = userDataOb as Record<string, unknown>;
+  const receiptDate = parseOrderDate(data.date_of_receipt);
+  const returnDate = parseOrderDate(data.date_of_return);
+
+  if (
+    !receiptDate ||
+    !returnDate ||
+    typeof data.place_of_receipt !== "string" ||
+    !data.place_of_receipt.trim() ||
+    typeof data.place_of_return !== "string" ||
+    !data.place_of_return.trim()
+  ) {
+    return false;
+  }
+
+  const now = new Date();
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const receiptDay = Date.UTC(receiptDate.getFullYear(), receiptDate.getMonth(), receiptDate.getDate());
+  const returnDay = Date.UTC(returnDate.getFullYear(), returnDate.getMonth(), returnDate.getDate());
+
+  return receiptDate >= tomorrow && returnDate > receiptDate && returnDay - receiptDay < 10 * 24 * 60 * 60 * 1000;
 };
 
 const validateGetOffersData = (reciptDate: Date, returnDate: Date): boolean => {
@@ -74,24 +103,37 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 }
 
 async function httpPostOrder(req: CustomRequest<{ userData: orderData; productIndex: number }> & UserRequest, res: Response) {
-  if (req.user && typeof req.body.productIndex === "number" && !isNaN(Number(req.body.payment_id)) && validateOrderData(req.body.userData)) {
-    const product = await getOfferByIndex(req.body.productIndex);
+  const body = req.body;
+  const paymentId = Number(body?.payment_id);
 
-    const chargedAccount = true;
-    if (product && chargedAccount) {
-      const user_id = req.user.user_id;
-      const car_id = product.id as string;
-      const order = { ...req.body.userData, user_id, car_id, payment_method_id: Number(req.body.payment_id) };
+  if (
+    !req.user ||
+    !body ||
+    typeof body !== "object" ||
+    !Number.isSafeInteger(body.productIndex) ||
+    body.productIndex <= 0 ||
+    !Number.isSafeInteger(paymentId) ||
+    paymentId <= 0 ||
+    !validateOrderData(body.userData)
+  ) {
+    return res.status(400).json({ status: "error", message: "bad data request" });
+  }
 
-      const orderResult = await saveOrder(order);
+  const product = await getOfferByIndex(body.productIndex);
+  if (!product) return res.status(404).json({ status: "error", message: "This order is unvilable" });
 
-      if (orderResult && product) {
-        const userResult = await updateUserOrders(orderResult.user_id.toString(), +product.id, req.user);
-        if (userResult) res.status(202).json({ status: "ok", message: "Created order" });
-        else res.status(404).json({ status: "error", message: "This order is unvilable" });
-      } else res.status(404).json({ status: "error", message: "This order is unvilable" });
-    }
-  } else res.status(404).json({ status: "error", message: "bad data request" });
+  const user_id = req.user.user_id;
+  const car_id = product.id as string;
+  const order = { ...body.userData, user_id, car_id, payment_method_id: paymentId };
+
+  const orderResult = await saveOrder(order);
+
+  if (orderResult) {
+    const userResult = await updateUserOrders(orderResult.user_id.toString(), +product.id, req.user);
+    if (userResult) return res.status(202).json({ status: "ok", message: "Created order" });
+  }
+
+  return res.status(404).json({ status: "error", message: "This order is unvilable" });
 }
 
 async function httpGetProductByIndex(req: RequestWithQuery<{ index: number }>, res: Response) {
