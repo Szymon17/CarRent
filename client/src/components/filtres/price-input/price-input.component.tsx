@@ -11,14 +11,12 @@ interface PriceInputProps {
 const PriceInput: FC<PriceInputProps> = ({ label, value, onChange, onBlur }) => {
   const [localValue, setLocalValue] = useState(String(value));
 
-  // Synchronizuj lokalną wartość gdy value z props się zmieni
   useEffect(() => {
     setLocalValue(String(value));
   }, [value]);
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     const inputValue = e.currentTarget.value;
-    // Akceptuj tylko cyfry
     if (inputValue === "" || /^\d+$/.test(inputValue)) {
       setLocalValue(inputValue);
     }

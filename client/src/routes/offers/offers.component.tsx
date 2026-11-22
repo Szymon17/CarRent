@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts, addProducts } from "../../store/products/products.actions";
 import { selectLastIndex, selectProductFetchState, selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { changeShouldFetchState } from "../../store/products/products.reducer";
 import { countDateFromToday, dateToLocalString, isDateError } from "../../utils/basicFunctions";
@@ -148,10 +148,18 @@ const Offers = () => {
                 singleMode="end"
               />
             </div>
+            <button type="button" className="offers-search__button" onClick={handleSearch}>
+              <FontAwesomeIcon icon={faSearch} />
+              <span>{t("Search")}</span>
+            </button>
           </div>
         </div>
         {products.length > 0 && productStatus !== "loading" ? (
           <div onScroll={handleScroll} className="offers__products">
+            <div className="offers__results-header">
+              <h1 className="offers__title">Dostępne samochody</h1>
+              <span className="offers__results-count">{products.length} wyników</span>
+            </div>
             <div className="offers__products-cnt">
               {products.map((product, index) => (
                 <ProductCard key={index} product={product} />

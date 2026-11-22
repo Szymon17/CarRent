@@ -7,9 +7,9 @@
     padding: 0
     position: relative
     width: 100%
-    background: white
-    border: 1px solid #e8e8e8
-    border-radius: 10px
+    background: #fff
+    border: 1px solid #dde2e7
+    border-radius: 8px
     overflow: hidden
 
     @media (min-width: bp.$extra-large)
@@ -27,13 +27,14 @@
         justify-content: space-between
         padding: 18px 20px 16px
         border-bottom: 1px solid #f0f0f0
-        background: #fafafa
+        background: #f8f9fa
 
         h2
-            font-size: 1em
-            font-weight: 700
-            color: #1a1a1a
-            letter-spacing: -0.2px
+            font-size: 16px
+            line-height: 1.2
+            font-weight: 650
+            color: #1d2935
+            letter-spacing: -0.15px
             display: flex
             align-items: center
             gap: 8px
@@ -50,12 +51,13 @@
             border-bottom: none
 
         &__title
-            font-size: 0.68em
+            font-size: 11px
+            line-height: 1.2
             display: flex
             align-items: center
             margin-bottom: 12px
-            font-weight: 700
-            color: #888
+            font-weight: 650
+            color: #647281
             text-transform: uppercase
             letter-spacing: 0.8px
 
@@ -95,7 +97,7 @@
                 bottom: 6px
                 left: 0
                 right: 0
-                background: var.$secondary-color
+                background: #167d69
                 z-index: 1
                 border-radius: 99px
 
@@ -128,7 +130,7 @@
                     z-index: 2
                     cursor: pointer
                     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
-                    border: 2px solid var.$secondary-color
+                    border: 2px solid #167d69
                     transition: transform 0.15s ease
 
                     &:active
@@ -143,7 +145,7 @@
                     z-index: 2
                     cursor: pointer
                     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
-                    border: 2px solid var.$secondary-color
+                    border: 2px solid #167d69
 
     &__data
         border: none
@@ -176,8 +178,8 @@
                         width: 100%
 
                     &__selected
-                        border: 1.5px solid #e2e5e9
-                        border-radius: 8px
+                        border: 1px solid #dfe4e8
+                        border-radius: 5px
                         background: white
                         padding: 8px 12px
                         cursor: pointer
@@ -208,8 +210,8 @@
         gap: 10px
         width: 100%
         padding: 14px 20px
-        background: #fafafa
-        border-top: 1px solid #f0f0f0
+        background: #f8f9fa
+        border-top: 1px solid #edf0f2
 
         & > button:nth-last-child(1)
             flex-grow: 1
@@ -221,7 +223,7 @@
         background: #f5f5f5
         width: 36px
         height: 36px
-        border-radius: 8px
+        border-radius: 5px
         display: flex
         align-items: center
         justify-content: center

@@ -1,7 +1,7 @@
 import "./product-card.styles.sass";
 import { FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { saveOrderIndex } from "../../store/order/order.reducer";
 import { useAppDispatch } from "../../store/hooks";
@@ -18,35 +18,39 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
       onClick={() => dispatch(saveOrderIndex(product.id))}
     >
       <div className="product-card__image-wrap">
-        <div className="product-card__top">
-          <div className="product-card__top-box">
-            <div className="product-card__top__block">
-              <FontAwesomeIcon className="product-card__icon" icon={faCalendarAlt} />
-              <span>{product.year}</span>
-            </div>
-            <div className="product-card__top__block">
-              <FontAwesomeIcon className="product-card__icon -star" icon={faStar} />
-              <span className="rate">5.0</span>
-            </div>
-          </div>
-        </div>
+        <span className="product-card__year">{product.year}</span>
         <img className="product-card__img" src={product.image_url} alt={product.model} />
+        <span className="product-card__rating">
+          <FontAwesomeIcon icon={faStar} />
+          5.0
+        </span>
       </div>
 
       <div className="product-card__info">
-        <div>
+        <div className="product-card__heading">
+          <span className="product-card__brand">{product.brand}</span>
           <h3 className="product-card__model">
-            {product.brand} {product.model}
+            {product.model}
           </h3>
-          <div className="product-card__details">
-            {product.engine_capacity} · {t(product.fuel_type)} · {product.power} HP
-          </div>
         </div>
-        <div className="product-card__bottom">
-          <span className="price">
-            {product.daily_price} PLN<span className="price__unit">/{t("Day")}</span>
+
+        <div className="product-card__specs">
+          <span>
+            <FontAwesomeIcon icon={faUsers} />
+            {product.number_of_seats}
           </span>
-          <span className="product-card__cta">{t("Book now")}</span>
+          <span>{t(product.fuel_type)}</span>
+          <span>{product.transmission}</span>
+        </div>
+
+        <div className="product-card__bottom">
+          <div className="product-card__price">
+            <strong>{product.daily_price}</strong>
+            <span> PLN <small>/{t("Day")}</small></span>
+          </div>
+          <span className="product-card__cta" aria-label={t("Book now")}>
+            <FontAwesomeIcon icon={faArrowRight} />
+          </span>
         </div>
       </div>
     </a>

@@ -4,8 +4,8 @@
     min-width: 44px
     text-align: center
     line-height: 1
-    border-radius: 8px
-    border: 1.5px solid #e2e5e9
+    border-radius: 5px
+    border: 1px solid #dfe4e8
     user-select: none
     cursor: pointer
     transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease
@@ -14,23 +14,24 @@
     font-weight: 600
 
     &:hover
-        border-color: vars.$secondary-color
-        background: rgba(56, 185, 67, 0.05)
+        border-color: #7aa99a
+        background: #f3f8f6
 
         & .custom-checkbox__label
-            color: vars.$secondary-color
+            color: #116955
 
     &.checked
-        border-color: vars.$secondary-color
-        background: rgba(56, 185, 67, 0.08)
+        border-color: #167d69
+        background: #edf7f3
 
         & .custom-checkbox__label
-            color: vars.$secondary-color
+            color: #116955
             font-weight: 700
 
     &__label
         color: #666
         pointer-events: none
-        font-size: 0.85em
+        font-size: 12px
+        line-height: 1.2
         transition: color 0.15s ease
-        font-weight: 600
+        font-weight: 550

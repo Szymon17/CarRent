@@ -1,150 +1,173 @@
-@use '../../sass/varibles' as vars
-@use '../../sass/mixins' as mixins
-@use '../../sass/break_points' as bp
+@use "../../sass/break_points" as bp
 
 .product-card
-    border: 1px solid #e8e8e8
-    border-radius: 10px
-    background: white
-    font-size: 0.82em
-    display: flex
-    flex-direction: column
-    align-items: flex-start
-    font-weight: 400
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07)
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease
-    cursor: pointer
     position: relative
+    display: grid
+    grid-template-columns: 36% 64%
+    min-height: 194px
+    width: 100%
     overflow: hidden
-    text-decoration: none
+    border: 1px solid #dde2e7
+    border-radius: 6px
+    background: #fff
     color: inherit
-    padding: 0
+    text-decoration: none
 
     &:hover
-        transform: translateY(-5px)
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.11)
-        border-color: #d4d4d4
+        border-color: #aab6bf
 
-    &:active
-        transform: translateY(-2px)
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08)
+    @media (max-width: bp.$small)
+        grid-template-columns: 1fr
 
     &__image-wrap
-        width: 100%
-        background: linear-gradient(145deg, #f0f2f5 0%, #e8ebf0 100%)
+        position: relative
+        min-height: 194px
         display: flex
         align-items: center
         justify-content: center
-        padding: 20px 24px 16px
-        border-radius: 11px 11px 0 0
-        position: relative
-        min-height: 155px
-        max-height: 200px
+        overflow: hidden
+        background: #f4f6f7
 
-    &__top
+        @media (max-width: bp.$small)
+            min-height: 180px
+
+    &__year
         position: absolute
         top: 12px
         left: 12px
+        z-index: 3
+        padding: 6px 8px
+        border: 1px solid #dfe4e8
+        border-radius: 4px
+        background: #fff
+        color: #647281
+        font-size: 11px
+        line-height: 1
+        font-weight: 650
+
+    &__rating
+        position: absolute
+        z-index: 3
         right: 12px
+        bottom: 12px
         display: flex
-        justify-content: space-between
-        align-items: flex-start
-        z-index: 1
-        gap: 6px
+        align-items: center
+        gap: 5px
+        color: #465666
+        font-size: 11px
+        line-height: 1
+        font-weight: 650
 
-        &__block
-            display: flex
-            align-items: center
-            gap: 4px
-            padding: 4px 9px
-            background: white
-            border: none
-            border-radius: 20px
-            font-size: 0.78em
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08)
-
-            & span
-                font-size: 0.95em
-                font-weight: 600
-                color: #444
-
-        &-box
-            display: flex
-            gap: 5px
-            flex-wrap: wrap
-
-    &__icon
-        color: #ccc
-        font-size: 0.85em
-
-        &.-star
-            color: #f5a623
+        svg
+            color: #e8a93d
+            font-size: 11px
 
     &__img
-        max-width: 100%
-        max-height: 150px
+        position: relative
+        z-index: 2
+        max-width: 86%
+        max-height: 145px
         object-fit: contain
-        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.1))
-        transition: transform 0.22s ease
-
-    &:hover &__img
-        transform: scale(1.04) translateY(-3px)
+        filter: drop-shadow(0 8px 6px rgba(29, 41, 53, 0.12))
 
     &__info
         width: 100%
-        padding: 14px 16px 16px
+        box-sizing: border-box
         display: flex
         flex-direction: column
-        justify-content: space-between
-        flex: 1
+        padding: 20px
+
+        @media (max-width: bp.$small)
+            padding: 16px
+
+    &__heading
+        display: flex
+        flex-direction: column
+
+    &__brand
+        margin-bottom: 3px
+        color: #167d69
+        font-size: 11px
+        line-height: 1.2
+        font-weight: 700
+        text-transform: uppercase
+        letter-spacing: 0.8px
 
     &__model
-        font-size: 1.05em
-        margin-bottom: 3px
-        font-weight: 700
-        color: #111
-        line-height: 1.3
-        letter-spacing: -0.2px
+        margin: 0
+        color: #1d2935
+        font-size: 21px
+        line-height: 1.2
+        letter-spacing: -0.25px
+        font-weight: 650
 
-    &__details
-        font-size: 0.78em
-        color: #b0b0b0
-        line-height: 1.4
-        margin-bottom: 14px
+    &__specs
+        display: flex
+        flex-wrap: wrap
+        gap: 14px
+        margin: 14px 0
+
+        span
+            display: inline-flex
+            align-items: center
+            gap: 5px
+            color: #647281
+            font-size: 12px
+            line-height: 1.2
+            font-weight: 550
+
+            &:not(:last-child)
+                padding-right: 14px
+                border-right: 1px solid #dfe4e8
+
+        svg
+            color: #8793a0
+            font-size: 11px
 
     &__bottom
         width: 100%
+        margin-top: auto
         display: flex
+        align-items: flex-end
         justify-content: space-between
-        align-items: center
-        gap: 10px
+        gap: 12px
         padding-top: 12px
-        border-top: 1px solid #f2f2f2
+        border-top: 1px solid #edf0f2
 
-        & .price
-            font-size: 1.25em
-            font-weight: 800
-            color: vars.$secondary-color
-            letter-spacing: -0.5px
-            white-space: nowrap
+    &__price
+        display: flex
+        align-items: baseline
+        gap: 5px
+        color: #647281
+        white-space: nowrap
 
-            &__unit
-                font-size: 0.58rem
-                color: #c0c0c0
-                font-weight: 500
-                letter-spacing: 0
-                margin-left: 1px
+        strong
+            color: #1d2935
+            font-size: 22px
+            line-height: 1
+            letter-spacing: -0.25px
+            font-weight: 650
+
+        span
+            font-size: 12px
+            line-height: 1
+            font-weight: 550
+
+        small
+            color: #8793a0
+            font-size: 11px
+            font-weight: 500
 
     &__cta
-        font-size: 0.75em
-        font-weight: 600
-        color: vars.$secondary-color
-        background: rgba(56, 185, 67, 0.08)
-        padding: 5px 11px
-        border-radius: 20px
-        white-space: nowrap
-        transition: background 0.15s ease
+        width: 40px
+        height: 40px
         flex-shrink: 0
+        display: flex
+        align-items: center
+        justify-content: center
+        border-radius: 5px
+        background: #167d69
+        color: #fff
 
     &:hover &__cta
-        background: rgba(56, 185, 67, 0.15)
+        background: #116955

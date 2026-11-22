@@ -1,196 +1,208 @@
 @use "../../sass/varibles" as vars
 @use "../../sass/mixins" as mixins
-@use '../../sass/break_points' as bp
-
-.offers-search
-    display: grid
-    grid-template-columns: repeat(4, minmax(0, 1fr))
-    gap: 24px
-    padding-bottom: 24px
-    border-bottom: 1px solid #ccc
-
-    @media (max-width: bp.$medium)
-        grid-template-columns: repeat(2, minmax(0, 1fr))
-
-    @media (max-width: bp.$small)
-        grid-template-columns: minmax(0, 1fr)
-
-    &__field
-        display: flex
-        flex-direction: column
-        gap: 8px
-        min-width: 0
-
-    &__label
-        font-size: 0.75em
-        font-weight: 600
-        color: #555
-
-    .selectLocations
-        height: auto
-        border: 0
-        border-radius: 0
-        background: transparent
-        transition: none
-
-        &:hover, &:focus-within
-            border: 0
-            box-shadow: none
-
-        &:hover .selectLocations__selected, &.extend .selectLocations__selected
-            border-color: #999
-
-        &__selected
-            width: 100%
-            min-height: 40px
-            padding: 8px 34px 8px 10px
-            line-height: 1.4
-            border-radius: 0
-            border: 1px solid #ccc
-            box-sizing: border-box
-            background: white
-            font-size: 0.95em
-            font-weight: 500
-
-        &__icon
-            right: 10px
-            color: #222
-
-    .rdp-picker__trigger
-        width: 100%
-        min-height: 40px
-        padding: 8px 10px
-        border: 1px solid #ccc
-        border-radius: 0
-        box-sizing: border-box
-        background: white
-        box-shadow: none
-        font: inherit
-        font-size: 0.95em
-        font-weight: 500
-        color: #111
-
-        &:hover, &--open
-            border-color: #999
-            box-shadow: none
-
-    .rdp-picker__ico
-        display: none
-
-    .rdp-picker__popup
-        z-index: 1000
-
+@use "../../sass/break_points" as bp
 
 .offers
-    @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start)
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    gap: 24px
     min-height: calc(100vh - vars.$navHeight)
+    width: 92%
+    max-width: 1380px
+    margin-top: 24px
+    margin-bottom: 40px
+    padding: 0
+    box-sizing: border-box
 
-    @media (max-width:bp.$extra-large)
-        width: 95%
-
-    @media (max-width:bp.$large)
-        flex-direction: column
+    @media (max-width: bp.$large)
         width: 100%
-        padding: 0px
-        justify-content: flex-start
+        margin: 0
+        padding: 12px
+        flex-direction: column
+        gap: 12px
 
     &__filters-box
-        width: 300px
-        min-width: 260px
-        padding: 20px 16px
+        width: 272px
+        min-width: 272px
         flex-shrink: 0
 
         @media (max-width: bp.$large)
             width: 100%
-            padding: 0px
+            min-width: 0
             display: none
 
-        &.open
-            display: block
+            &.open
+                display: block
 
     &__main
-        position: relative
         width: 100%
-        min-height: 80vh
-        padding: 24px 28px 32px 16px
-
-        @media (max-width:bp.$huge)
-            padding-right: 24px
-
-        @media (max-width:bp.$large)
-            padding: 20px 16px 32px
+        min-height: 70vh
 
         &.hidden
             display: none
 
     &__settings
-        margin-bottom: 24px
+        margin-bottom: 20px
+        padding: 14px
+        border: 1px solid #dde2e7
+        border-radius: 6px
+        background: #fff
+
+        @media (max-width: bp.$small)
+            padding: 10px
 
     &__results-header
         display: flex
         align-items: center
         justify-content: space-between
-        margin-bottom: 18px
+        margin: 0 0 12px
 
-        &-count
-            font-size: 0.8em
-            color: #888
-            font-weight: 500
+    &__title
+        margin: 0
+        color: #1d2935
+        font-size: 20px
+        line-height: 1.2
+        letter-spacing: -0.2px
+        font-weight: 650
+
+    &__results-count
+        color: #647281
+        font-size: 12px
+        font-weight: 600
 
     &__products
         width: 100%
 
         &-cnt
             display: grid
-            grid-template-columns: repeat(1, 1fr)
-            gap: 16px
-
-            @media (min-width: bp.$small)
-                grid-template-columns: repeat(2, 1fr)
-                gap: 18px
-
-            @media (min-width: bp.$extra-large)
-                grid-template-columns: repeat(3, 1fr)
-                gap: 20px
+            grid-template-columns: 1fr
+            gap: 10px
 
     &__filters-switch
-        @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:center)
-        width: 100%
         display: none
-        background: white
-        border-bottom: 2px solid vars.$secondary-color
-        padding: 0 4px
+        width: 100%
+        min-height: 48px
+        align-items: center
+        justify-content: space-between
+        margin-bottom: 2px
+        padding: 0 6px 0 12px
+        border: 1px solid #dde2e7
+        border-radius: 6px
+        background: #fff
 
-        @media (max-width:bp.$large)
+        @media (max-width: bp.$large)
             display: flex
 
         &-title
-            font-size: 1em
-            font-weight: 700
-            padding-left: 20px
-            color: #1a1a1a
-            letter-spacing: -0.2px
-
-        &-cnt
-            display: flex
+            margin: 0
+            color: #1d2935
+            font-size: 14px
+            font-weight: 650
 
         &-button
-            width: 52px
-            height: 52px
-            border: none
-            background: transparent
-            color: #666
+            width: 38px
+            height: 38px
+            border: 0
+            border-radius: 5px
+            background: #f2f4f6
+            color: #465666
             cursor: pointer
-            transition: color 0.2s ease
-            display: flex
-            align-items: center
-            justify-content: center
-
-            &:hover
-                color: vars.$secondary-color
-
-            & svg
-                font-size: 1.1em
 
     & .spinner, & .custom-error
         @include mixins.absoluteCenter($height:center)
+
+.offers-search
+    display: grid
+    grid-template-columns: repeat(4, minmax(0, 1fr)) 48px
+    gap: 8px
+    align-items: end
+
+    @media (max-width: bp.$extra-large)
+        grid-template-columns: repeat(2, minmax(0, 1fr)) 48px
+
+    @media (max-width: bp.$small)
+        grid-template-columns: 1fr
+
+    &__field
+        min-width: 0
+        display: flex
+        flex-direction: column
+        gap: 5px
+
+    &__label
+        color: #647281
+        font-size: 12px
+        font-weight: 600
+
+    &__button
+        width: 48px
+        height: 44px
+        border: 0
+        border-radius: 5px
+        background: #167d69
+        color: #fff
+        display: flex
+        align-items: center
+        justify-content: center
+        font: inherit
+        cursor: pointer
+
+        &:hover
+            background: #116955
+
+        span
+            display: none
+
+        @media (max-width: bp.$small)
+            width: 100%
+
+            span
+                display: inline
+                margin-left: 8px
+                font-size: 13px
+                font-weight: 650
+
+    .selectLocations
+        height: 44px
+        border: 1px solid #dfe4e8
+        border-radius: 5px
+        background: #fff
+
+        &:hover, &:focus-within
+            border-color: #b8c2cb
+            box-shadow: none
+
+        &__selected
+            height: 44px
+            padding: 9px 34px 9px 11px
+            border: 0
+            border-radius: 5px
+            background: transparent
+            color: #1d2935
+            font-size: 13px
+            line-height: 1.2
+            font-weight: 550
+
+        &__icon
+            right: 11px
+            color: #7a8793
+
+    .rdp-picker__trigger
+        height: 44px
+        min-height: 44px
+        width: 100%
+        padding: 9px 11px
+        border: 1px solid #dfe4e8
+        border-radius: 5px
+        background: #fff
+        color: #1d2935
+        box-shadow: none
+        font: inherit
+        font-size: 13px
+        line-height: 1.2
+        font-weight: 550
+
+        &:hover, &--open
+            border-color: #b8c2cb
+            box-shadow: none
